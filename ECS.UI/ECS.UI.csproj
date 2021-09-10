@@ -1,0 +1,521 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2EC10237-8EE5-4A67-B084-11B2D3C659D6}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>ECS.UI</RootNamespace>
+    <AssemblyName>ECS.UI</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Basler.Pylon, Version=1.2.0.0, Culture=neutral, PublicKeyToken=e389355f398382ab, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Library\Basler.Pylon.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight">
+      <HintPath>..\Library\GalaSoft.MvvmLight.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Extras">
+      <HintPath>..\Library\GalaSoft.MvvmLight.Extras.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Platform">
+      <HintPath>..\Library\GalaSoft.MvvmLight.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.IWshRuntimeLibrary">
+      <HintPath>..\Library\Interop.IWshRuntimeLibrary.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\Library\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro">
+      <HintPath>..\Library\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignColors">
+      <HintPath>..\Library\MaterialDesignColors.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.MahApps">
+      <HintPath>..\Library\MaterialDesignThemes.MahApps.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.Wpf">
+      <HintPath>..\Library\MaterialDesignThemes.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\Library\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism, Version=8.1.97.5141, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Core.8.1.97\lib\net47\Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Input.Manipulations" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Library\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Presentation" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Behaviors\TextBoxInputBehavior.cs" />
+    <Compile Include="Behaviors\TextBoxInputMode.cs" />
+    <Compile Include="CommandBehavior.cs" />
+    <Compile Include="Common.cs" />
+    <Compile Include="Converter\DoubleToStringConverter.cs" />
+    <Compile Include="Converter\AlarmHeavyLightToBooleanConverter.cs" />
+    <Compile Include="Converter\EQStatusToStringConverter.cs" />
+    <Compile Include="Converter\InterlockToStringConverter.cs" />
+    <Compile Include="Converter\MoveStatusToStringConverter.cs" />
+    <Compile Include="Converter\RunStatusToStringConverter.cs" />
+    <Compile Include="Converter\StringToDoubleConverter.cs" />
+    <Compile Include="FileDialogService.cs" />
+    <Compile Include="IFileDialogService.cs" />
+    <Compile Include="Model\AlarmHistoryDisplay.cs" />
+    <Compile Include="Model\CurrentAlarmDisplay.cs" />
+    <Compile Include="ViewModel\AlarmHistoryViewModel.cs" />
+    <Compile Include="ViewModel\CurrentAlarmViewModel.cs" />
+    <Compile Include="ViewModel\LaserControlViewModel.cs" />
+    <Compile Include="ViewModel\MotionControlViewModel.cs" />
+    <Compile Include="ViewModel\OperationAutoViewModel.cs" />
+    <Compile Include="ViewModel\RecipeManagerViewModel.cs" />
+    <Compile Include="ViewModel\SettingParameterViewModel.cs" />
+    <Compile Include="View\AlarmHistoryView.xaml.cs">
+      <DependentUpon>AlarmHistoryView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LaserControlView.xaml.cs">
+      <DependentUpon>LaserControlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\OperationAutoView.xaml.cs">
+      <DependentUpon>OperationAutoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\RecipeManagerView.xaml.cs">
+      <DependentUpon>RecipeManagerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\CurrentAlarmWindow.xaml.cs">
+      <DependentUpon>CurrentAlarmWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MotionControlView.xaml.cs">
+      <DependentUpon>MotionControlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SettingParameterView.xaml.cs">
+      <DependentUpon>SettingParameterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\LogOutWindow.xaml.cs">
+      <DependentUpon>LogOutWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\AlarmMessageWindow.xaml.cs">
+      <DependentUpon>AlarmMessageWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\MessageBoxManager.cs" />
+    <Compile Include="Windows\MessageBoxWindow.xaml.cs">
+      <DependentUpon>MessageBoxWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Model\IoDataDisplay.cs" />
+    <Compile Include="Model\VisionCamera.cs" />
+    <Compile Include="ProcessChecker.cs" />
+    <Compile Include="Windows\NewRecipeWindow.xaml.cs">
+      <DependentUpon>NewRecipeWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\ProgressWindow.xaml.cs">
+      <DependentUpon>ProgressWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\QuestionBoxWindow.xaml.cs">
+      <DependentUpon>QuestionBoxWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Controls\LEDControl.cs" />
+    <Compile Include="UserAutority.cs" />
+    <Compile Include="ViewModel\IoListViewModel.cs" />
+    <Compile Include="ViewModel\MainSystemViewModel.cs" />
+    <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="ViewModel\VisionCameraViewModel.cs" />
+    <Compile Include="View\IoListView.xaml.cs">
+      <DependentUpon>IoListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MainSystemView.xaml.cs">
+      <DependentUpon>MainSystemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\VisionCameraView.xaml.cs">
+      <DependentUpon>VisionCameraView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Resources\ResourceDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AlarmHistoryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LaserControlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\OperationAutoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\RecipeManagerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\CurrentAlarmWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MotionControlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SettingParameterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\LoginWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\LogOutWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Windows\AlarmMessageWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\MessageBoxWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\NewRecipeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ProgressWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\QuestionBoxWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Controls\LEDControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\IoListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MainSystemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\VisionCameraView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\arrow.png" />
+    <Resource Include="Resources\Images\bottomBar_BG.png" />
+    <Resource Include="Resources\Images\bottomBar_BG_Click.png" />
+    <Resource Include="Resources\Images\Box_Green.png" />
+    <Resource Include="Resources\Images\Box_Grey.png" />
+    <Resource Include="Resources\Images\Circle_Green.png" />
+    <Resource Include="Resources\Images\Circle_Grey.png" />
+    <Resource Include="Resources\Images\close.png" />
+    <Resource Include="Resources\Images\CommState_Gray.png" />
+    <Resource Include="Resources\Images\communi_base.png" />
+    <Resource Include="Resources\Images\communi_con.png" />
+    <Resource Include="Resources\Images\communi_discon.png" />
+    <Resource Include="Resources\Images\communi_error.png" />
+    <Resource Include="Resources\Images\communi_offline.png" />
+    <Resource Include="Resources\Images\communi_online.png" />
+    <Resource Include="Resources\Images\CompanyId.png" />
+    <Resource Include="Resources\Images\DOWN.png" />
+    <Resource Include="Resources\Images\etc_Dis.png" />
+    <Resource Include="Resources\Images\etc_dot.png" />
+    <Resource Include="Resources\Images\etc_OFF.png" />
+    <Resource Include="Resources\Images\etc_ON.png" />
+    <Resource Include="Resources\Images\gray_off.png" />
+    <Resource Include="Resources\Images\gray_on.png" />
+    <Resource Include="Resources\Images\green_on.png" />
+    <Resource Include="Resources\Images\info.png" />
+    <Resource Include="Resources\Images\Label.png" />
+    <Resource Include="Resources\Images\Label_icon.png" />
+    <Resource Include="Resources\Images\leftMenu_contentsBG.png" />
+    <Resource Include="Resources\Images\leftMenu_contents_.png" />
+    <Resource Include="Resources\Images\leftMenu_contents_2 %282%29.png" />
+    <Resource Include="Resources\Images\leftMenu_contents_long.png" />
+    <Resource Include="Resources\Images\leftMenu_header1.png" />
+    <Resource Include="Resources\Images\leftMenu_Label.png" />
+    <Resource Include="Resources\Images\leftMenu_TitleLabel.png" />
+    <Resource Include="Resources\Images\loader.png" />
+    <Resource Include="Resources\Images\loader4_0.png" />
+    <Resource Include="Resources\Images\loader4_1.png" />
+    <Resource Include="Resources\Images\loader_1.png" />
+    <Resource Include="Resources\Images\login_click.png" />
+    <Resource Include="Resources\Images\login_disable.png" />
+    <Resource Include="Resources\Images\login_normal.png" />
+    <Resource Include="Resources\Images\logout_click.png" />
+    <Resource Include="Resources\Images\logout_disable.png" />
+    <Resource Include="Resources\Images\logout_normal.png" />
+    <Resource Include="Resources\Images\maintitle_bar7.png" />
+    <Resource Include="Resources\Images\main_optionBTN_base_click.png" />
+    <Resource Include="Resources\Images\main_optionBTN_base_normal.png" />
+    <Resource Include="Resources\Images\main_optionBTN_check.png" />
+    <Resource Include="Resources\Images\Main_optionBTN_Click.png" />
+    <Resource Include="Resources\Images\Main_optionBTN_Click_01.png" />
+    <Resource Include="Resources\Images\Main_optionBTN_Click_02.png" />
+    <Resource Include="Resources\Images\Main_optionBTN_Click_03.png" />
+    <Resource Include="Resources\Images\Main_optionBTN_Click_04.png" />
+    <Resource Include="Resources\Images\Main_optionBTN_Click_05.png" />
+    <Resource Include="Resources\Images\Main_optionBTN_Click_06.png" />
+    <Resource Include="Resources\Images\main_optionBTN_input.png" />
+    <Resource Include="Resources\Images\Main_optionBTN_Normal.png" />
+    <Resource Include="Resources\Images\Main_optionBTN_Normal_01.png" />
+    <Resource Include="Resources\Images\Main_optionBTN_Normal_02.png" />
+    <Resource Include="Resources\Images\Main_optionBTN_Normal_03.png" />
+    <Resource Include="Resources\Images\Main_optionBTN_Normal_04.png" />
+    <Resource Include="Resources\Images\Main_optionBTN_Normal_05.png" />
+    <Resource Include="Resources\Images\Main_optionBTN_Normal_06.png" />
+    <Resource Include="Resources\Images\Messagebox.png" />
+    <Resource Include="Resources\Images\messageBox_01.png" />
+    <Resource Include="Resources\Images\messageBox_01_btn_click.png" />
+    <Resource Include="Resources\Images\messageBox_01_btn_normal.png" />
+    <Resource Include="Resources\Images\messageBox_02.png" />
+    <Resource Include="Resources\Images\messageBox_02_btn_click.png" />
+    <Resource Include="Resources\Images\messageBox_02_btn_normal.png" />
+    <Resource Include="Resources\Images\Micon_alarm_click.png" />
+    <Resource Include="Resources\Images\Micon_alarm_normal.png" />
+    <Resource Include="Resources\Images\Micon_AMHS_click.png" />
+    <Resource Include="Resources\Images\Micon_AMHS_normal.png" />
+    <Resource Include="Resources\Images\Micon_loss_click.png" />
+    <Resource Include="Resources\Images\Micon_loss_normal.png" />
+    <Resource Include="Resources\Images\Micon_main_click.png" />
+    <Resource Include="Resources\Images\Micon_main_normal.png" />
+    <Resource Include="Resources\Images\Micon_man_click.png" />
+    <Resource Include="Resources\Images\Micon_man_normal.png" />
+    <Resource Include="Resources\Images\Micon_material_click.png" />
+    <Resource Include="Resources\Images\Micon_material_normal.png" />
+    <Resource Include="Resources\Images\Micon_put receipt_click.png" />
+    <Resource Include="Resources\Images\Micon_put receipt_normal.png" />
+    <Resource Include="Resources\Images\Micon_Recipe_click.png" />
+    <Resource Include="Resources\Images\Micon_Recipe_normal.png" />
+    <Resource Include="Resources\Images\Micon_setting_click.png" />
+    <Resource Include="Resources\Images\Micon_setting_normal.png" />
+    <Resource Include="Resources\Images\Micon_work_click.png" />
+    <Resource Include="Resources\Images\Micon_work_normal.png" />
+    <Resource Include="Resources\Images\Next.ico" />
+    <Resource Include="Resources\Images\output%281%29.ico" />
+    <Resource Include="Resources\Images\popup_bottombar.png" />
+    <Resource Include="Resources\Images\popup_btn01.png" />
+    <Resource Include="Resources\Images\popup_btn01_click.png" />
+    <Resource Include="Resources\Images\popup_btn02.png" />
+    <Resource Include="Resources\Images\popup_btn02_click.png" />
+    <Resource Include="Resources\Images\popup_titlebar450.png" />
+    <Resource Include="Resources\Images\portstatus_base1.png" />
+    <Resource Include="Resources\Images\portstatus_base2.png" />
+    <Resource Include="Resources\Images\portstatus_basket_empty.png" />
+    <Resource Include="Resources\Images\portstatus_basket_full.png" />
+    <Resource Include="Resources\Images\portstatus_legend.png" />
+    <Resource Include="Resources\Images\portstatus_status_A.png" />
+    <Resource Include="Resources\Images\portstatus_status_M.png" />
+    <Resource Include="Resources\Images\Prev.ico" />
+    <Resource Include="Resources\Images\red_OFF.png" />
+    <Resource Include="Resources\Images\Samsung Display.png" />
+    <Resource Include="Resources\Images\SamsungBottomLeft.png" />
+    <Resource Include="Resources\Images\SamsungTopRight.png" />
+    <Resource Include="Resources\Images\Set_Back_click.png" />
+    <Resource Include="Resources\Images\Set_Back_normal.png" />
+    <Resource Include="Resources\Images\Set_losscode_click.png" />
+    <Resource Include="Resources\Images\Set_losscode_normal.png" />
+    <Resource Include="Resources\Images\Set_Parameter_click.png" />
+    <Resource Include="Resources\Images\Set_Parameter_normal.png" />
+    <Resource Include="Resources\Images\Set_PLC_click.png" />
+    <Resource Include="Resources\Images\Set_PLC_normal.png" />
+    <Resource Include="Resources\Images\Set_Recipe_click.png" />
+    <Resource Include="Resources\Images\Set_Recipe_normal.png" />
+    <Resource Include="Resources\Images\Set_Secs_click.png" />
+    <Resource Include="Resources\Images\Set_Secs_normal.png" />
+    <Resource Include="Resources\Images\square.png" />
+    <Resource Include="Resources\Images\Sub_Btn_click.png" />
+    <Resource Include="Resources\Images\Sub_Btn_normal.png" />
+    <Resource Include="Resources\Images\sub_page_next_click.png" />
+    <Resource Include="Resources\Images\sub_page_next_click_d.png" />
+    <Resource Include="Resources\Images\sub_page_next_normal.png" />
+    <Resource Include="Resources\Images\sub_page_prev_click.png" />
+    <Resource Include="Resources\Images\sub_page_prev_click_d.png" />
+    <Resource Include="Resources\Images\sub_page_prev_normal.png" />
+    <Resource Include="Resources\Images\sub_PIO.png" />
+    <Resource Include="Resources\Images\sub_PIO_Auto.png" />
+    <Resource Include="Resources\Images\sub_PIO_Auto_click.png" />
+    <Resource Include="Resources\Images\sub_PIO_Manual.png" />
+    <Resource Include="Resources\Images\sub_PIO_Manual_click.png" />
+    <Resource Include="Resources\Images\sub_PIO_off.png" />
+    <Resource Include="Resources\Images\sub_PIO_on.png" />
+    <Resource Include="Resources\Images\sub_Secs_line.png" />
+    <Resource Include="Resources\Images\sub_titlebar.png" />
+    <Resource Include="Resources\Images\sub_triangle.png" />
+    <Resource Include="Resources\Images\text_document.png" />
+    <Resource Include="Resources\Images\Title.png" />
+    <Resource Include="Resources\Images\Title2.jpg" />
+    <Resource Include="Resources\Images\Title_Label.png" />
+    <Resource Include="Resources\Images\toolStripButtonContinuousShot.Image.png" />
+    <Resource Include="Resources\Images\toolStripButtonOneShot.Image.png" />
+    <Resource Include="Resources\Images\toolStripButtonStop.Image.png" />
+    <Resource Include="Resources\Images\unloader.png" />
+    <Resource Include="Resources\Images\unloader4_0.png" />
+    <Resource Include="Resources\Images\unloader4_1.png" />
+    <Resource Include="Resources\Images\unloader_1.png" />
+    <Resource Include="Resources\Images\UP.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CIM.Common\CIM.Common.csproj">
+      <Project>{9e718f4d-99b6-475b-9bf7-cd4c5a454cc0}</Project>
+      <Name>CIM.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CIM.Manager\CIM.Manager.csproj">
+      <Project>{51a5b240-842f-40c7-a83e-4f5f2f1201b8}</Project>
+      <Name>CIM.Manager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ECS.Application\ECS.Application.csproj">
+      <Project>{98a2263c-ef49-47a9-844f-d149a5c7fcdc}</Project>
+      <Name>ECS.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ECS.Common\ECS.Common.csproj">
+      <Project>{E0BAE1FB-F781-4586-AA3B-F84FF3DB69E8}</Project>
+      <Name>ECS.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ECS.Recipe\ECS.Recipe.csproj">
+      <Project>{5c5bdf09-f80e-4f06-bd19-46637f97ace9}</Project>
+      <Name>ECS.Recipe</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\INNO6.Core\INNO6.Core.csproj">
+      <Project>{ad4cc56a-87b1-49c5-9b4e-49243595b14f}</Project>
+      <Name>INNO6.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\INNO6.IO\INNO6.IO.csproj">
+      <Project>{1f731412-4cab-4b13-85a7-52f03e7d85a2}</Project>
+      <Name>INNO6.IO</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\alert_danger.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\buzzer-icon.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\blue-bell-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\alert.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\keti.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\laser_radiation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\warning_laser.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\emergency_stop.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

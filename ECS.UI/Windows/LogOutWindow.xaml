@@ -1,0 +1,29 @@
+﻿<Window x:Class="ECS.UI.LogOutWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ECS.UI"
+             mc:Ignorable="d" 
+                          TextOptions.TextFormattingMode="Ideal"
+             TextOptions.TextRenderingMode="Auto"
+             Background="{DynamicResource MaterialDesignPaper}"             
+             ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" Height="230" Width="480"
+             Topmost="True" FontSize="20">
+    <Grid>
+        <GroupBox Header="Log Out" Margin="0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Content="Do you want Logout?" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="10,33"/>
+
+                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button x:Name="btnOK" Click="btnOK_Click" Content="OK" Width="75"/>
+                    <Button x:Name="btnCancel" Click="btnCancel_Click" Margin="5,0,0,0" Content="Cancel" Width="75"/>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</Window>

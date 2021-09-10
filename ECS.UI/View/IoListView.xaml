@@ -1,0 +1,69 @@
+﻿<UserControl x:Class="ECS.UI.View.IoListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ECS.UI.View"
+                          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:mvvm="http://www.galasoft.ch/mvvmlight"
+             TextOptions.TextFormattingMode="Ideal"
+             TextOptions.TextRenderingMode="Auto"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{DynamicResource MaterialDesignFont}"
+             
+             xmlns:Converter="clr-namespace:ECS.UI.Converter"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <mvvm:EventToCommand Command="{Binding LoadedCommand}" PassEventArgsToCommand="True"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Unloaded">
+            <mvvm:EventToCommand Command="{Binding UnloadedCommand}" PassEventArgsToCommand="True"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <UserControl.Resources>
+
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.DataGrid.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <UserControl.DataContext>
+        <Binding Path="IoListViewModel" Source="{StaticResource Locator}"/>
+    </UserControl.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <Label Content="▶ I/O DATA LIST" FontSize="20" HorizontalAlignment="Left" Height="41" VerticalAlignment="Top" Width="221"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="3">
+            <Label Content="∝ Item Name" VerticalContentAlignment="Center"/>
+            <TextBox Text="{Binding ItemName, UpdateSourceTrigger=PropertyChanged}" Width="150">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Enter" Command="{Binding ItemNameChanged}" CommandParameter="{Binding Path=Text, RelativeSource={RelativeSource AncestorType={x:Type TextBox}}}"/>
+                </TextBox.InputBindings>
+            </TextBox>
+
+
+
+
+
+            <Button Margin="5,0,5,0" Content="Search" Command="{Binding ItemNameChanged}" Width="75"/>
+        </StackPanel>
+
+        <DataGrid Margin="0,3" Grid.Row="2" ItemsSource="{Binding IoDataList}" HeadersVisibility="Column" GridLinesVisibility="All" SelectionUnit="FullRow" SelectionMode="Extended" BorderBrush="DarkGray" BorderThickness="1" IsReadOnly="True" CanUserSortColumns="False">
+            <DataGrid.Style>
+                <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
+                    <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}"/>
+                </Style>
+            </DataGrid.Style>
+        </DataGrid>
+    </Grid>
+</UserControl>

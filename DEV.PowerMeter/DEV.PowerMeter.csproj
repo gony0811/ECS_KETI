@@ -1,0 +1,277 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0D66ADDC-CD72-4420-8911-297462FF60A9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DEV.PowerMeter</RootNamespace>
+    <AssemblyName>DEV.PowerMeter</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CertLibrary">
+      <HintPath>..\Library\CertLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmFoundation.Wpf">
+      <HintPath>..\Library\MvvmFoundation.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="MyToolkit">
+      <HintPath>..\Library\MyToolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="RuntimeLibrary">
+      <HintPath>..\Library\RuntimeLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SharedLibrary">
+      <HintPath>..\Library\SharedLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Controls.Ribbon" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UpdaterLibrary">
+      <HintPath>..\Library\UpdaterLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Library\ActionList.cs" />
+    <Compile Include="Library\AlarmsAndLimits\AlarmsAndLimits.cs" />
+    <Compile Include="Library\AlarmsAndLimits\AlarmsAndLimitsSettings.cs" />
+    <Compile Include="Library\AlarmsAndLimits\AlarmsEnum.cs" />
+    <Compile Include="Library\AlarmsAndLimits\CauseOfFault.cs" />
+    <Compile Include="Library\AlarmsAndLimits\StatisticsEnum.cs" />
+    <Compile Include="Library\AlarmsAndLimits\UserSetLimits.cs" />
+    <Compile Include="Library\AnalogOutputLevel.cs" />
+    <Compile Include="Library\AutoFlusher.cs" />
+    <Compile Include="Library\BufferBounds.cs" />
+    <Compile Include="Library\BufferPosition.cs" />
+    <Compile Include="Library\CaptureBuffer.cs" />
+    <Compile Include="Library\CaptureBufferCircular.cs" />
+    <Compile Include="Library\CaptureBufferUnbounded.cs" />
+    <Compile Include="Library\Channel.cs" />
+    <Compile Include="Library\Channel_Playback.cs" />
+    <Compile Include="Library\Channel_SerialPort.cs" />
+    <Compile Include="Library\Channel_Recorder.cs" />
+    <Compile Include="Library\CircularBufferEnumerator.cs" />
+    <Compile Include="Library\CLA_Dialog.cs" />
+    <Compile Include="Library\CMC_CLA.cs" />
+    <Compile Include="Library\CommunicationException.cs" />
+    <Compile Include="Library\CommunicationIsRunningException.cs" />
+    <Compile Include="Library\Communicator.cs" />
+    <Compile Include="Library\Computations.cs" />
+    <Compile Include="Library\ComputationsBase.cs" />
+    <Compile Include="Library\CustomLevelCombination.cs" />
+    <Compile Include="Library\CustomPopularOption.cs" />
+    <Compile Include="Library\DAQ_HighSpeed.cs" />
+    <Compile Include="Library\DAQ_SlowAscii.cs" />
+    <Compile Include="Library\DAQ_SlowBinary.cs" />
+    <Compile Include="Library\DAQ_Snapshot.cs" />
+    <Compile Include="Library\DAQ_State.cs" />
+    <Compile Include="Library\DAQ_Thread.cs" />
+    <Compile Include="Library\DAQ_Thread_Ascii.cs" />
+    <Compile Include="Library\DAQ_Thread_Binary.cs" />
+    <Compile Include="Library\DAQ_TriggerWait.cs" />
+    <Compile Include="Library\DataAdded.cs" />
+    <Compile Include="Library\DataEncoding.cs" />
+    <Compile Include="Library\DataFieldFlags.cs" />
+    <Compile Include="Library\DataLogger.cs" />
+    <Compile Include="Library\DataRecordAccumulator.cs" />
+    <Compile Include="Library\DataRecordAccumulatorQuad.cs" />
+    <Compile Include="Library\DataRecordBase.cs" />
+    <Compile Include="Library\DataRecordQuad.cs" />
+    <Compile Include="Library\DataRecordSingle.cs" />
+    <Compile Include="Library\DataSkipBuffer.cs" />
+    <Compile Include="Library\DataStreamItem.cs" />
+    <Compile Include="Library\DataStreamItemType.cs" />
+    <Compile Include="Library\DataStreamReader.cs" />
+    <Compile Include="Library\DataStreamWriter.cs" />
+    <Compile Include="Library\DateTimeExtensions.cs" />
+    <Compile Include="Library\Device.cs" />
+    <Compile Include="Library\DeviceDisableHandshakingException.cs" />
+    <Compile Include="Library\DeviceModels\Device_ME.cs" />
+    <Compile Include="Library\DeviceModels\Device_MP.cs" />
+    <Compile Include="Library\DeviceModels\Device_SSIM.cs" />
+    <Compile Include="Library\DeviceModels\IAutoRange.cs" />
+    <Compile Include="Library\DeviceModels\IConfigureBaudRate.cs" />
+    <Compile Include="Library\DeviceModels\IRangeSelection.cs" />
+    <Compile Include="Library\DeviceModels\Meter_ME.cs" />
+    <Compile Include="Library\DeviceModels\Meter_MP.cs" />
+    <Compile Include="Library\DeviceModels\Meter_SSIM.cs" />
+    <Compile Include="Library\DeviceModels\Models.cs" />
+    <Compile Include="Library\DeviceNotValidException.cs" />
+    <Compile Include="Library\DeviceOpenException.cs" />
+    <Compile Include="Library\DevicePlayer.cs" />
+    <Compile Include="Library\EnergyBaselineOption.cs" />
+    <Compile Include="Library\EnergyCalculator.cs" />
+    <Compile Include="Library\EnergyRecords.cs" />
+    <Compile Include="Library\EnergyState.cs" />
+    <Compile Include="Library\EnumConverter.cs" />
+    <Compile Include="Library\ErrorLogger.cs" />
+    <Compile Include="Library\FileFormat.cs" />
+    <Compile Include="Library\FileX.cs" />
+    <Compile Include="Library\FlagConverter.cs" />
+    <Compile Include="Library\FromDevice.cs" />
+    <Compile Include="Library\FromUser.cs" />
+    <Compile Include="Library\GenericLocator.cs" />
+    <Compile Include="Library\ICaptureBuffer.cs" />
+    <Compile Include="Library\IComputations.cs" />
+    <Compile Include="Library\IDaqDevice.cs" />
+    <Compile Include="Library\IDaqMeter.cs" />
+    <Compile Include="Library\IDataRecordQuad.cs" />
+    <Compile Include="Library\IDataRecordSingle.cs" />
+    <Compile Include="Library\IDecodeMeasurement.cs" />
+    <Compile Include="Library\IDevice.cs" />
+    <Compile Include="Library\IEncodable.cs" />
+    <Compile Include="Library\IEnumConverter.cs" />
+    <Compile Include="Library\IHasBinary.cs" />
+    <Compile Include="Library\IImportExport.cs" />
+    <Compile Include="Library\IIsQuadOrPyro.cs" />
+    <Compile Include="Library\DeviceModels\IMeter.cs" />
+    <Compile Include="Library\ILegacyMeterless.cs" />
+    <Compile Include="Library\ILicensedItem.cs" />
+    <Compile Include="Library\ILicensedMeter.cs" />
+    <Compile Include="Library\ImportExport\DecodeException.cs" />
+    <Compile Include="Library\ImportExport\Dialog.cs" />
+    <Compile Include="Library\ImportExport\Exception.cs" />
+    <Compile Include="Library\ImportExport\ExportDialog.cs" />
+    <Compile Include="Library\ImportExport\Exporter.cs" />
+    <Compile Include="Library\ImportExport\Header.cs" />
+    <Compile Include="Library\ImportExport\HeaderException.cs" />
+    <Compile Include="Library\ImportExport\ImportDialog.cs" />
+    <Compile Include="Library\ImportExport\Importer.cs" />
+    <Compile Include="Library\ImportExport\ImporterExporter.cs" />
+    <Compile Include="Library\ImportExport\PulseAnalysisWriteReportDialog.cs" />
+    <Compile Include="Library\Interfaces\IPhoenixMeter.cs" />
+    <Compile Include="Library\IPulseAnalysisOptions.cs" />
+    <Compile Include="Library\ISamplePeriod.cs" />
+    <Compile Include="Library\ISensor.cs" />
+    <Compile Include="Library\ISequenceIds.cs" />
+    <Compile Include="Library\IShortFormat.cs" />
+    <Compile Include="Library\ISlowEnergyMode.cs" />
+    <Compile Include="Library\IUpdateMeterControls.cs" />
+    <Compile Include="Library\Level.cs" />
+    <Compile Include="Library\LevelCombination.cs" />
+    <Compile Include="Library\LoadPropertiesException.cs" />
+    <Compile Include="Library\MagnitudeConverter.cs" />
+    <Compile Include="Library\MeasurementChannelFlags.cs" />
+    <Compile Include="Library\MeasurementFlags.cs" />
+    <Compile Include="Library\Meter.cs" />
+    <Compile Include="Library\MeterException.cs" />
+    <Compile Include="Library\MeterSettingsSerializer.cs" />
+    <Compile Include="Library\MeterStatus.cs" />
+    <Compile Include="Library\MeterStatusChanged.cs" />
+    <Compile Include="Library\NameValueDataTable.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Library\NonvolatileUserSettings.cs" />
+    <Compile Include="Library\NumberResolution.cs" />
+    <Compile Include="Library\ObsoleteHardwareOrFirmwareException.cs" />
+    <Compile Include="Library\OperatingMode.cs" />
+    <Compile Include="Library\Pathnames.cs" />
+    <Compile Include="Library\PhysicalUnits.cs" />
+    <Compile Include="Library\PollingData.cs" />
+    <Compile Include="Library\PollingThread.cs" />
+    <Compile Include="Library\PopularOption.cs" />
+    <Compile Include="Library\PopularOptions.cs" />
+    <Compile Include="Library\PortManager.cs" />
+    <Compile Include="Library\PreviewBufferController.cs" />
+    <Compile Include="Library\PropertyChangedType.cs" />
+    <Compile Include="Library\PulseAnalysisOptions.cs" />
+    <Compile Include="Library\PulseAnalysisResults.cs" />
+    <Compile Include="Library\PulseAnalyzer.cs" />
+    <Compile Include="Library\PulseAverager.cs" />
+    <Compile Include="Library\PulseProperties.cs" />
+    <Compile Include="Library\RangeTable.cs" />
+    <Compile Include="Library\RecorderConfig.cs" />
+    <Compile Include="Library\RecorderExtensions.cs" />
+    <Compile Include="Library\ReductionType.cs" />
+    <Compile Include="Library\ResultsDataTable.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Library\ScaleFactor.cs" />
+    <Compile Include="Library\SCPI.cs" />
+    <Compile Include="Library\SenseSwitch.cs" />
+    <Compile Include="Library\SenseSwitchLocator.cs" />
+    <Compile Include="Library\Sensor.cs" />
+    <Compile Include="Library\SensorState.cs" />
+    <Compile Include="Library\SensorType.cs" />
+    <Compile Include="Library\SensorTypeAndQualifier.cs" />
+    <Compile Include="Library\SensorTypeQualifier.cs" />
+    <Compile Include="Library\SkippedSampleAction.cs" />
+    <Compile Include="Library\State.cs" />
+    <Compile Include="Library\Statistics.cs" />
+    <Compile Include="Library\SystemFaultBits.cs" />
+    <Compile Include="Library\SystemType.cs" />
+    <Compile Include="Library\TimeScale.cs" />
+    <Compile Include="Library\TimestampConverter.cs" />
+    <Compile Include="Library\Timestamper.cs" />
+    <Compile Include="Library\ToDevice.cs" />
+    <Compile Include="Library\TriggerLevel_LPEM.cs" />
+    <Compile Include="Library\TriggerSlope.cs" />
+    <Compile Include="Library\TriggerSource.cs" />
+    <Compile Include="Library\UnexpectedEofException.cs" />
+    <Compile Include="Library\Units.cs" />
+    <Compile Include="Library\MeterPlayer.cs" />
+    <Compile Include="Library\Validate.cs" />
+    <Compile Include="Library\ValueFormatter.cs" />
+    <Compile Include="Library\ViewModels\IPulseAnalysisSettingsService.cs" />
+    <Compile Include="Library\ViewModels\MainViewModel.cs" />
+    <Compile Include="Library\ViewModels\ServiceLocator.cs" />
+    <Compile Include="Library\ViewModels\ViewModelBase.cs" />
+    <Compile Include="Library\WavelengthOption.cs" />
+    <Compile Include="Library\WavelengthOptions.cs" />
+    <Compile Include="Library\WavelengthsTable.cs" />
+    <Compile Include="Library\Zone.cs" />
+    <Compile Include="Library\PhoenixMeter.cs" />
+    <Compile Include="PowerMax.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Library\SystemStatusBits.cs" />
+    <Compile Include="Library\TraceLogger.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\INNO6.IO\INNO6.IO.csproj">
+      <Project>{1F731412-4CAB-4B13-85A7-52F03E7D85A2}</Project>
+      <Name>INNO6.IO</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

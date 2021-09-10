@@ -1,0 +1,36 @@
+﻿<Window x:Class="ECS.UI.NewRecipeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ECS.UI.Windows"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             TextOptions.TextFormattingMode="Ideal"
+             TextOptions.TextRenderingMode="Auto"             
+             Background="{DynamicResource MaterialDesignPaper}"             
+             ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" Height="150" Width="400" 
+             Title="New Recipe">
+    <Grid>
+        <GroupBox x:Name="gbHeader" Header="New Recipe Name" Margin="0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.5*"/>
+                    <RowDefinition Height="0.5*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <materialDesign:PackIcon Kind="RenameBox" Width="32" Height="32" Margin="5"/>
+                    <TextBox Name="tbNewRecipeName" Text="NoName01" Width="200" HorizontalAlignment="Center" />
+                </StackPanel>
+                
+
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="1">
+                    <Button x:Name="btnYes" Click="btnYes_Click" Content="Yes" IsDefault="True" VerticalAlignment="Bottom" Width="75"/>
+                    <Button x:Name="btnNo" Click="btnNo_Click" Content="No" IsCancel="True"  VerticalAlignment="Bottom" Margin="5,0,0,0" Width="75"/>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</Window>

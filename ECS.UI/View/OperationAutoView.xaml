@@ -1,0 +1,146 @@
+﻿<UserControl x:Class="ECS.UI.View.OperationAutoView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ECS.UI.View"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             TextOptions.TextFormattingMode="Ideal"
+             TextOptions.TextRenderingMode="Auto"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{DynamicResource MaterialDesignFont}"
+             
+             xmlns:Converter="clr-namespace:ECS.UI.Converter"
+             xmlns:Command="clr-namespace:ECS.UI" 
+             xmlns:mvvm="http://www.galasoft.ch/mvvmlight"           
+             mc:Ignorable="d" 
+             d:DesignWidth="1200" d:DesignHeight="800">
+
+    
+    <UserControl.DataContext>
+        <Binding Path="OperationAutoViewModel" Source="{StaticResource Locator}"/>
+    </UserControl.DataContext>
+    
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Resources/ResourceDictionary.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.DataGrid.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <mvvm:EventToCommand Command="{Binding LoadedCommand}" PassEventArgsToCommand="True"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Unloaded">
+            <mvvm:EventToCommand Command="{Binding UnloadedCommand}" PassEventArgsToCommand="True"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    
+    <Grid>
+        <Grid.Resources>
+            <Converter:StringToDoubleConverter x:Key="StringToDoubleConverter"/>
+            <Converter:DoubleToStringConverter x:Key="DoubleToStringConverter"/>
+        </Grid.Resources>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.8*"/>
+            <ColumnDefinition Width="0.2*"/>
+        </Grid.ColumnDefinitions>
+
+
+
+        <local:VisionCameraView Grid.Column="0" Margin="5,0,5,5"/>
+
+        <GroupBox Header="@ AUTO Control" Grid.Column="1" Margin="0,0,5,5">
+            <StackPanel Orientation="Vertical">
+                <Button ToolTip="Initialize" Width="Auto" Height="Auto" 
+                        IsEnabled="{Binding IsEnableInitButton}"  
+                        Margin="5" Command="{Binding InitButtonCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Adjust" Width="50" Height="50" Margin="5"/>
+                        <TextBlock Width="100" FontWeight="Bold" Margin="5" Text="INIT" VerticalAlignment="Center"/>
+
+                    </StackPanel>
+                </Button>
+                <Button ToolTip="Process Start" Width="Auto" Height="Auto" 
+                        IsEnabled="{Binding IsEnableProcessButton}"  
+                        Margin="5" Command="{Binding ProcessButtonCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="RayStart" Width="50" Height="50" Margin="5"/>
+                        <TextBlock Width="100" FontWeight="Bold" Margin="5" Text="START" VerticalAlignment="Center"/>
+
+                    </StackPanel>
+                </Button>
+                <Border Background="{DynamicResource MaterialDesignDivider}" Height="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" Margin="5"/>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Label Content="X POSITION:" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="7SegFontFamily" FontSize="12" Width="80"/>
+                    <Label x:Name="lblXPos" Style="{DynamicResource 7SegmentsBox}" VerticalContentAlignment="Center" FontSize="12" Width="120">
+                        <TextBlock Text="{Binding XAxisPosition, StringFormat=F3, Converter={StaticResource DoubleToStringConverter}}"/>
+                    </Label>
+
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Label Content="Y POSITION:" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="7SegFontFamily" FontSize="12" Width="80"/>
+                    <Label x:Name="lblYPos" Style="{DynamicResource 7SegmentsBox}" VerticalContentAlignment="Center" FontSize="12" Width="120">
+                        <TextBlock Text="{Binding YAxisPosition, StringFormat=F3, Converter={StaticResource DoubleToStringConverter}}" />
+                    </Label>
+                </StackPanel>
+
+                <Border Background="{DynamicResource MaterialDesignDivider}" Height="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" Margin="5"/>
+
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Label Content="OPMODE:" VerticalContentAlignment="Bottom" FontSize="12" Width="80"/>
+                    <TextBox Text="{Binding LaserOpMode}" IsReadOnly="True" FontSize="12" Width="120" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Label Content="EGY MODE:" VerticalContentAlignment="Bottom" FontSize="12" Width="80"/>
+                    <TextBox Text="{Binding LaserEnergyMode}" IsReadOnly="True" FontSize="12" Width="120" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Label Content="HV(kV):" VerticalContentAlignment="Bottom" FontSize="12" Width="80"/>
+                    <TextBox Text="{Binding LaserHV, StringFormat=N2}" IsReadOnly="True" FontSize="12" Width="80" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" />
+                    <Label Content="kV" VerticalContentAlignment="Bottom" FontSize="12" Width="50"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Label Content="EGY(mJ):" VerticalContentAlignment="Bottom" FontSize="12" Width="80"/>
+                    <TextBox Text="{Binding LaserEnergy, StringFormat=N2}" IsReadOnly="True" FontSize="12" Width="80" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" />
+                    <Label Content="mJ" VerticalContentAlignment="Bottom" FontSize="12" Width="50"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Label Content="INTERLOCK:" VerticalContentAlignment="Bottom" FontSize="12" Width="80"/>
+                    <TextBox Text="{Binding LaserInterlock}" IsReadOnly="True" FontSize="12" Width="80" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Label Content="MAN PRESS.:" VerticalContentAlignment="Bottom" FontSize="12" Width="80"/>
+                    <TextBox Text="{Binding TubeManPressure}" IsReadOnly="True" FontSize="12" Width="80" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" />
+                    <Label Content="mbar" VerticalContentAlignment="Bottom" FontSize="12" Width="50"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Label Content="TUBE PRESS.:" VerticalContentAlignment="Bottom" FontSize="12" Width="80"/>
+                    <TextBox Text="{Binding TubePressure}" IsReadOnly="True" FontSize="12" Width="80" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" />
+                    <Label Content="mbar" VerticalContentAlignment="Bottom" FontSize="12" Width="50"/>
+                </StackPanel>
+
+
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Label Content="TUBE TEMP.:" VerticalContentAlignment="Bottom" FontSize="12" Width="80"/>
+                    <TextBox Text="{Binding TubeTemperature, StringFormat=N2}" IsReadOnly="True" FontSize="12" Width="80" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" />
+                    <Label Content="℃" VerticalContentAlignment="Bottom" FontSize="12" Width="50"/>
+                </StackPanel>
+
+            </StackPanel>
+        </GroupBox>
+    </Grid>
+</UserControl>

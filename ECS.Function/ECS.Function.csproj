@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{529D833B-1F93-45EC-99D6-918A188D3276}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>ECS.Function</RootNamespace>
+    <AssemblyName>ECS.Function</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AbstractFunction.cs" />
+    <Compile Include="Operation\OP_AUTO_PROCESS.cs" />
+    <Compile Include="Operation\OP_INIT_PROCESS.cs" />
+    <Compile Include="Physical\F_LASER_OFF.cs" />
+    <Compile Include="Physical\F_LASER_ON.cs" />
+    <Compile Include="Physical\F_LASER_SHUTDOWN.cs" />
+    <Compile Include="Physical\F_LASER_STANDBY.cs" />
+    <Compile Include="Physical\F_LASER_STARTUP.cs" />
+    <Compile Include="Physical\F_LED_CH1_OFF.cs" />
+    <Compile Include="Physical\F_LED_CH1_ON.cs" />
+    <Compile Include="Physical\F_MOVE_PROCESS_OFFSET.cs" />
+    <Compile Include="Physical\F_MOVE_PROCESS_POSITION.cs" />
+    <Compile Include="Physical\F_MOVE_VISION_POSITION.cs" />
+    <Compile Include="Physical\F_SET_MODE_EGYBURSTNGR.cs" />
+    <Compile Include="Physical\F_SET_MODE_HVNGR.cs" />
+    <Compile Include="Physical\F_SET_MODE_EGYNGR.cs" />
+    <Compile Include="Physical\F_X_AXIS_HOME_STOP.cs" />
+    <Compile Include="Physical\F_X_AXIS_HOMMING.cs" />
+    <Compile Include="Physical\F_X_AXIS_JOG_MINUS.cs" />
+    <Compile Include="Physical\F_X_AXIS_JOG_PLUS.cs" />
+    <Compile Include="Physical\F_X_AXIS_JOG_STOP.cs" />
+    <Compile Include="Physical\F_X_AXIS_MOVE_TO_SETDIS.cs" />
+    <Compile Include="Physical\F_X_AXIS_MOVE_TO_SETPOS.cs" />
+    <Compile Include="Physical\F_Y_AXIS_HOME_STOP.cs" />
+    <Compile Include="Physical\F_Y_AXIS_HOMMING.cs" />
+    <Compile Include="Physical\F_Y_AXIS_JOG_MINUS.cs" />
+    <Compile Include="Physical\F_Y_AXIS_JOG_PLUS.cs" />
+    <Compile Include="Physical\F_Y_AXIS_JOG_STOP.cs" />
+    <Compile Include="Physical\F_Y_AXIS_MOVE_TO_SETDIS.cs" />
+    <Compile Include="Physical\F_Y_AXIS_MOVE_TO_SETPOS.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ECS.Common\ECS.Common.csproj">
+      <Project>{e0bae1fb-f781-4586-aa3b-f84ff3db69e8}</Project>
+      <Name>ECS.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ECS.Recipe\ECS.Recipe.csproj">
+      <Project>{5c5bdf09-f80e-4f06-bd19-46637f97ace9}</Project>
+      <Name>ECS.Recipe</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\INNO6.Core\INNO6.Core.csproj">
+      <Project>{ad4cc56a-87b1-49c5-9b4e-49243595b14f}</Project>
+      <Name>INNO6.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\INNO6.IO\INNO6.IO.csproj">
+      <Project>{1f731412-4cab-4b13-85a7-52f03e7d85a2}</Project>
+      <Name>INNO6.IO</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

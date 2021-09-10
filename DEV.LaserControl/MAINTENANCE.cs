@@ -1,0 +1,12 @@
+﻿
+namespace DEV.LaserControl
+{
+    public enum MAINT_STATUS_CODE
+    {
+        NO_MAINTENANCE_ACTION_REQUIRED = 0,
+        NEW_FILL_REQUIRED = 1,
+        MAINTENANCE_ACTION_REQUIRED = 2,
+        HALOGEN_FILTER_CONTAMINATION = 3,
+        HI_PGR_REQUEST_ACITVE = 4,
+    }
+}

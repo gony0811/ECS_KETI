@@ -1,0 +1,391 @@
+﻿<Controls:MetroWindow x:Class="ECS.UI.MainWindow"                     
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"   
+        xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"    
+        xmlns:localCtl="clr-namespace:ECS.UI.Resources.Controls"                   
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"   
+        xmlns:View="clr-namespace:ECS.UI.View" 
+        xmlns:ViewModel="clr-namespace:ECS.UI.ViewModel"
+        xmlns:Converter="clr-namespace:ECS.UI.Converter"                     
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"              
+                      
+        Closing="MetroWindow_Closing"              
+        Title="ECS" ShowTitleBar="False" 
+        ResizeMode="CanResizeWithGrip"
+        NonActiveGlowBrush="#CDFF0000"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"              
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"     
+        ShowIconOnTitleBar="False" ShowMinButton="True" ShowMaxRestoreButton="True" ShowCloseButton="True"
+        mc:Ignorable="d" Height="1080" Width="1920" WindowStartupLocation="CenterScreen" WindowState="Maximized"
+        DataContext="{Binding MainWindowViewModel, Source={StaticResource Locator}}" FontSize="13"
+        MinHeight="720" MinWidth="1280" Loaded="MetroWindow_Loaded" Closed="MetroWindow_Closed">
+    
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <cmd:EventToCommand Command="{Binding Path=ResourceReleaseCommand}" PassEventArgsToCommand="True" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    
+    <Controls:MetroWindow.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <ViewModel:Clock x:Key="Clock"/>
+
+        <DataTemplate x:Key="IoListView" DataType="{x:Type ViewModel:IoListViewModel}">
+            <View:IoListView/>
+        </DataTemplate>
+        <DataTemplate x:Key="MainSystemView" DataType="{x:Type ViewModel:MainSystemViewModel}">
+            <View:MainSystemView/>
+        </DataTemplate>
+        <DataTemplate x:Key="AlarmHistoryView" DataType="{x:Type ViewModel:AlarmHistoryViewModel}">
+            <View:AlarmHistoryView/>
+        </DataTemplate>
+        <DataTemplate x:Key="SettingParameterView" DataType="{x:Type ViewModel:SettingParameterViewModel}">
+            <View:SettingParameterView/>
+        </DataTemplate>
+        <DataTemplate x:Key="RecipeManagerView" DataType="{x:Type ViewModel:RecipeManagerViewModel}">
+            <View:RecipeManagerView/>
+        </DataTemplate>
+        <DataTemplate x:Key="OperationAutoView" DataType="{x:Type ViewModel:OperationAutoViewModel}">
+            <View:OperationAutoView/>
+        </DataTemplate>
+
+        <Style TargetType="{x:Type Image}" x:Key="imageStyle">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Width" Value="80" />
+            <Setter Property="Height" Value="80" />
+            <Setter Property="Margin" Value="5" />
+        </Style>
+    </Controls:MetroWindow.Resources>
+
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Label Content="{Binding WorkerID}" VerticalContentAlignment="Center"/>
+            <Button Content="{Binding LoginCaption}" Command="{Binding LoginCommand}"/>
+            <Button>
+                <materialDesign:PackIcon Kind="HelpCircleOutline"/>
+            </Button>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
+
+    
+    <Grid>
+        <Grid.Resources>
+            <Converter:InterlockToStringConverter x:Key="InterlockToStringConverter"/>
+            <Converter:EQStatusToStringConverter x:Key="EQStatusToStringConverter"/>
+            <Converter:MoveStatusToStringConverter x:Key="MoveStatusToStringConverter"/>
+            <Converter:RunStatusToStringConverter x:Key="RunStatusToStringConverter"/>
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="280" MinWidth="180" MaxWidth="280"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <GridSplitter Width="3" HorizontalAlignment="Stretch" Grid.Column="1" Grid.RowSpan="2" ResizeDirection="Columns" Background="{x:Null}" />
+
+        <Grid Grid.RowSpan="2" Margin="3,100,0,0" Background="{DynamicResource MaterialDesignBackground}">
+            <materialDesign:Card>
+                <StackPanel>
+                    <Expander IsExpanded="True" Margin="0" >
+                        <Expander.Header>
+                            <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight">
+                                <materialDesign:PackIcon Kind="Apps" Width="20" Height="20"   />
+                                <TextBlock FontWeight="Bold" VerticalAlignment="Center" Margin="5,0,0,0" Text="Operation" Style="{DynamicResource MaterialDesignTitleTextBlock}"/>
+                            </StackPanel>
+                        </Expander.Header>
+                        <TreeView  FlowDirection="LeftToRight" BorderThickness="0" >
+                            <TreeViewItem x:Name="tvMainSystemView" IsSelected="{Binding IsSelectMainSystemView}">
+                                <TreeViewItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="HumanChild" Width="20" Height="20" Margin="5"/>
+                                        <TextBlock FontWeight="Bold" Margin="5" Text="Manual" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </TreeViewItem.Header>
+                            </TreeViewItem>
+
+                            <TreeViewItem x:Name="tvAutoView" IsSelected="{Binding IsSelectAutoView}" IsEnabled="{Binding IsEnableAutoView}">
+                                <TreeViewItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Play" Width="20" Height="20" Margin="5"/>
+                                        <TextBlock FontWeight="Bold" Margin="5" Text="Auto" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </TreeViewItem.Header>
+                            </TreeViewItem>
+                        </TreeView>
+                    </Expander>
+
+                    <Border Background="{DynamicResource MaterialDesignDivider}" Height="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" />
+
+
+                    <Expander IsExpanded="True" Margin="0,3,0,0" Height="150">
+                        <Expander.Header>
+                            <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight">
+                                <materialDesign:PackIcon Kind="Menu" Width="20" Height="20"    />
+                                <TextBlock FontWeight="Bold" VerticalAlignment="Center" Margin="5,0,0,0" Text="Racipe" Style="{DynamicResource MaterialDesignTitleTextBlock}"/>
+                            </StackPanel>
+                        </Expander.Header>
+                        <TreeView FlowDirection="LeftToRight" BorderThickness="0">
+                            <TreeViewItem x:Name="tvRecipeManagerView" IsSelected="{Binding IsSelectRecipeManagerView}" IsEnabled="{Binding IsEnableRecipeManagerView}">
+                                <TreeViewItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="TableEdit" Width="25" Height="25" Margin="5"/>
+                                        <TextBlock FontWeight="Bold" Margin="5" Text="Recipe Editor" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </TreeViewItem.Header>
+                            </TreeViewItem>
+
+     
+                        </TreeView>
+                    </Expander>
+
+                    <Border Background="{DynamicResource MaterialDesignDivider}" Height="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" />
+
+                    
+
+                    <Expander IsExpanded="True" Margin="0,3,0,0" Height="150">
+                        <Expander.Header>
+                            <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight">
+                                <materialDesign:PackIcon Kind="File" Width="20" Height="20"    />
+                                <TextBlock FontWeight="Bold" VerticalAlignment="Center" Margin="5,0,0,0" Text="Service" Style="{DynamicResource MaterialDesignTitleTextBlock}"/>
+                            </StackPanel>
+                        </Expander.Header>
+
+                        <TreeView>
+
+                            <TreeViewItem x:Name="tvIoListView" IsSelected="{Binding IsSelectIoListView}" IsEnabled="{Binding IsEnableIoList}">
+                                <TreeViewItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="TableLarge" Width="25" Height="25" Margin="5"/>
+                                        <TextBlock FontWeight="Bold" Margin="5" Text="I/O List" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </TreeViewItem.Header>
+                            </TreeViewItem>
+
+                            <TreeViewItem x:Name="tvSettingParameterView" IsSelected="{Binding IsSelectSettingsView}" IsEnabled="{Binding IsEnableSettingsView}">
+                                <TreeViewItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Settings" Width="25" Height="25" Margin="5"/>
+                                        <TextBlock FontWeight="Bold" Margin="5" Text="Setting Parameter" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </TreeViewItem.Header>
+                            </TreeViewItem>
+                        </TreeView>
+                    </Expander>
+
+                    <Border Background="{DynamicResource MaterialDesignDivider}" Height="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" />
+                    
+                    <Expander IsExpanded="True" Margin="0,3,0,0" Height="150">
+                        <Expander.Header>
+                            <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight">
+                                <materialDesign:PackIcon Kind="ChartPie" Width="20" Height="20"    />
+                                <TextBlock FontWeight="Bold" VerticalAlignment="Center" Margin="5,0,0,0" Text="Data" Style="{DynamicResource MaterialDesignTitleTextBlock}"/>
+                            </StackPanel>
+                        </Expander.Header>
+                        <TreeView FlowDirection="LeftToRight" BorderThickness="0">
+                            <TreeViewItem x:Name="tvAlarmHistoryView" IsSelected="{Binding IsSelectAlarmHistoryView}" IsEnabled="{Binding IsEnableAlarmHistory}">
+                                <TreeViewItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Alarm" Width="25" Height="25" Margin="5"/>
+                                        <TextBlock FontWeight="Bold" Margin="5" Text="Alarm History" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </TreeViewItem.Header>
+                            </TreeViewItem>
+                        </TreeView>
+                    </Expander>
+
+                    <Border Background="{DynamicResource MaterialDesignDivider}" Height="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" />
+
+
+                    <Expander IsExpanded="True" Margin="0,3,0,0" Height="150">
+                        <Expander.Header>
+                            <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight">
+                                <materialDesign:PackIcon Kind="Application" Width="20" Height="20"    />
+                                <TextBlock FontWeight="Bold" VerticalAlignment="Center" Margin="5,0,0,0" Text="Configuration" Style="{DynamicResource MaterialDesignTitleTextBlock}"/>
+                            </StackPanel>
+                        </Expander.Header>
+                    </Expander>
+                </StackPanel>
+            </materialDesign:Card>
+
+            <UniformGrid Columns="2" VerticalAlignment="Bottom" Margin="0,0,0,3">
+                <Button Content="Online"/>
+                <Button Margin="3,0,0,0"/>
+            </UniformGrid>
+        </Grid>
+
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <Button x:Name="SystemMainButton" HorizontalContentAlignment="Center" VerticalAlignment="Center" Width="280" Height="100" Foreground="Transparent" Background="Transparent" BorderBrush="LightGray"/>
+        </StackPanel>
+
+
+        <Button VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,64,2,6" BorderBrush="Transparent" Background="Transparent">
+            <materialDesign:PackIcon Kind="ChevronDoubleLeft"/>
+        </Button>
+
+        <Grid x:Name="gridView" Grid.Column="2" Grid.Row="1">
+
+            <ContentControl Content="{Binding}" Margin="-10,0,10,0">
+                <ContentControl.Style>
+                    <Style TargetType="{x:Type ContentControl}">
+                        <Setter Property="ContentTemplate" Value="{StaticResource MainSystemView}" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged, ElementName=tvMainSystemView}" Value="True">
+                                <Setter Property="ContentTemplate" Value="{StaticResource MainSystemView}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged, ElementName=tvIoListView}" Value="True">
+                                <Setter Property="ContentTemplate" Value="{StaticResource IoListView}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged, ElementName=tvAlarmHistoryView}" Value="True">
+                                <Setter Property="ContentTemplate" Value="{StaticResource AlarmHistoryView}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged, ElementName=tvSettingParameterView}" Value="True">
+                                <Setter Property="ContentTemplate" Value="{StaticResource SettingParameterView}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged, ElementName=tvRecipeManagerView}" Value="True">
+                                <Setter Property="ContentTemplate" Value="{StaticResource RecipeManagerView}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged, ElementName=tvAutoView}" Value="True">
+                                <Setter Property="ContentTemplate" Value="{StaticResource OperationAutoView}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ContentControl.Style>
+            </ContentControl>
+
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+
+
+
+            <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Left">
+                <Button x:Name="CautionLaserOn" ToolTip="Caution Laser Radiation" Width="Auto" Height="Auto" 
+                        IsEnabled="{Binding IsEnableCautionButton}"
+                        Foreground="Transparent" Background="Transparent" BorderBrush="Transparent"
+                        Margin="5,0,0,0" IsHitTestVisible="False" Focusable="False" >
+                </Button>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,5,5,5">
+                <Button x:Name="EMOButton" ToolTip="Emergency Stop" Width="Auto" Height="Auto" IsEnabled="{Binding IsEnableEMOButton}" Command="{Binding EmergencyStopCommand}" Foreground="Transparent" Background="Transparent" BorderBrush="Transparent" Margin="5,0,0,0"/>
+                <Button x:Name="CurrentAlarmButton" ToolTip="Alarm Window"  Width="Auto" Height="Auto" IsEnabled="{Binding IsEnableAlarmButton}" Command="{Binding CurrentAlarmButtonClickCommand}" Foreground="Transparent" Background="Transparent" BorderBrush="Transparent" Margin="5,0,0,0"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5,5,5,5">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Label Content="Availability :" VerticalContentAlignment="Center" HorizontalContentAlignment="Right"/>
+                    <Label Content="Interlock :"  VerticalContentAlignment="Center" HorizontalContentAlignment="Right"/>
+                    <Label Content="Move :"  VerticalContentAlignment="Center" HorizontalContentAlignment="Right"/>
+                    <Label Content="Run :"  VerticalContentAlignment="Center" HorizontalContentAlignment="Right"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Label Content="{Binding Availability, Converter={StaticResource EQStatusToStringConverter}}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                        <Label.Style>
+                            <Style TargetType="Label">
+                                <Style.Triggers>
+                                    <Trigger Property="Content" Value="UNKNOWN">
+                                        <Setter Property="Foreground" Value="DarkGray" />
+                                    </Trigger>
+                                    <Trigger Property="Content" Value="DOWN">
+                                        <Setter Property="Foreground" Value="Red" />
+                                    </Trigger>
+                                    <Trigger Property="Content" Value="UP">
+                                        <Setter Property="Foreground" Value="Black" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Label.Style>
+                    </Label>
+
+                    <Label Content="{Binding Interlock, Converter={StaticResource InterlockToStringConverter}}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                        <Label.Style>
+                            <Style TargetType="Label">
+                                <Style.Triggers>
+                                    <Trigger Property="Content" Value="UNKNOWN">
+                                        <Setter Property="Foreground" Value="DarkGray" />
+                                    </Trigger>
+                                    <Trigger Property="Content" Value="ON">
+                                        <Setter Property="Foreground" Value="Red" />
+                                    </Trigger>
+                                    <Trigger Property="Content" Value="OFF">
+                                        <Setter Property="Foreground" Value="Black" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Label.Style>
+                    </Label>
+
+                    <Label Content="{Binding Move, Converter={StaticResource MoveStatusToStringConverter}}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                        <Label.Style>
+                            <Style TargetType="Label">
+                                <Style.Triggers>
+                                    <Trigger Property="Content" Value="UNKNOWN">
+                                        <Setter Property="Foreground" Value="DarkGray" />
+                                    </Trigger>
+                                    <Trigger Property="Content" Value="PAUSE">
+                                        <Setter Property="Foreground" Value="Red" />
+                                    </Trigger>
+                                    <Trigger Property="Content" Value="RUNNING">
+                                        <Setter Property="Foreground" Value="Black" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Label.Style>
+                    </Label>
+
+                    <Label Content="{Binding Run, Converter={StaticResource RunStatusToStringConverter}}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                        <Label.Style>
+                            <Style TargetType="Label">
+                                <Style.Triggers>
+                                    <Trigger Property="Content" Value="UNKNOWN">
+                                        <Setter Property="Foreground" Value="DarkGray" />
+                                    </Trigger>
+                                    <Trigger Property="Content" Value="IDLE">
+                                        <Setter Property="Foreground" Value="Red" />
+                                    </Trigger>
+                                    <Trigger Property="Content" Value="RUN">
+                                        <Setter Property="Foreground" Value="Black" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Label.Style>
+                    </Label>
+                </StackPanel>
+                <StackPanel  Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5, 0, 5, 0">
+                    
+                    <localCtl:LEDControl Width="20" Height="20" VerticalAlignment="Stretch" IsChecked="{Binding SignalTowerRed}" OnColor="#FF0000" OffColor="DarkRed" Background="Black" IsHitTestVisible="False" Focusable="False"/>
+                    <localCtl:LEDControl Width="20" Height="20" VerticalAlignment="Stretch" IsChecked="{Binding SignalTowerOrange}" OnColor="#FF9F40" OffColor="#CC6600" Background="Black" IsHitTestVisible="False" Focusable="False"/>
+                    <localCtl:LEDControl Width="20" Height="20" VerticalAlignment="Stretch" IsChecked="{Binding SignalTowerGreen}" OnColor="#FFAEEA00" OffColor="DarkGreen" Background="Black" IsHitTestVisible="False" Focusable="False"/>
+                    <localCtl:LEDControl Width="20" Height="20" VerticalAlignment="Stretch" IsChecked="{Binding SignalTowerWhite}" OnColor="#FFFFFF" OffColor="Black" Background="Black" IsHitTestVisible="False" Focusable="False"/>
+                </StackPanel>
+            </StackPanel>
+           
+            <StackPanel Grid.Column="5" Orientation="Horizontal" HorizontalAlignment="Right"  VerticalAlignment="Bottom">
+                <TextBlock Text="{Binding Source={StaticResource Clock}, Path=DateTime, ConverterCulture='en-US'}" FontSize="14" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,5,5" />
+            </StackPanel>
+        </Grid>
+
+        
+        <StatusBar Grid.Row="2" Grid.ColumnSpan="3" >
+            <StatusBarItem Content="{Binding SystemVersion}"/>
+        </StatusBar>
+    </Grid>
+</Controls:MetroWindow>

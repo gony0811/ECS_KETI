@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="ECS.UI.View.AlarmHistoryView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:local="clr-namespace:ECS.UI.View"
+             xmlns:mvvm="http://www.galasoft.ch/mvvmlight"
+             DataContext="{Binding AlarmHistoryViewModel, Source={StaticResource Locator}}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Label Content="▶ ALARM HISTORY" FontSize="20" HorizontalAlignment="Left" Height="41" VerticalAlignment="Top" Width="221"/>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Controls:DateTimePicker x:Name="dpStart" Margin="0" Width="200" SelectedDate="{Binding StartTime}" SelectedTime="{Binding StartTime}" DisplayDate="{Binding StartTime}" Culture="en-US" IsTodayHighlighted="True"/>
+            <Label Content="~"/>
+            <Controls:DateTimePicker x:Name="dpEnd" Width="200"  SelectedDate="{Binding EndTime}" DisplayDate="{Binding EndTime}" SelectedTime="{Binding EndTime}" Culture="en-US" IsTodayHighlighted="True"/>
+            <Button Content="Search" Margin="3,0,0,0" Command="{Binding AlarmHistoryCommand}" />
+        </StackPanel>
+        <DataGrid Margin="0,3,3,3" Grid.Row="2"  ItemsSource="{Binding AlarmHistoryList}" HeadersVisibility="Column" GridLinesVisibility="All" SelectionUnit="FullRow" SelectionMode="Extended" BorderBrush="DarkGray" BorderThickness="1" IsReadOnly="True" CanUserSortColumns="True">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <mvvm:EventToCommand Command="{Binding DataGridSelectionChangedCommand}" PassEventArgsToCommand="True"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <DataGrid.Style>
+                <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
+                    <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}"/>
+                </Style>
+            </DataGrid.Style>
+        </DataGrid>
+
+    </Grid>
+</UserControl>

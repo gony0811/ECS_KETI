@@ -1,0 +1,64 @@
+﻿<UserControl x:Class="ECS.UI.View.VisionCameraView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:local="clr-namespace:ECS.UI.View"
+             
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             
+             TextOptions.TextFormattingMode="Ideal"
+             TextOptions.TextRenderingMode="Auto"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{DynamicResource MaterialDesignFont}"
+             
+             xmlns:Converter="clr-namespace:ECS.UI.Converter"
+             
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="1000">
+
+    <UserControl.Resources>
+
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.DataGrid.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <UserControl.DataContext>
+        <Binding Path="VisionCameraViewModel" Source="{StaticResource Locator}"/>
+    </UserControl.DataContext>
+    <GroupBox Header="◎ VISION" Margin="0" >
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                <Button x:Name="Button_OneShot"  Command="{Binding ButtonOneShotClicked}"  Width="100" Content= "{Binding ButtonOneShotContent}" IsEnabled="{Binding ButtonOneShotEnabled}" Margin="5, 0, 0, 0"/>
+                <Button x:Name="Button_Continuous" Command="{Binding ButtonContinuousClicked}" Width="100" Content="{Binding ButtonContinuousContent}" IsEnabled="{Binding ButtonContinuousEnabled}" Margin="5, 0, 0, 0"/>
+                <Button x:Name="Button_StopGrab" Command="{Binding ButtonStopGrabClicked}" Width="100" Content="{Binding ButtonStopGrabContent}" IsEnabled="{Binding ButtonStopGrabEnabled}" Margin="5, 0, 0, 0"/>
+                <TextBlock Text="Selected Camera :" FontSize="18" FontWeight="DemiBold" Foreground="Blue"  Margin="10,0,10,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <ComboBox ItemsSource="{Binding Path=VisionCameraList}" SelectedItem="{Binding Path=SelectedVisionCamera}" MinWidth="200" Margin="5,0,0,0">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding CameraName}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding Path=VisionCameraChangedCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ComboBox>
+            </StackPanel>
+            <Image Grid.Row="1"  Source="{Binding Path=BitmapSource}" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
+        </Grid>
+    </GroupBox>
+
+</UserControl>

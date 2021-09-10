@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AD4CC56A-87B1-49C5-9B4E-49243595B14F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>INNO6.Core</RootNamespace>
+    <AssemblyName>INNO6.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Communication\Socket\Checker\IDuplicateChecker.cs" />
+    <Compile Include="Communication\Socket\Checker\PacketCheckHolder.cs" />
+    <Compile Include="Communication\Socket\Codec\DefaultPacketDecoder.cs" />
+    <Compile Include="Communication\Socket\Codec\DefaultPacketEncoder.cs" />
+    <Compile Include="Communication\Socket\Codec\DefaultPacketFactory.cs" />
+    <Compile Include="Communication\Socket\Interface\IPacket.cs" />
+    <Compile Include="Communication\Socket\SocketClient.cs" />
+    <Compile Include="Communication\Socket\SocketServer.cs" />
+    <Compile Include="Communication\Tcp\TcpServer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Communication\Tcp\TcpServerConnection.cs" />
+    <Compile Include="Communication\XSerialComm.cs" />
+    <Compile Include="ConfigManager.cs" />
+    <Compile Include="DbHandler.cs" />
+    <Compile Include="HDTools.cs" />
+    <Compile Include="Interlock\Interface\IExecuteInterlock.cs" />
+    <Compile Include="Logger.cs" />
+    <Compile Include="LogHelper.cs" />
+    <Compile Include="Function\Interface\IFunction.cs" />
+    <Compile Include="Manager\AlarmManager.cs" />
+    <Compile Include="Manager\FunctionManager.cs" />
+    <Compile Include="Manager\InterlockManager.cs" />
+    <Compile Include="Manager\Model\ALARM.cs" />
+    <Compile Include="Manager\Model\ALARM_HISTORY.cs" />
+    <Compile Include="Manager\Model\CURRENT_ALARM.cs" />
+    <Compile Include="Manager\Model\FUNCTION_INFO.cs" />
+    <Compile Include="Manager\Model\INTERLOCK.cs" />
+    <Compile Include="Manager\Model\SETPOINT_INTERLOCK.cs" />
+    <Compile Include="Manager\Model\VALUE_INTERLOCK.cs" />
+    <Compile Include="Manager\Model\USER_INFO.cs" />
+    <Compile Include="Manager\UserAuthorityManager.cs" />
+    <Compile Include="ReadMdb.cs" />
+    <Compile Include="SECSDriver\SECSDriverBase.cs" />
+    <Compile Include="SECSDriver\SFMessage.cs" />
+    <Compile Include="SphericalCoordinates.cs" />
+    <Compile Include="Trace.cs" />
+    <Compile Include="WorkQueue\ChangedWorkItemStateEvent.cs" />
+    <Compile Include="WorkQueue\HandlerWorkerTask.cs" />
+    <Compile Include="WorkQueue\InvalidTransition.cs" />
+    <Compile Include="WorkQueue\IResourcePool.cs" />
+    <Compile Include="WorkQueue\IWork.cs" />
+    <Compile Include="WorkQueue\IWorkItem.cs" />
+    <Compile Include="WorkQueue\IWorkQueue.cs" />
+    <Compile Include="WorkQueue\PriorityQueue.cs" />
+    <Compile Include="WorkQueue\ResourceExceptionEvent.cs" />
+    <Compile Include="WorkQueue\WorkItem.cs" />
+    <Compile Include="WorkQueue\WorkItemEvent.cs" />
+    <Compile Include="WorkQueue\WorkItemState.cs" />
+    <Compile Include="WorkQueue\WorkQueue.cs" />
+    <Compile Include="WorkQueue\WorkThreadPool.cs" />
+    <Compile Include="XConvert.cs" />
+    <Compile Include="XSeqFunction.cs" />
+    <Compile Include="XSequence.cs" />
+    <Compile Include="XUtil.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="CIM.Log, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Library\CIM.Log.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Library\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Mina.NET">
+      <HintPath>..\Library\Mina.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Numerics" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Communication\Socket\Model\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /Y "$(TargetDir)$(ProjectName).dll" "$(SolutionDir)Library\$(ProjectName).dll"</PostBuildEvent>
+  </PropertyGroup>
+</Project>

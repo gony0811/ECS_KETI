@@ -1,0 +1,57 @@
+﻿<Controls:MetroWindow x:Class="ECS.UI.Windows.CurrentAlarmWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"   
+             xmlns:local="clr-namespace:ECS.UI.Windows"
+             Title="ECS" ShowTitleBar="True" 
+             mc:Ignorable="d"               
+              
+        
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             TextOptions.TextFormattingMode="Ideal"
+             TextOptions.TextRenderingMode="Auto"
+             ShowInTaskbar="True"
+             ShowCloseButton="True"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{DynamicResource MaterialDesignFont}"
+             ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" Height="Auto" Width="Auto" 
+             
+             Topmost="True" FontSize="20">
+    <Controls:MetroWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.DataGrid.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Controls:MetroWindow.Resources>
+
+    <Controls:MetroWindow.DataContext>
+        <Binding Path="CurrentAlarmViewModel" Source="{StaticResource Locator}"/>
+    </Controls:MetroWindow.DataContext>
+
+    <GroupBox Header="Current Alarm" FontSize="24" Margin="0">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Reset" Margin="5,5,5,5" Width="100" IsDefault="True" Command="{Binding AlarmResetCommand}"/>
+                <Button Content="Reset All" Margin="0,5,5,5" Width="100" IsDefault="True" Command="{Binding AlarmResetAllCommand}"/>
+            </StackPanel>
+
+            <DataGrid Margin="0,3" Grid.Row="2" ItemsSource="{Binding CurrentAlarmList}" SelectedItem="{Binding SelectedAlarm}" HeadersVisibility="Column" GridLinesVisibility="All" SelectionUnit="FullRow" SelectionMode="Extended" BorderBrush="DarkGray" BorderThickness="1" IsReadOnly="True" CanUserSortColumns="False">
+                <DataGrid.Style>
+                    <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
+                        <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}"/>
+                    </Style>
+                </DataGrid.Style>
+            </DataGrid>
+        </Grid>
+    </GroupBox>
+</Controls:MetroWindow>
