@@ -62,6 +62,7 @@
     <Compile Include="Physical\F_X_AXIS_JOG_STOP.cs" />
     <Compile Include="Physical\F_X_AXIS_MOVE_TO_SETDIS.cs" />
     <Compile Include="Physical\F_X_AXIS_MOVE_TO_SETPOS.cs" />
+    <Compile Include="Physical\F_X_AXIS_SERVO_STOP.cs" />
     <Compile Include="Physical\F_Y_AXIS_HOME_STOP.cs" />
     <Compile Include="Physical\F_Y_AXIS_HOMMING.cs" />
     <Compile Include="Physical\F_Y_AXIS_JOG_MINUS.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Physical\F_Y_AXIS_JOG_STOP.cs" />
     <Compile Include="Physical\F_Y_AXIS_MOVE_TO_SETDIS.cs" />
     <Compile Include="Physical\F_Y_AXIS_MOVE_TO_SETPOS.cs" />
+    <Compile Include="Physical\F_Y_AXIS_SERVO_STOP.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ECS.Common\ECS.Common.csproj">

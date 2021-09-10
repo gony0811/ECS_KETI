@@ -243,12 +243,14 @@ namespace DEV.MotionControl
         }
 
         /// <summary>
-        /// X AXIS IS HOMMING? : id1 = '1', id2 = '2', id3 = '1', id4 = '1'
-        /// Y AXIS IS HOMMING? : id1 = '1', id2 = '2', id3 = '2', id4 = '1'
-        /// X AXIS HOMMING COMPLETED : id1 = '1', id2 = '2', id3 = '1', id4 = '2'
-        /// Y AXIS HOMMING COMPLETED : id1 = '1', id2 = '2', id3 = '2', id4 = '2'
-        /// X AXIS IS MOVING : id1 = '1', id2 = '2', id3 = '1', id4 = '3'
-        /// Y AXIS IS MOVING : id1 = '1', id2 = '2', id3 = '2', id4 = '3'
+        /// X AXIS IS HOMMING? : id1 = '1', id2 = '2', id3 = '2', id4 = '1'
+        /// Y AXIS IS HOMMING? : id1 = '1', id2 = '2', id3 = '1', id4 = '1'
+        /// X AXIS HOMMING COMPLETED : id1 = '1', id2 = '2', id3 = '2', id4 = '2'
+        /// Y AXIS HOMMING COMPLETED : id1 = '1', id2 = '2', id3 = '1', id4 = '2'
+        /// X AXIS IS MOVING : id1 = '1', id2 = '2', id3 = '2', id4 = '3'
+        /// Y AXIS IS MOVING : id1 = '1', id2 = '2', id3 = '1', id4 = '3'
+        /// X AXIS IS ACTIVE : id1 = '1', id2 = '2', id3 = '2', id4 = '4'
+        /// Y AXIS IS ACTIVE : id1 = '1', id2 = '2', id3 = '1', id4 = '4'
         /// 
         /// *INPUT I/0 LIST
         /// M7100 Emergency input (Door)  : id1 = '1', id2 = '2', id3 = '3', id4 = '1'
@@ -291,6 +293,10 @@ namespace DEV.MotionControl
                     {
                         result = QueryIsMovingAxisX(ref retValue);
                     }
+                    else if (id_4.Equals("4"))
+                    {
+                        result = QueryMotorActivateAxisX(ref retValue);
+                    }
                 }
                 else if(id_3.Equals("1")) // AXIS Y
                 {
@@ -305,6 +311,10 @@ namespace DEV.MotionControl
                     else if (id_4.Equals("3")) // Y AXIS IS MOVING
                     {
                         result = QueryIsMovingAxisY(ref retValue);
+                    }
+                    else if (id_4.Equals("4"))
+                    {
+                        result = QueryMotorActivateAxisY(ref retValue);
                     }
                 }
                 else if (id_3.Equals("3")) // INPUT IO
@@ -1291,6 +1301,50 @@ namespace DEV.MotionControl
             else
             {
                 LogHelper.Instance.DeviceLog.DebugFormat("[ERROR] CommandAxisYHommingStop() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                return false;
+            }
+        }
+
+        private bool QueryMotorActivateAxisX(ref int isActive)
+        {
+            StringBuilder strRequest = new StringBuilder();
+            string strResponse = "";
+            int result = 0;
+
+            strRequest.AppendFormat("I200");
+
+            CommandOrQuery(strRequest.ToString(), out strResponse);
+
+            if (int.TryParse(strResponse, out isActive))
+            {
+                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryMotorActivateAxisX() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                return true;
+            }
+            else
+            {
+                LogHelper.Instance.DeviceLog.DebugFormat("[ERROR] QueryMotorActivateAxisX() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                return false;
+            }
+        }
+
+        private bool QueryMotorActivateAxisY(ref int isActive)
+        {
+            StringBuilder strRequest = new StringBuilder();
+            string strResponse = "";
+            int result = 0;
+
+            strRequest.AppendFormat("I100");
+
+            CommandOrQuery(strRequest.ToString(), out strResponse);
+
+            if (int.TryParse(strResponse, out isActive))
+            {
+                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryMotorActivateAxisY() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                return true;
+            }
+            else
+            {
+                LogHelper.Instance.DeviceLog.DebugFormat("[ERROR] QueryMotorActivateAxisY() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return false;
             }
         }

@@ -41,6 +41,10 @@ namespace ECS.Common.Helper
 
         public const string Y_AXIS_MOVE_TO_SETPOS = "F_Y_AXIS_MOVE_TO_SETPOS";
 
+        public const string X_AXIS_SERVO_STOP = "F_X_AXIS_SERVO_STOP";
+
+        public const string Y_AXIS_SERVO_STOP = "F_Y_AXIS_SERVO_STOP";
+
         public const string SET_MODE_EGYNGR = "F_SET_MODE_EGYNGR";
         public const string SET_MODE_EGYBURSTNGR = "F_SET_MODE_EGYBURSTNGR";
 

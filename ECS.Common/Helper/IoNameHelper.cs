@@ -91,10 +91,12 @@ namespace ECS.Common.Helper
         public const string IN_INT_PMAC_X_ISHOME = "iPMAC.iAxisX.IsHome";
         public const string IN_INT_PMAC_X_ISHOMMING = "iPMAC.iAxisX.IsHomming";
         public const string IN_INT_PMAC_X_ISMOVING = "iPMAC.iAxisX.IsMoving";
+        public const string IN_INT_PMAC_X_MOTOR_ACTIVE = "iPMAC.iAxisX.MotorActive";
 
         public const string IN_INT_PMAC_Y_ISHOME = "iPMAC.iAxisY.IsHome";
         public const string IN_INT_PMAC_Y_ISHOMMING = "iPMAC.iAxisY.IsHomming";
         public const string IN_INT_PMAC_Y_ISMOVING = "iPMAC.iAxisY.IsMoving";
+        public const string IN_INT_PMAC_Y_MOTOR_ACTIVE = "iPMAC.iAxisY.MotorActive";
 
         public const string IN_INT_PMAC_COVER_OPENCLOSE = "iPMAC.iCover.OpenClose";
         public const string IN_INT_PMAC_CPBOX_OPENCLOSE = "iPMAC.iCpBox.OpenClose";

@@ -294,7 +294,7 @@ namespace ECS.UI.ViewModel
 
         private void MotionControlViewSchedulingTimmer(object state)
         {
-            HommingButtonStatusChack();
+            //HommingButtonStatusChack();
             AbsoluteMoveButtonStatusCheck();
             MotionStatusCheck();
         }
@@ -482,6 +482,17 @@ namespace ECS.UI.ViewModel
             ButtonJogPlusContent = "X-JOG+";
             ButtonJogMinusContent = "X-JOG-";
 
+            ButtonServoContent = "E-STOP(X)";
+
+            if (DataManager.Instance.GET_INT_DATA(INPUT_X_ISHOMMING, out bool _) == 1)
+            {
+                ButtonHommingContent = "X-STOP";
+            }
+            else if (DataManager.Instance.GET_INT_DATA(INPUT_X_ISHOMMING, out bool _) == 0)
+            {
+                ButtonHommingContent = "X-HOME";
+            }
+
             //VelocityLimitMax = DataManager.Instance.GET_DOUBLE_DATA(V_DBL_X_MAX_VELOCITY, out bool _);
 
             TextBlockJogSpeedHighLow = DataManager.Instance.GET_STRING_DATA(V_STR_X_JOGVEL_MODE, out bool _);
@@ -523,9 +534,19 @@ namespace ECS.UI.ViewModel
 
             ButtonRelativeMoveContent = "Y-축 상대 이동";
 
+            ButtonServoContent = "E-STOP(Y)";
 
             ButtonJogPlusContent = "Y-JOG+";
             ButtonJogMinusContent = "Y-JOG-";
+
+            if (DataManager.Instance.GET_INT_DATA(INPUT_X_ISHOMMING, out bool _) == 1)
+            {
+                ButtonHommingContent = "Y-STOP";
+            }
+            else if (DataManager.Instance.GET_INT_DATA(INPUT_X_ISHOMMING, out bool _) == 0)
+            {
+                ButtonHommingContent = "Y-HOME";
+            }
 
             TextBlockJogSpeedHighLow = DataManager.Instance.GET_STRING_DATA(V_STR_Y_JOGVEL_MODE, out bool _);
 
@@ -634,11 +655,11 @@ namespace ECS.UI.ViewModel
         {
             if (RadioButtonXAxisIsChecked)
             {
-
+                FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.X_AXIS_SERVO_STOP);
             }
             else if (RadioButtonYAxisIsChecked)
             {
-
+                FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.Y_AXIS_SERVO_STOP);
             }
         }
         private void ExecuteJogPlusMouseLeftButtonDownCommand()
