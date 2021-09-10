@@ -26,9 +26,9 @@ namespace ECS.Function.Operation
 
             StopWatch.Restart();
 
-            while(true)
+            while (true)
             {
-                if(Abort)
+                if (Abort)
                 {
                     FunctionManager.Instance.ABORT_FUNCTION("F_MOVE_VISION_POSITION");
                     FunctionManager.Instance.ABORT_FUNCTION("F_SET_MODE_EGYNGR");
@@ -36,7 +36,7 @@ namespace ECS.Function.Operation
 
                     return F_RESULT_ABORT;
                 }
-                else if(!FunctionManager.Instance.CHECK_EXECUTING_FUNCTION_EXSIST("F_MOVE_VISION_POSITION") 
+                else if (!FunctionManager.Instance.CHECK_EXECUTING_FUNCTION_EXSIST("F_MOVE_VISION_POSITION")
                     && !FunctionManager.Instance.CHECK_EXECUTING_FUNCTION_EXSIST("F_SET_MODE_EGYNGR")
                     && !FunctionManager.Instance.CHECK_EXECUTING_FUNCTION_EXSIST("F_LASER_STANDBY")
                     )
@@ -49,28 +49,6 @@ namespace ECS.Function.Operation
                     ProgressRate = CalcurateProgressRate(StopWatch.ElapsedMilliseconds);
                 }
             }
-
-            return F_RESULT_FAIL;
-
-
-            //if ((result = FunctionManager.Instance.EXECUTE_FUNCTION_SYNC("F_MOVE_VISION_POSITION")) != F_RESULT_SUCCESS) return result;
-
-            //ProgressRate = CalcurateProgressRate(StopWatch.ElapsedMilliseconds);
-
-            //if ((result = FunctionManager.Instance.EXECUTE_FUNCTION_SYNC("F_SET_MODE_EGYNGR")) != F_RESULT_SUCCESS) return result;
-
-            //ProgressRate = CalcurateProgressRate(StopWatch.ElapsedMilliseconds);
-
-            //if ((result = FunctionManager.Instance.EXECUTE_FUNCTION_SYNC("F_LASER_STANDBY")) != F_RESULT_SUCCESS) return result;
-
-            //ProgressRate = CalcurateProgressRate(StopWatch.ElapsedMilliseconds, true);
-
-            //if(result == F_RESULT_SUCCESS)
-            //{
-            //    DataManager.Instance.SET_STRING_DATA(IoNameHelper.V_STR_SYS_OPERATION_MODE, "AUTO");
-            //}
-
-            //return result;
         }
 
         public override void PostExecute()
