@@ -66,7 +66,12 @@ namespace DEV.LaserControl
                 isDeviceLogging = false;
             }
 
-            xSerial = new XSerialComm(portName, int.Parse(baudRate), (Parity)int.Parse(parity), int.Parse(dataBits), (StopBits)int.Parse(stopBits));
+            int iBaudRate = 9600;
+
+            if (int.TryParse(baudRate, out int parse)) iBaudRate = parse;
+           
+
+            xSerial = new XSerialComm(portName, iBaudRate, (Parity)int.Parse(parity), int.Parse(dataBits), (StopBits)int.Parse(stopBits));
             _LaserDevice = new ExciStarCommands(xSerial, _milisecondResponseTimeout);
 
             if (xSerial == null)

@@ -81,8 +81,7 @@ namespace DEV.LaserControl
         {
             StringBuilder data = new StringBuilder();
 
-            data.Append(string.Format("OPMODE={0}", OPMODE));
-            data.Append(CR);
+            data.Append(string.Format("OPMODE={0}\r", OPMODE));
 
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
@@ -102,8 +101,7 @@ namespace DEV.LaserControl
             char[] sep = { ',' };
             StringBuilder data = new StringBuilder();
 
-            data.Append("OPMODE?");
-            data.Append(CR);
+            data.Append("OPMODE?\r");
 
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
@@ -135,8 +133,7 @@ namespace DEV.LaserControl
         {
             StringBuilder data = new StringBuilder();
 
-            data.Append(string.Format("MODE={0}", mode));
-            data.Append(CR);
+            data.Append(string.Format("MODE={0}\r", mode));
 
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
@@ -152,8 +149,7 @@ namespace DEV.LaserControl
         {
             StringBuilder data = new StringBuilder();
 
-            data.Append("MODE?");
-            data.Append(CR);
+            data.Append("MODE?\r");
 
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
@@ -178,9 +174,8 @@ namespace DEV.LaserControl
         {
             StringBuilder data = new StringBuilder();
 
-            data.Append(string.Format("EGY={0}", String.Format(CultureInfo.InvariantCulture,
+            data.Append(string.Format("EGY={0}\r", String.Format(CultureInfo.InvariantCulture,
                                 "{0:000.00}", energy)));
-            data.Append(CR);
 
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
@@ -196,8 +191,7 @@ namespace DEV.LaserControl
             char[] sep = { '=' };
             StringBuilder data = new StringBuilder();
             energy = 0.0;
-            data.Append("EGY?");
-            data.Append(CR);
+            data.Append("EGY?\r");
 
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
@@ -223,9 +217,8 @@ namespace DEV.LaserControl
         {
             StringBuilder data = new StringBuilder();
 
-            data.Append(string.Format("EGYSET={0}", String.Format(CultureInfo.InvariantCulture,
+            data.Append(string.Format("EGYSET={0}\r", String.Format(CultureInfo.InvariantCulture,
                                 "{0:000.00}", energy)));
-            data.Append(CR);
 
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
@@ -241,8 +234,7 @@ namespace DEV.LaserControl
             char[] sep = { '=' };
             StringBuilder data = new StringBuilder();
             energy = 0.0;
-            data.Append("EGYSET?");
-            data.Append(CR);
+            data.Append("EGYSET?\r");
 
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
@@ -267,9 +259,8 @@ namespace DEV.LaserControl
         {
             StringBuilder data = new StringBuilder();
 
-            data.Append(string.Format("HV={0}", String.Format(CultureInfo.InvariantCulture,
+            data.Append(string.Format("HV={0}\r", String.Format(CultureInfo.InvariantCulture,
                                 "{0:00.00}", hv)));
-            data.Append(CR);
 
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
@@ -285,8 +276,7 @@ namespace DEV.LaserControl
             char[] sep = { '=' };
             StringBuilder data = new StringBuilder();
             hv = 0.0;
-            data.Append("HV?");
-            data.Append(CR);
+            data.Append("HV?\r");
 
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
@@ -310,9 +300,8 @@ namespace DEV.LaserControl
         {
             StringBuilder data = new StringBuilder();
 
-            data.Append(string.Format("REPRATE={0}", String.Format(CultureInfo.InvariantCulture,
+            data.Append(string.Format("REPRATE={0}\r", String.Format(CultureInfo.InvariantCulture,
                                 "{0:0000}", frequency)));
-            data.Append(CR);
 
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
@@ -327,8 +316,7 @@ namespace DEV.LaserControl
         {
             StringBuilder data = new StringBuilder();
             frequency = 0;
-            data.Append("REPRATE?");
-            data.Append(CR);
+            data.Append("REPRATE?\r");
 
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
@@ -350,8 +338,7 @@ namespace DEV.LaserControl
         {
             StringBuilder data = new StringBuilder();
 
-            data.Append("COUNTER=RESET");
-            data.Append(CR);
+            data.Append("COUNTER=RESET\r");
 
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
@@ -366,8 +353,7 @@ namespace DEV.LaserControl
         {
             shots = -1;
             StringBuilder data = new StringBuilder();
-            data.Append("COUNTER?");
-            data.Append(CR);
+            data.Append("COUNTER?\r");
 
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
