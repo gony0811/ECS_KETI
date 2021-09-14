@@ -41,7 +41,7 @@
             <mvvm:EventToCommand Command="{Binding UnloadedCommand}" PassEventArgsToCommand="True"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    
+
     <GroupBox Header="◎ MOTION CONTROL" Margin="0" >
         <Grid>
             <Grid.RowDefinitions>
@@ -96,26 +96,32 @@
 
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="291*"/>
-                    <ColumnDefinition Width="137*"/>
-                    <ColumnDefinition Width="154*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="223,0,68.658,0">
-                    <RadioButton Content="X-AXIS" IsChecked="{Binding RadioButtonXAxisIsChecked}" Margin="5">
+
+
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Margin="5">
+                    <RadioButton Content="X-AXIS" IsChecked="{Binding RadioButtonXAxisIsChecked}" Margin="5"  FontSize="18" VerticalContentAlignment="Center">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Checked">
                                 <mvvm:EventToCommand Command="{Binding RadioButtonXAxisCheckedCommand}" PassEventArgsToCommand="True"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </RadioButton>
-                    <RadioButton Content="Y-AXIS" IsChecked="{Binding RadioButtonYAxisIsChecked}" Margin="5">
+                    <RadioButton Content="Y-AXIS" IsChecked="{Binding RadioButtonYAxisIsChecked}" Margin="5" FontSize="18" VerticalContentAlignment="Center">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Checked">
                                 <mvvm:EventToCommand Command="{Binding RadioButtonYAxisCheckedCommand}" PassEventArgsToCommand="True"/>
@@ -124,11 +130,14 @@
                     </RadioButton>
                 </StackPanel>
 
-                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left">
+                <Border Grid.Row="1" Grid.ColumnSpan="4" Margin="5" Background="{DynamicResource MaterialDesignDivider}" Height="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" />
+
+
+                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" Grid.ColumnSpan="2">
                     <Button x:Name="ButtonServo" Margin="5" Width="100" Content="{Binding ButtonServoContent}" Command="{Binding ButtonServoCommand}" IsEnabled="{Binding ButtonServoEnable}"/>
                     <Button x:Name="ButtonHomming" Margin="5" Width="100"  Content="{Binding ButtonHommingContent}" Command="{Binding ButtonHommingCommand}" IsEnabled="{Binding ButtonHommingEnable}"/>
                 </StackPanel>
-                <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Left">
+                <StackPanel Grid.Row="3" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Left">
                     <Button x:Name="ButtonJogPlus" Margin="5" Width="100" Content="{Binding ButtonJogPlusContent}" IsEnabled="{Binding ButtonJogPlusEnable}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
@@ -162,7 +171,7 @@
                     </ToggleButton>
                     <TextBlock Text="{Binding TextBlockJogSpeedHighLow}" Width="100" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14"/>
                 </StackPanel>
-                <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Center" Margin="20,5">
+                <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Center" Margin="20,5" Grid.ColumnSpan="2">
                     <Label Content="{Binding LabelAbsoluteMove}" FontSize="14" Width="Auto" Height="Auto" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                         <Label Content="위치 :" FontSize="14" Width="50" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
@@ -188,7 +197,7 @@
                     </StackPanel>
                     <Button Content="{Binding ButtonAbsoluteMoveContent}" Command="{Binding ButtonAbsoluteMoveCommand}" IsEnabled="{Binding ButtonAbsoluteMoveEnable}" Margin="5"/>
                 </StackPanel>
-                <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Center" Margin="20,5" Grid.ColumnSpan="2">
+                <StackPanel Grid.Row="4" Grid.Column="2" Orientation="Vertical" HorizontalAlignment="Center" Margin="20,5" Grid.ColumnSpan="2">
                     <Label Content="{Binding LabelRelativeMove}" FontSize="14" Width="Auto" Height="Auto" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                         <Label Content="거리 :" FontSize="14" Width="50" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5"/>
@@ -218,11 +227,14 @@
 
             <Border Grid.Row="3" Background="{DynamicResource MaterialDesignDivider}" Height="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" />
 
-            <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Content="{Binding ButtonVisionMoveContent}" Command="{Binding ButtonVisionMoveCommand}" IsEnabled="{Binding ButtonVisionMoveEnable}" Margin="10" Width="150"/>
-                <Button Content="{Binding ButtonProcessMoveContent}" Command="{Binding ButtonProcessMoveCommand}" IsEnabled="{Binding ButtonProcessMoveEnable}" Margin="10" Width="150"/>
-                <Button Content="{Binding ButtonOffsetMoveContent}" Command="{Binding ButtonOffsetMoveCommand}" IsEnabled="{Binding ButtonOffsetMoveEnable}" Margin="10" Width="150"/>
+            <StackPanel Grid.Row="4" Orientation="Vertical">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Content="{Binding ButtonVisionMoveContent}" Command="{Binding ButtonVisionMoveCommand}" IsEnabled="{Binding ButtonVisionMoveEnable}" Margin="10" Width="150"/>
+                    <Button Content="{Binding ButtonProcessMoveContent}" Command="{Binding ButtonProcessMoveCommand}" IsEnabled="{Binding ButtonProcessMoveEnable}" Margin="10" Width="150"/>
+                    <Button Content="{Binding ButtonOffsetMoveContent}" Command="{Binding ButtonOffsetMoveCommand}" IsEnabled="{Binding ButtonOffsetMoveEnable}" Margin="10" Width="150"/>
+                </StackPanel>
             </StackPanel>
+
 
         </Grid>
     </GroupBox>

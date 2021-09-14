@@ -81,6 +81,7 @@ namespace ECS.UI.ViewModel
         private const string F_Y_AXIS_JOG_MINUS = "F_Y_AXIS_JOG_MINUS";
         private const string F_Y_AXIS_JOG_STOP = "F_Y_AXIS_JOG_STOP";
         private const string F_Y_AXIS_ABSOLUTE_MOVE = "F_Y_AXIS_MOVE_TO_SETPOS";
+        private const string F_Y_AXIS_RELATIVE_MOVE = "F_Y_AXIS_MOVE_TO_SETDIS";
 
 
         #endregion
@@ -398,6 +399,13 @@ namespace ECS.UI.ViewModel
                 if (!FunctionManager.Instance.CHECK_EXECUTING_FUNCTION_EXSIST(F_X_AXIS_RELATIVE_MOVE))
                 {
                     FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(F_X_AXIS_RELATIVE_MOVE);
+                }
+            }
+            else if (RadioButtonYAxisIsChecked)
+            {
+                if (!FunctionManager.Instance.CHECK_EXECUTING_FUNCTION_EXSIST(F_Y_AXIS_RELATIVE_MOVE))
+                {
+                    FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(F_Y_AXIS_RELATIVE_MOVE);
                 }
             }
         }

@@ -38,7 +38,7 @@ namespace ECS.Function.Physical
                     {
                         return F_RESULT_ABORT;
                     }
-                    else if (DataManager.Instance.GET_INT_DATA(IoNameHelper.IN_INT_PMAC_Y_MOTOR_ACTIVE, out result) == 0)
+                    else if (true/*DataManager.Instance.GET_INT_DATA(IoNameHelper.IN_INT_PMAC_Y_MOTOR_ACTIVE, out result) == 0*/)
                     {
                         return this.F_RESULT_SUCCESS;
                     }

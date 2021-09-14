@@ -570,7 +570,7 @@ namespace DEV.MotionControl
                     else if (id_4.Equals("7")) // JOG STOP Y AXIS
                     {
                         if (value == 1)
-                            result = CommandJogStop(iAXIS_Y);
+                            result = CommandJogStop(iAXIS_Y);                   
                     }
                     else if (id_4.Equals("8"))
                     {
@@ -654,7 +654,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandServoStop() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandServoStop() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
                 return true;
             }
             else
@@ -681,7 +681,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandTowerLampRedOnOff() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandTowerLampRedOnOff() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
                 return true;
             }
             else
@@ -703,7 +703,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandTowerLampYellowOnOff() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandTowerLampYellowOnOff() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
                 return true;
             }
             else
@@ -725,7 +725,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandTowerLampGreenOnOff() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandTowerLampGreenOnOff() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
                 return true;
             }
             else
@@ -747,7 +747,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandBuzzerOnOff() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandBuzzerOnOff() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
                 return true;
             }
             else
@@ -770,7 +770,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandLedLightOnOff() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandLedLightOnOff() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
                 return true;
             }
             else
@@ -792,7 +792,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandLaserShutterFwd() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandLaserShutterFwd() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
                 return true;
             }
             else
@@ -813,7 +813,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandLaserShutterBwd() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandLaserShutterBwd() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
                 return true;
             }
             else
@@ -834,7 +834,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandTableVaccumOnOff() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandTableVaccumOnOff() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
                 return true;
             }
             else
@@ -855,7 +855,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandTableFurgeOnOff() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandTableFurgeOnOff() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
                 return true;
             }
             else
@@ -876,7 +876,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] SetPostionXAxis() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] SetPostionXAxis() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -899,7 +899,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] SetPostionYAxis() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] SetPostionYAxis() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -920,7 +920,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] SetVelocityXAxis() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] SetVelocityXAxis() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -941,7 +941,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] SetVelocityYAxis() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] SetVelocityYAxis() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1012,7 +1012,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] SetVelocity() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] SetVelocity() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1051,7 +1051,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommnadMoveToSetPosition() : Axis={0}, SendMessage={1}, ResponseMessage={2}", axis, strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommnadMoveToSetPosition() : Axis={0}, SendMessage={1}, ResponseMessage={2}", axis, strRequest, strResponse);
                 return true;
             }
             else
@@ -1090,7 +1090,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommnadMoveToSetPosition() : Axis={0}, SendMessage={1}, ResponseMessage={2}", axis, strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommnadMoveToSetPosition() : Axis={0}, SendMessage={1}, ResponseMessage={2}", axis, strRequest, strResponse);
                 return true;
             }
             else
@@ -1126,7 +1126,7 @@ namespace DEV.MotionControl
 
                     if (string.IsNullOrEmpty(strResponse))
                     {
-                        LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandJogFoward() : Axis={0}, SendMessage={1}, ResponseMessage={2}", axis, strRequest, strResponse);
+                        if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandJogFoward() : Axis={0}, SendMessage={1}, ResponseMessage={2}", axis, strRequest, strResponse);
                         return true;
                     }
                     else
@@ -1167,7 +1167,7 @@ namespace DEV.MotionControl
 
                     if (string.IsNullOrEmpty(strResponse))
                     {
-                        LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandJogBackward() : Axis={0}, SendMessage={1}, ResponseMessage={2}", axis, strRequest, strResponse);
+                        if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandJogBackward() : Axis={0}, SendMessage={1}, ResponseMessage={2}", axis, strRequest, strResponse);
                         return true;
                     }
                     else
@@ -1211,7 +1211,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandJogStop() : Axis={0}, SendMessage={1}, ResponseMessage={2}", axis, strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandJogStop() : Axis={0}, SendMessage={1}, ResponseMessage={2}", axis, strRequest, strResponse);
                 return true;
             }
             else
@@ -1232,7 +1232,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandAxisXHomming() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandAxisXHomming() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1253,7 +1253,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandAxisXHommingStop() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandAxisXHommingStop() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1274,7 +1274,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandAxisYHomming() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandAxisYHomming() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1295,7 +1295,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandAxisYHommingStop() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandAxisYHommingStop() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1317,7 +1317,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out isActive))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryMotorActivateAxisX() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryMotorActivateAxisX() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1339,7 +1339,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out isActive))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryMotorActivateAxisY() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryMotorActivateAxisY() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1361,7 +1361,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out isHomming))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryIsHommingAxisX() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryIsHommingAxisX() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1383,7 +1383,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out isHomming))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryIsHommingAxisX() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryIsHommingAxisX() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1405,7 +1405,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out isCompleted))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryHommingCompletedAxisX() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryHommingCompletedAxisX() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1427,7 +1427,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out isCompleted))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryHommingCompletedAxisX() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryHommingCompletedAxisX() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1449,7 +1449,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out isMoving))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryIsMovingAxisX() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryIsMovingAxisX() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1471,7 +1471,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out isMoving))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryIsMovingAxisX() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryIsMovingAxisX() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1493,7 +1493,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out isOpen))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryEmergencyDoorOpen() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if(this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryEmergencyDoorOpen() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1515,7 +1515,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out isOpen))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryEmergencyCpBoxOpen() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryEmergencyCpBoxOpen() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1537,7 +1537,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out isAlarm))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryGasAlarmStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryGasAlarmStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1559,7 +1559,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out isForward))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryLaserShutterFwdStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryLaserShutterFwdStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1581,7 +1581,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out isBackward))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryLaserShutterBwdStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryLaserShutterBwdStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1603,7 +1603,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out isVaccumOn))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryTableVaccumStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryTableVaccumStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1625,7 +1625,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out vaccumPressure))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryTableVaccumPressureOnStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryTableVaccumPressureOnStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1647,7 +1647,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out vaccumPressure))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryTableVaccumDigitalPressure() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryTableVaccumDigitalPressure() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1669,7 +1669,7 @@ namespace DEV.MotionControl
 
             if (double.TryParse(strResponse, out pos))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryPositionAxisX() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryPositionAxisX() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1691,7 +1691,7 @@ namespace DEV.MotionControl
 
             if (double.TryParse(strResponse, out vel))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryPositionAxisX() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryPositionAxisX() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1734,7 +1734,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] SetPostion() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] SetPostion() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else

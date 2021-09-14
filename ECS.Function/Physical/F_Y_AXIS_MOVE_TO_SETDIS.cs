@@ -50,8 +50,8 @@ namespace ECS.Function.Physical
 
             _TargetPosition = startPostion + setDistance;
 
-            DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Y_REL_DISTANCE, setDistance);
-            DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Y_REL_VELOCITY, setVelocity);
+            DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.OUT_DBL_PMAC_Y_SETDISTANCE, setDistance);
+            DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.OUT_DBL_PMAC_Y_SETVELOCITY, setVelocity);
 
             Thread.SpinWait(500);
 
