@@ -576,9 +576,45 @@ namespace ECS.UI.ViewModel
             _ = DataManager.Instance.GET_INT_DATA(IO_INT_SIGNALTOWER_YELLOW, out _) == 0 ? SignalTowerYellow = false : SignalTowerYellow = true;
             _ = DataManager.Instance.GET_INT_DATA(IO_INT_SIGNALTOWER_WHITE, out _) == 0 ? SignalTowerWhite = false : SignalTowerWhite = true;
 
+            TowerLampSetting(SignalTowerGreen, SignalTowerRed, SignalTowerYellow);
+
             _Timer = new Timer(TimerCallbackFunction, null, 0, 100);
 
             EMOProcessStart(@"./config/Server.Config.ini");
+        }
+
+        private void TowerLampSetting(bool green, bool red, bool yellow)
+        {
+            if(green)
+            {
+                DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_PMAC_TOWERLAMP_GREEN, 1);
+            }
+            else
+            {
+                DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_PMAC_TOWERLAMP_GREEN, 0);
+            }
+
+            if (red)
+            {
+                DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_PMAC_BUZZER_ONOFF, 1);
+                DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_PMAC_TOWERLAMP_RED, 1);
+            }
+            else
+            {
+                DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_PMAC_BUZZER_ONOFF, 0);
+                DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_PMAC_TOWERLAMP_RED, 0);
+            }
+
+
+            if (yellow)
+            {
+                DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_PMAC_TOWERLAMP_YELLOW, 1);
+            }
+            else
+            {
+                DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_PMAC_TOWERLAMP_YELLOW, 0);
+            }
+
         }
 
         private void EMOProcessStart(string configFilePath)
@@ -626,6 +662,8 @@ namespace ECS.UI.ViewModel
                 AlarmEventArgs eventArgs = e as AlarmEventArgs;
 
             }
+
+            TowerLampSetting(SignalTowerGreen, SignalTowerRed, SignalTowerYellow);
         }
 
         private void AlarmManager_SetAlarmEvent(object sender, EventArgs e)
@@ -649,6 +687,7 @@ namespace ECS.UI.ViewModel
                 }
             }
 
+            TowerLampSetting(SignalTowerGreen, SignalTowerRed, SignalTowerYellow);
             IsEnableAlarmButton = true;
         }
 
@@ -747,9 +786,19 @@ namespace ECS.UI.ViewModel
         public void ResourceRelease()
         {
             _engine.Stop();
-
-            if(_ManagedProcess != null && Process.GetProcessById(_ManagedProcess.Id) != null)
-                _ManagedProcess.Kill();
+        
+            if(_ManagedProcess != null)
+            {
+                try
+                {
+                    _ManagedProcess.Kill();
+                }
+                catch (Exception e)
+                {
+                    LogHelper.Instance.ErrorLog.ErrorFormat("Managed Process[ECS.EMO] is already exit : {0}", e.Message);
+                }
+            }
+               
         }
 
         private void DataAccess_SystemDataChanged(object sender, DataChangedEventHandlerArgs args)

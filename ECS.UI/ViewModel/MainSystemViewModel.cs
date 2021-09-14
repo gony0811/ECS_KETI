@@ -13,6 +13,7 @@ using System.Threading;
 using INNO6.Core.Manager;
 using GalaSoft.MvvmLight.CommandWpf;
 using System.Text.RegularExpressions;
+using ECS.Common.Helper;
 
 namespace ECS.UI.ViewModel
 {
@@ -30,6 +31,8 @@ namespace ECS.UI.ViewModel
         private const string IO_NAME_CH1_LED_OUTPUT = "oLed.iDataSet.Ch1";
         private const string IO_NAME_CH1_LED_OUTPUT_STATUS = "iLed.iData.Ch1";
         #endregion
+
+
 
 
         private RelayCommand<TextCompositionEventArgs> previewTextInputCommand;
@@ -55,7 +58,50 @@ namespace ECS.UI.ViewModel
         public MainSystemViewModel()
         {
             Ch1LedOutputValue = DataManager.Instance.GET_INT_DATA(IO_NAME_CH1_LED_OUTPUT_STATUS, out bool _);
+
+            ButtonTableVacuumContent = "VACUUM ON";
+            ButtonLightContent = "LAMP ON";
+            ButtonPowerMeterContent = "P/M OPEN";
+
         }
+
+        private string _ButtonTableVacuumContent;
+
+        public string ButtonTableVacuumContent
+        {
+            get { return _ButtonTableVacuumContent; }
+            set
+            {
+                _ButtonTableVacuumContent = value;
+                RaisePropertyChanged("ButtonTableVacuumContent");
+            }
+        }
+
+        private string _ButtonLightContent;
+
+        public string ButtonLightContent
+        {
+            get { return _ButtonLightContent; }
+            set
+            {
+                _ButtonLightContent = value;
+                RaisePropertyChanged("ButtonLightContent");
+            }
+        }
+
+
+        private string _ButtonPowerMeterContent;
+
+        public string ButtonPowerMeterContent
+        {
+            get { return _ButtonPowerMeterContent; }
+            set
+            {
+                _ButtonPowerMeterContent = value;
+                RaisePropertyChanged("ButtonPowerMeterContent");
+            }
+        }
+
 
         public double Ch1LedOutputValue
         {
@@ -90,6 +136,87 @@ namespace ECS.UI.ViewModel
                 }
 
                 return ch1_LedOff_Command;
+            }
+        }
+
+        private ICommand _ButtonTableVacuumCommand;
+
+        public ICommand ButtonTableVacuumCommand
+        {
+            get
+            {
+                if(_ButtonTableVacuumCommand == null)
+                {
+                    _ButtonTableVacuumCommand = new DelegateCommand(ExecuteButtonTableVacuumCommand);
+                }
+
+                return _ButtonTableVacuumCommand;
+            }
+        }
+
+        private void ExecuteButtonTableVacuumCommand()
+        {
+            if (_ButtonTableVacuumContent.Equals("VACUUM ON"))
+            {
+                _ = DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_PMAC_VACUUM_ONOFF, 1) ? ButtonTableVacuumContent = "VACUUM OFF" : ButtonTableVacuumContent = "VACUUM ON";
+            }
+            else if (_ButtonTableVacuumContent.Equals("VACUUM OFF"))
+            {
+                _ = DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_PMAC_VACUUM_ONOFF, 0) ? ButtonTableVacuumContent = "VACUUM ON" : ButtonTableVacuumContent = "VACUUM OFF";
+            }
+        }
+
+        private ICommand _ButtonPowerMeterCommand;
+
+        public ICommand ButtonPowerMeterCommand
+        {
+            get
+            {
+                if (_ButtonPowerMeterCommand == null)
+                {
+                    _ButtonPowerMeterCommand = new DelegateCommand(ExecuteButtonPowerMeterCommand);
+                }
+
+                return _ButtonPowerMeterCommand;
+            }
+        }
+
+        private void ExecuteButtonPowerMeterCommand()
+        {
+            if (_ButtonTableVacuumContent.Equals("P/M OPEN"))
+            {
+               
+            }
+            else if (_ButtonTableVacuumContent.Equals("P/M CLOSE"))
+            {
+                
+            }
+        }
+
+        private ICommand _ButtonLightCommand;
+
+        public ICommand ButtonLightCommand
+        {
+            get
+            {
+                if (_ButtonLightCommand == null)
+                {
+                    _ButtonLightCommand = new DelegateCommand(ExecuteButtonLightCommand);
+                }
+
+                return _ButtonLightCommand;
+            }
+        }
+
+        private void ExecuteButtonLightCommand()
+        {
+            if (_ButtonLightContent.Equals("LAMP ON"))
+            {
+                _ = DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_PMAC_LAMP_ONOFF, 1) ? ButtonLightContent = "LAMP OFF" : ButtonLightContent = "LAMP ON";
+            }
+            else if (_ButtonLightContent.Equals("LAMP OFF"))
+            {
+                _ = DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_PMAC_LAMP_ONOFF, 0) ? ButtonLightContent = "LAMP ON" : ButtonLightContent = "LAMP OFF";
             }
         }
 

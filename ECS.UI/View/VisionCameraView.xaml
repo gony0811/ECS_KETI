@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:local="clr-namespace:ECS.UI.View"
-             
+             xmlns:mvvm="http://www.galasoft.ch/mvvmlight"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              
              TextOptions.TextFormattingMode="Ideal"
@@ -17,6 +17,15 @@
              
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1000">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <mvvm:EventToCommand Command="{Binding LoadedCommand}" PassEventArgsToCommand="True"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Unloaded">
+            <mvvm:EventToCommand Command="{Binding UnloadedCommand}" PassEventArgsToCommand="True"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
 
     <UserControl.Resources>
 

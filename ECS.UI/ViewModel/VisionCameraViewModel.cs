@@ -40,13 +40,19 @@ namespace ECS.UI.ViewModel
         private bool buttonStopGrabEnabled;
         private string buttonStopGrabContent;
 
+        private ICommand _LoadedCommand;
+        private ICommand _UnloadedCommand;
+
+        public ICommand LoadedCommand { get { return this._LoadedCommand ?? (this._LoadedCommand = new RelayCommand(ExecuteLoadedCommand)); } }
+        public ICommand UnloadedCommand { get { return this._UnloadedCommand ?? (this._UnloadedCommand = new RelayCommand(ExecuteUnloadedCommand)); } }
+
         private ICommand visionCameraChangedCommand;
 
         public ICommand VisionCameraChangedCommand
         {
             get
             {
-                if(visionCameraChangedCommand == null)
+                if (visionCameraChangedCommand == null)
                 {
                     visionCameraChangedCommand = new DelegateCommand(VisionCameraChanged);
                 }
@@ -55,11 +61,45 @@ namespace ECS.UI.ViewModel
             }
         }
 
+        public void Start()
+        {
+            // Destroy the old camera object.
+            if (camera != null)
+            {
+                GrabStop();
+                DestroyCamera();
+            }
+
+            VisionCameraChanged();
+            EnableButtons(true, false);
+        }
+
+        public void Stop()
+        {
+            // Destroy the old camera object.
+            if (camera != null)
+            {
+                GrabStop();
+                DestroyCamera();
+            }
+        }
+
+        private void ExecuteLoadedCommand()
+        {
+            Start();        
+        }
+
+        private void ExecuteUnloadedCommand()
+        {
+            Stop();
+        }
+
         private void VisionCameraChanged()
         {
             // Destroy the old camera object.
             if (camera != null)
             {
+                GrabStop();
                 DestroyCamera();
             }
 
@@ -231,7 +271,7 @@ namespace ECS.UI.ViewModel
 
         private void OnButtonStopGrabClicked()
         {
-            Stop(); // Stop the grabbing of images.
+            GrabStop(); // Stop the grabbing of images.
         }
 
         private void OnButtonContinuousClicked()
@@ -368,7 +408,7 @@ namespace ECS.UI.ViewModel
         }
 
         // Stops the grabbing of images and handles exceptions.
-        private void Stop()
+        private void GrabStop()
         {
             // Stop the grabbing.
             try

@@ -230,14 +230,14 @@ namespace ECS.UI.ViewModel
 
         private void ExecuteXJogVelLowButtonCommand()
         {
-            DataManager.Instance.SET_DOUBLE_DATA("vSet.dAxisX.JogVelLow", XJogVelHigh);
-            DataManager.Instance.CHANGE_DEFAULT_DATA("vSet.dAxisX.JogVelLow", XJogVelHigh);
+            DataManager.Instance.SET_DOUBLE_DATA("vSet.dAxisX.JogVelLow", XJogVelLow);
+            DataManager.Instance.CHANGE_DEFAULT_DATA("vSet.dAxisX.JogVelLow", XJogVelLow);
         }
 
         private void ExecuteYJogVelLowButtonCommand()
         {
-            DataManager.Instance.SET_DOUBLE_DATA("vSet.dAxisY.JogVelLow", XJogVelHigh);
-            DataManager.Instance.CHANGE_DEFAULT_DATA("vSet.dAxisY.JogVelLow", XJogVelHigh);
+            DataManager.Instance.SET_DOUBLE_DATA("vSet.dAxisY.JogVelLow", YJogVelLow);
+            DataManager.Instance.CHANGE_DEFAULT_DATA("vSet.dAxisY.JogVelLow", YJogVelLow);
         }
 
         private void ExecuteZJogVelLowButtonCommand()

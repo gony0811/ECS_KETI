@@ -63,7 +63,7 @@
 
                 <local:MotionControlView Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3"/>
 
-                <GroupBox Header="◎ LED Control" Margin="0,0,5,5" Grid.Row="1" Grid.Column="1">
+                <GroupBox Header="◎ LED Control" Margin="0,5,5,5" Grid.Row="1" Grid.Column="1">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="87*"/>
@@ -104,8 +104,27 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
 
-            <local:LaserControlView Grid.ColumnSpan="2"/>
+            <local:LaserControlView Grid.ColumnSpan="2" Margin="5"/>
 
+            <GroupBox Header="@ I/O Control" Grid.Column="3" Margin="0,5,5,5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Orientation="Vertical">
+                        <Button Content="{Binding ButtonTableVacuumContent}" Command="{Binding ButtonTableVacuumCommand}" IsEnabled="True" Margin="5"/>
+                        <Button Content="{Binding ButtonLightContent}" Command="{Binding ButtonLightCommand}" IsEnabled="True" Margin="5"/>
+                    </StackPanel>
+
+
+                    <StackPanel Grid.Column="1" Orientation="Vertical">
+                        <Button Content="{Binding ButtonPowerMeterContent}" Command="{Binding ButtonPowerMeterCommand}" IsEnabled="True" Margin="5"/>
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
         </Grid>
 
 
