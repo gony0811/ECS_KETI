@@ -372,7 +372,7 @@
                 <StackPanel  Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5, 0, 5, 0">
                     
                     <localCtl:LEDControl Width="20" Height="20" VerticalAlignment="Stretch" IsChecked="{Binding SignalTowerRed}" OnColor="#FF0000" OffColor="DarkRed" Background="Black" IsHitTestVisible="False" Focusable="False"/>
-                    <localCtl:LEDControl Width="20" Height="20" VerticalAlignment="Stretch" IsChecked="{Binding SignalTowerOrange}" OnColor="#FF9F40" OffColor="#CC6600" Background="Black" IsHitTestVisible="False" Focusable="False"/>
+                    <localCtl:LEDControl Width="20" Height="20" VerticalAlignment="Stretch" IsChecked="{Binding SignalTowerYellow}" OnColor="#FF9F40" OffColor="#CC6600" Background="Black" IsHitTestVisible="False" Focusable="False"/>
                     <localCtl:LEDControl Width="20" Height="20" VerticalAlignment="Stretch" IsChecked="{Binding SignalTowerGreen}" OnColor="#FFAEEA00" OffColor="DarkGreen" Background="Black" IsHitTestVisible="False" Focusable="False"/>
                     <localCtl:LEDControl Width="20" Height="20" VerticalAlignment="Stretch" IsChecked="{Binding SignalTowerWhite}" OnColor="#FFFFFF" OffColor="Black" Background="Black" IsHitTestVisible="False" Focusable="False"/>
                 </StackPanel>

@@ -23,7 +23,6 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/Resources/ResourceDictionary.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.DataGrid.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -60,38 +59,34 @@
 
             <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="90"/>
                     <ColumnDefinition/>
-                    <ColumnDefinition Width="90"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
-                    <Label Content="X-Velocity" HorizontalAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="5"/>
-                    <Label Content="Y-Velocity" HorizontalAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="5"/>
+
+                <StackPanel Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Stretch">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="X-Velocity" HorizontalAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="3"/>
+                        <Label Content="{Binding XAxisVelocity, StringFormat=F2, Converter={StaticResource DoubleToStringConverter}}" BorderBrush="LightGray" BorderThickness="2" Background="Black" Foreground="LightGreen" HorizontalContentAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="3" Width="100"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Y-Velocity" HorizontalAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="3"/>
+                        <Label Content="{Binding YAxisVelocity, StringFormat=F2, Converter={StaticResource DoubleToStringConverter}}" BorderBrush="LightGray" BorderThickness="2" Background="Black" Foreground="LightGreen" HorizontalContentAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="3" Width="100"/>
+                    </StackPanel>
                 </StackPanel>
+
                 <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Stretch">
-                    <Label x:Name="lblXVel" Style="{DynamicResource 7SegmentsBox}" VerticalContentAlignment="Center" FontSize="14" Margin="5,0,5,0">
-                        <TextBlock Text="{Binding XAxisVelocity, StringFormat=F2, Converter={StaticResource DoubleToStringConverter}}"/>
-                    </Label>
-                    <Label x:Name="lblYVel" Style="{DynamicResource 7SegmentsBox}" VerticalContentAlignment="Center" FontSize="14" Margin="5,5,5,0">
-                        <TextBlock Text="{Binding YAxisVelocity, StringFormat=F2, Converter={StaticResource DoubleToStringConverter}}" />
-                    </Label>
+                    <StackPanel Orientation="Horizontal" >
+                        <Label Content="X-Position" HorizontalAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="3"/>
+                        <Label Content="{Binding XAxisPosition, StringFormat=F3, Converter={StaticResource DoubleToStringConverter}}" BorderBrush="LightGray" BorderThickness="2" Background="Black" Foreground="LightGreen" HorizontalContentAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="3" Width="100"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Y-Position" HorizontalAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="3"/>
+                        <Label Content="{Binding YAxisPosition, StringFormat=F3, Converter={StaticResource DoubleToStringConverter}}" BorderBrush="LightGray" BorderThickness="2" Background="Black" Foreground="LightGreen" HorizontalContentAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="3" Width="100"/>
+                    </StackPanel>
                 </StackPanel>
 
-                <StackPanel Grid.Column="2" Orientation="Vertical" HorizontalAlignment="Stretch">
-                    <Label Content="X-Position" HorizontalAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="5"/>
-                    <Label Content="Y-Position" HorizontalAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="5"/>
-                </StackPanel>
 
-                <StackPanel Grid.Column="3" Orientation="Vertical" HorizontalAlignment="Stretch">
-                    <Label x:Name="lblXPos" Style="{DynamicResource 7SegmentsBox}" VerticalContentAlignment="Center" FontSize="14" Margin="5,0,5,0">
-                        <TextBlock Text="{Binding XAxisPosition, StringFormat=F3, Converter={StaticResource DoubleToStringConverter}}"/>
-                    </Label>
-                    <Label x:Name="lblYPos" Style="{DynamicResource 7SegmentsBox}" VerticalContentAlignment="Center" FontSize="14" Margin="5,5,5,0">
-                        <TextBlock Text="{Binding YAxisPosition, StringFormat=F3, Converter={StaticResource DoubleToStringConverter}}" />
-                    </Label>
 
-                </StackPanel>
 
 
             </Grid>

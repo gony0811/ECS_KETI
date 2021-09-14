@@ -39,7 +39,7 @@ namespace ECS.Function.Physical
                     }
                     else if (stopwatch.ElapsedMilliseconds > TimeoutMiliseconds)
                     {
-                        AlarmManager.Instance.SetAlarm(AlarmCodeHelper.ALARM_LASER_OFF_TIMEOUT);
+                        AlarmManager.Instance.SetAlarm(AlarmCodeHelper.LASER_OFF_TIMEOUT);
                         return this.F_RESULT_TIMEOUT;
                     }
                     else if (IsCompleted())
@@ -61,7 +61,7 @@ namespace ECS.Function.Physical
             }
             else
             {
-                AlarmManager.Instance.SetAlarm(AlarmCodeHelper.ALARM_LASER_OFF_FAIL);
+                AlarmManager.Instance.SetAlarm(AlarmCodeHelper.LASER_OFF_FAIL);
                 return this.F_RESULT_FAIL;
             }
         }

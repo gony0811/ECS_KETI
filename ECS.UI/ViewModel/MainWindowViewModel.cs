@@ -748,7 +748,7 @@ namespace ECS.UI.ViewModel
         {
             _engine.Stop();
 
-            if(_ManagedProcess != null)
+            if(_ManagedProcess != null && Process.GetProcessById(_ManagedProcess.Id) != null)
                 _ManagedProcess.Kill();
         }
 

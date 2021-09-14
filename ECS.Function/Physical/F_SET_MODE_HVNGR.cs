@@ -39,7 +39,7 @@ namespace ECS.Function.Physical
                     }
                     else if (stopwatch.ElapsedMilliseconds > TimeoutMiliseconds)
                     {
-                        AlarmManager.Instance.SetAlarm(AlarmCodeHelper.ALARM_MODE_SET_HVNGR_TIMEOUT);
+                        AlarmManager.Instance.SetAlarm(AlarmCodeHelper.MODE_SET_HVNGR_TIMEOUT);
                         return this.F_RESULT_TIMEOUT;
                     }
                     else if (IsCompleted())
@@ -61,7 +61,7 @@ namespace ECS.Function.Physical
             }
             else
             {
-                AlarmManager.Instance.SetAlarm(AlarmCodeHelper.ALARM_MODE_SET_HVNGR_FAIL);
+                AlarmManager.Instance.SetAlarm(AlarmCodeHelper.MODE_SET_HVNGR_FAIL);
                 return this.F_RESULT_FAIL;
             }
         }

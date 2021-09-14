@@ -39,7 +39,7 @@ namespace ECS.Function.Physical
                     }
                     else if (stopwatch.ElapsedMilliseconds > TimeoutMiliseconds)
                     {
-                        AlarmManager.Instance.SetAlarm(AlarmCodeHelper.ALARM_LASER_STARTUP_TIMEOUT);
+                        AlarmManager.Instance.SetAlarm(AlarmCodeHelper.LASER_STARTUP_TIMEOUT);
                         return this.F_RESULT_TIMEOUT;
                     }
                     else if (IsCompletedDeviceWarmUp())
