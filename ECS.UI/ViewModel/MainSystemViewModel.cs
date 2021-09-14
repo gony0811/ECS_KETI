@@ -183,13 +183,15 @@ namespace ECS.UI.ViewModel
 
         private void ExecuteButtonPowerMeterCommand()
         {
-            if (_ButtonTableVacuumContent.Equals("P/M OPEN"))
+            if (_ButtonPowerMeterContent.Equals("P/M OPEN"))
             {
-               
+                FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.POWER_METER_SHUTTER_OPEN);
+                ButtonPowerMeterContent = "P/M CLOSE";
             }
-            else if (_ButtonTableVacuumContent.Equals("P/M CLOSE"))
+            else if (_ButtonPowerMeterContent.Equals("P/M CLOSE"))
             {
-                
+                FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.POWER_METER_SHUTTER_CLOSE);
+                ButtonPowerMeterContent = "P/M OPEN";
             }
         }
 

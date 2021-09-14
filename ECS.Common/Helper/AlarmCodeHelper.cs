@@ -69,6 +69,11 @@ namespace ECS.Common.Helper
         public const string MODE_SET_HVNGR_TIMEOUT = "E3014";
         public const string MODE_SET_HVNGR_FAIL = "E3015";
 
+        public const string POWER_METER_SHUTTER_BACKWARD_TIMEOUT = "E3016";
+        public const string POWER_METER_SHUTTER_BACKWARD_FAIL = "E3017";
+
+        public const string POWER_METER_SHUTTER_FORWARD_TIMEOUT = "E3018";
+        public const string POWER_METER_SHUTTER_FORWARD_FAIL = "E3019";
 
     }
 }

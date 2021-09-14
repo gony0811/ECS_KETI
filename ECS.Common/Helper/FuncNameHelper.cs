@@ -49,5 +49,8 @@ namespace ECS.Common.Helper
         public const string SET_MODE_EGYBURSTNGR = "F_SET_MODE_EGYBURSTNGR";
 
         public const string SET_MODE_HVNGR = "F_SET_MODE_HVNGR";
+
+        public const string POWER_METER_SHUTTER_OPEN = "F_POWER_MEASURE_SHUTTER_OPEN";
+        public const string POWER_METER_SHUTTER_CLOSE = "F_POWER_MEASURE_SHUTTER_CLOSE";
     }
 }

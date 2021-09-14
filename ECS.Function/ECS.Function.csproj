@@ -52,6 +52,8 @@
     <Compile Include="Physical\F_MOVE_PROCESS_OFFSET.cs" />
     <Compile Include="Physical\F_MOVE_PROCESS_POSITION.cs" />
     <Compile Include="Physical\F_MOVE_VISION_POSITION.cs" />
+    <Compile Include="Physical\F_POWER_MEASURE_SHUTTER_CLOSE.cs" />
+    <Compile Include="Physical\F_POWER_MEASURE_SHUTTER_OPEN.cs" />
     <Compile Include="Physical\F_SET_MODE_EGYBURSTNGR.cs" />
     <Compile Include="Physical\F_SET_MODE_HVNGR.cs" />
     <Compile Include="Physical\F_SET_MODE_EGYNGR.cs" />
