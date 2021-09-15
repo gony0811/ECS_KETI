@@ -396,7 +396,7 @@ namespace INNO6.Core.Manager
                         {
                             int compareValue = (int)setValue;
 
-                            if (lowValue <= compareValue && highValue >= compareValue)
+                            if (lowValue > compareValue || highValue < compareValue)
                             {
                                 ValueInterlockExecute(interlockName);
                                 return true;

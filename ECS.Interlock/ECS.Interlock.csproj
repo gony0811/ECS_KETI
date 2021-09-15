@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SetPoint\I_CPBOX_OPEN.cs" />
+    <Compile Include="SetPoint\I_DOOR_OPEN.cs" />
     <Compile Include="SetPoint\I_EMERGENCY_STOP.cs" />
     <Compile Include="SetPoint\I_GAS_DETECT_ALERT.cs" />
     <Compile Include="INTLK_Z_POSITION_ALERT.cs" />
