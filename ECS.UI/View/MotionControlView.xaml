@@ -175,7 +175,7 @@
                     <Label Content="{Binding LabelAbsoluteMove}" FontSize="14" Width="Auto" Height="Auto" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                         <Label Content="위치 :" FontSize="14" Width="50" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
-                        <mah:NumericUpDown Value="{Binding AbsolutePosition}" StringFormat="N3" Minimum="{Binding PositionLimitMin}" Maximum="{Binding PositionLimitMax}" Interval="{Binding PositionInterval}" Width="140" Margin="5" HorizontalContentAlignment="Center">
+                        <mah:NumericUpDown Value="{Binding AbsolutePosition}" StringFormat="N3" Minimum="{Binding PositionLimitMin}" Maximum="{Binding PositionLimitMax}" Interval="{Binding PositionInterval}" Width="120" Margin="5" HorizontalContentAlignment="Center">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="LostFocus">
                                     <mvvm:EventToCommand Command="{Binding AbsolutePositionInputCommand}" PassEventArgsToCommand="True"/>
@@ -186,7 +186,7 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                         <Label Content="속도:" FontSize="14" Width="50" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5"/>
-                        <mah:NumericUpDown Value="{Binding AbsoluteVelocity}" StringFormat="N3"  Minimum="{Binding VelocityLimitMin}" Maximum="{Binding VelocityLimitMax}" Interval="{Binding VelocityInterval}" Width="140" Margin="5" HorizontalContentAlignment="Center">
+                        <mah:NumericUpDown Value="{Binding AbsoluteVelocity}" StringFormat="N3"  Minimum="{Binding VelocityLimitMin}" Maximum="{Binding VelocityLimitMax}" Interval="{Binding VelocityInterval}" Width="120" Margin="5" HorizontalContentAlignment="Center">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="LostFocus">
                                     <mvvm:EventToCommand Command="{Binding AbsoluteVelocityInputCommand}" PassEventArgsToCommand="True"/>
@@ -201,7 +201,7 @@
                     <Label Content="{Binding LabelRelativeMove}" FontSize="14" Width="Auto" Height="Auto" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                         <Label Content="거리 :" FontSize="14" Width="50" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5"/>
-                        <mah:NumericUpDown Value="{Binding MoveDistance}" StringFormat="N3" Interval="{Binding PositionInterval}" Width="140" Margin="5" HorizontalContentAlignment="Center">
+                        <mah:NumericUpDown Value="{Binding MoveDistance}" StringFormat="N3" Interval="{Binding PositionInterval}" Width="120" Margin="5" HorizontalContentAlignment="Center">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="LostFocus">
                                     <mvvm:EventToCommand Command="{Binding MoveDistanceInputCommand}" PassEventArgsToCommand="True"/>
@@ -212,7 +212,7 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                         <Label Content="속도 :" FontSize="14" Width="50" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5"/>
-                        <mah:NumericUpDown Value="{Binding RelativeVelocity}" StringFormat="N3"  Minimum="{Binding VelocityLimitMin}" Maximum="{Binding VelocityLimitMax}" Interval="{Binding VelocityInterval}" Width="140" Margin="5" HorizontalContentAlignment="Center">
+                        <mah:NumericUpDown Value="{Binding RelativeVelocity}" StringFormat="N3"  Minimum="{Binding VelocityLimitMin}" Maximum="{Binding VelocityLimitMax}" Interval="{Binding VelocityInterval}" Width="120" Margin="5" HorizontalContentAlignment="Center">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="LostFocus">
                                     <mvvm:EventToCommand Command="{Binding RelativeVelocityInputCommand}" PassEventArgsToCommand="True"/>

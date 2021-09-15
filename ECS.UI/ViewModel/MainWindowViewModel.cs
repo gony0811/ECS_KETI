@@ -170,6 +170,22 @@ namespace ECS.UI.ViewModel
             }
         }
 
+        private bool _IsEnableBuzzerButton;
+
+        public bool IsEnableBuzzerButton
+        { 
+            get { return _IsEnableBuzzerButton; }
+            set
+            {
+                if (_IsEnableBuzzerButton != value)
+                {
+                    _IsEnableBuzzerButton = value;
+                    RaisePropertyChanged("IsEnableBuzzerButton");
+                }
+            }
+        }
+
+
         private bool _IsEnableAlarmButton;
 
         public bool IsEnableAlarmButton
@@ -214,6 +230,22 @@ namespace ECS.UI.ViewModel
                 }
             }
         }
+
+        private ICommand _BuzzerButtonClickCommand;
+
+        public ICommand BuzzerButtonClickCommand
+        {
+            get
+            {
+                if (_BuzzerButtonClickCommand == null)
+                {
+                    _BuzzerButtonClickCommand = new DelegateCommand(ExecuteBuzzerButtonClickCommand);
+                }
+
+                return _BuzzerButtonClickCommand;
+            }
+        }
+
 
 
         private ICommand _EmergencyStopCommand;
@@ -566,6 +598,8 @@ namespace ECS.UI.ViewModel
             }
 
             _IsEnableOpModeButton = true;
+            _IsEnableBuzzerButton = true;
+
             Availability = (int)DataManager.Instance.GET_INT_DATA(IO_INT_AVAILABILITY, out _);
             Interlock = (int)DataManager.Instance.GET_INT_DATA(IO_INT_INTERLOCK, out _);
             Run = (int)DataManager.Instance.GET_INT_DATA(IO_INT_RUN, out _);
@@ -688,6 +722,7 @@ namespace ECS.UI.ViewModel
             }
 
             TowerLampSetting(SignalTowerGreen, SignalTowerRed, SignalTowerYellow);
+            
             IsEnableAlarmButton = true;
         }
 
@@ -720,6 +755,11 @@ namespace ECS.UI.ViewModel
             }
         }
 
+
+        private void ExecuteBuzzerButtonClickCommand()
+        {
+            DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_PMAC_BUZZER_ONOFF, 0);
+        }
 
         private void ExecuteEmergencyStopCommand()
         {

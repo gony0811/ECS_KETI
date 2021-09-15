@@ -14,6 +14,6 @@ namespace ECS.UI.Model
         public string STATUS { get; set; }
         public string ENABLE { get; set; }
         public string DESCRIPTION { get; set; }
-        public DateTime UPDATETIME { get; set; } 
+        public DateTime? UPDATETIME { get; set; } 
     }
 }

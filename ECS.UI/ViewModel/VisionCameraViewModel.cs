@@ -68,10 +68,10 @@ namespace ECS.UI.ViewModel
             {
                 GrabStop();
                 DestroyCamera();
-            }
 
-            VisionCameraChanged();
-            EnableButtons(true, false);
+                VisionCameraChanged();
+                EnableButtons(false, false);
+            }
         }
 
         public void Stop()
@@ -86,12 +86,12 @@ namespace ECS.UI.ViewModel
 
         private void ExecuteLoadedCommand()
         {
-            Start();        
+            //Start();        
         }
 
         private void ExecuteUnloadedCommand()
         {
-            Stop();
+
         }
 
         private void VisionCameraChanged()

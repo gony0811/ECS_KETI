@@ -20,6 +20,7 @@ using INNO6.IO;
 using INNO6.Core.Manager;
 using System.Windows.Media.Animation;
 using INNO6.Core;
+using ECS.UI.ViewModel;
 
 namespace ECS.UI
 {
@@ -33,6 +34,7 @@ namespace ECS.UI
         string _SystemImageSource = "Resources/Images/keti.png";
         string _EmergencyStopImageSource = "Resources/Images/emergency_stop.png";
         string _LaserCautionImageSource = "Resources/Images/laser_radiation.png";
+        string _BuzzerImageSource = "Resources/Images/buzzer.png";
 
         public MainWindow()
         {
@@ -48,7 +50,7 @@ namespace ECS.UI
 
         private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-
+            ViewModelLocator.Instance.VisionCameraViewModel.Stop();
         }
 
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
@@ -57,6 +59,7 @@ namespace ECS.UI
             this.SystemMainButton.Content = MakeImageStoryboard(_SystemImageSource, 220, 140, 250, 150);
             this.EMOButton.Content = MakeImageStoryboard(_EmergencyStopImageSource, 60, 60, 80, 80);
             this.CautionLaserOn.Content = MakeImageStoryboard(_LaserCautionImageSource, 200, 70, 220, 90);
+            this.BuzzerButton.Content = MakeImageStoryboard(_BuzzerImageSource, 60, 60, 80, 80);
         }
 
         private void MetroWindow_Closed(object sender, EventArgs e)

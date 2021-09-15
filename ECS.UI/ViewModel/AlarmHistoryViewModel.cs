@@ -53,7 +53,22 @@ namespace ECS.UI.ViewModel
             }
         }
 
-        public RelayCommand AlarmHistoryCommand { get; private set; }
+        private RelayCommand _AlarmHistoryCommand;
+
+        //public RelayCommand AlarmHistoryCommand { get; private set; }
+
+        public RelayCommand AlarmHistoryCommand
+        {
+            get
+            {
+                if (_AlarmHistoryCommand == null)
+                {
+                    _AlarmHistoryCommand = new RelayCommand(AlarmDBSearch_Click);
+                }
+
+                return _AlarmHistoryCommand;
+            }
+        }
 
         private RelayCommand<object> _DataGridSelectionChangedCommand;
         public RelayCommand<object> DataGridSelectionChangedCommand
@@ -72,7 +87,7 @@ namespace ECS.UI.ViewModel
         public AlarmHistoryViewModel()
         {
             AlarmHistoryList = new ObservableCollection<AlarmHistoryDisplay>();
-            AlarmHistoryCommand = new RelayCommand(() => AlarmDBSearch_Click());
+            //AlarmHistoryCommand = new RelayCommand(() => AlarmDBSearch_Click());
 
             //하루 전 일 시각에서 현재까지를 기본으로 함
             var CnvSTime = DateTime.Now.AddDays(-1);
