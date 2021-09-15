@@ -313,6 +313,53 @@
             </TabControl>
         </GroupBox>
 
+
+        <GroupBox Grid.Column="2" Header="@ Interlock Settings" Margin="1">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Front Door Interlock :" VerticalContentAlignment="Bottom" FontSize="12" Width="140"/>
+                    <TextBox Text="{Binding FrontDoorInterlockState}" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"/>
+                    <ToggleButton Margin="5" IsChecked="{Binding FrontDoorInterlockChecked, Mode=TwoWay}" Width="50">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Checked">
+                                <mvvm:EventToCommand Command="{Binding FrontDoorInterlockActivate}" PassEventArgsToCommand="True"/>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="Unchecked">
+                                <mvvm:EventToCommand Command="{Binding FrontDoorInterlockDeactivate}" PassEventArgsToCommand="True"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ToggleButton>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Left Door Interlock :" VerticalContentAlignment="Bottom" FontSize="12" Width="140"/>
+                    <TextBox Text="{Binding LeftDoorInterlockState}" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"/>
+                    <ToggleButton Margin="5" IsChecked="{Binding LeftDoorInterlockChecked, Mode=TwoWay}" Width="50">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Checked">
+                                <mvvm:EventToCommand Command="{Binding LeftDoorInterlockActivate}" PassEventArgsToCommand="True"/>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="Unchecked">
+                                <mvvm:EventToCommand Command="{Binding LeftDoorInterlockDeactivate}" PassEventArgsToCommand="True"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ToggleButton>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Right Door Interlock :" VerticalContentAlignment="Bottom" FontSize="12" Width="140"/>
+                    <TextBox Text="{Binding RightDoorInterlockState}" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"/>
+                    <ToggleButton Margin="5" IsChecked="{Binding RightDoorInterlockChecked, Mode=TwoWay}" Width="50">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Checked">
+                                <mvvm:EventToCommand Command="{Binding RightDoorInterlockActivate}" PassEventArgsToCommand="True"/>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="Unchecked">
+                                <mvvm:EventToCommand Command="{Binding RightDoorInterlockDeactivate}" PassEventArgsToCommand="True"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ToggleButton>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
     </Grid>
 
 </UserControl>

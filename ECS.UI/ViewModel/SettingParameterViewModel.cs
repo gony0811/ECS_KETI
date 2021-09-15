@@ -43,6 +43,13 @@ namespace ECS.UI.ViewModel
         private string _SelectedEnergyMode;
         private string _SelectedTriggerMode;
 
+        private string _FrontDoorInterlockState;
+        private string _RightDoorInterlockState;
+        private string _LeftDoorInterlockState;
+
+        private bool _FrontDoorInterlockChecked;
+        private bool _LeftDoorInterlockChecked;
+        private bool _RightDoorInterlockChecked;
 
         private List<string> _EnergyModeList;
         private List<string> _TriggerModeList;
@@ -76,12 +83,26 @@ namespace ECS.UI.ViewModel
         private ICommand _TriggerSeqBstSetButtonCommand;
         private ICommand _TriggerSeqPauseSetButtonCommand;
         private ICommand _UserCountsResetButtonCommand;
+        private ICommand _FrontDoorInterlockActivate;
+        private ICommand _FrontDoorInterlockDeactivate;
+        private ICommand _LeftDoorInterlockActivate;
+        private ICommand _LeftDoorInterlockDeactivate;
+        private ICommand _RightDoorInterlockActivate;
+        private ICommand _RightDoorInterlockDeactivate;
 
         public List<string> EnergyModeList { get { return new List<string>() { "EGY NGR", "EGYBURST NGR", "HV NGR" }; } set { _EnergyModeList = value; } }
         public List<string> TriggerModeList { get { return new List<string>() { "INT", "INTB", "INT COUNTS" }; } set { _TriggerModeList = value; } }
 
         public string SelectedEnergyMode { get { return _SelectedEnergyMode; } set { _SelectedEnergyMode = value; RaisePropertyChanged("SelectedEnergyMode"); } }
         public string SelectedTriggerMode { get { return _SelectedTriggerMode; } set { _SelectedTriggerMode = value; RaisePropertyChanged("SelectedTriggerMode"); } }
+        public string FrontDoorInterlockState { get { return _FrontDoorInterlockState; } set { _FrontDoorInterlockState = value; RaisePropertyChanged("FrontDoorInterlockState"); } }
+        public string LeftDoorInterlockState { get { return _LeftDoorInterlockState; } set { _LeftDoorInterlockState = value; RaisePropertyChanged("LeftDoorInterlockState"); } }
+        public string RightDoorInterlockState { get { return _RightDoorInterlockState; } set { _RightDoorInterlockState = value; RaisePropertyChanged("RightDoorInterlockState"); } }
+
+        public bool FrontDoorInterlockChecked { get { return _FrontDoorInterlockChecked; } set { _FrontDoorInterlockChecked = value; RaisePropertyChanged("FrontDoorInterlockChecked"); } }
+        public bool LeftDoorInterlockChecked { get { return _LeftDoorInterlockChecked; } set { _LeftDoorInterlockChecked = value; RaisePropertyChanged("LeftDoorInterlockChecked"); } }
+        public bool RightDoorInterlockChecked { get { return _RightDoorInterlockChecked; } set { _RightDoorInterlockChecked = value; RaisePropertyChanged("RightDoorInterlockChecked"); } }
+
 
         public double VisionPositionX { get { return _VisionPositionX; } set { _VisionPositionX = value; RaisePropertyChanged("VisionPositionX"); } }
         public double VisionPositionY { get { return _VisionPositionY; } set { _VisionPositionY = value; RaisePropertyChanged("VisionPositionY"); } }
@@ -134,6 +155,14 @@ namespace ECS.UI.ViewModel
 
         public ICommand UserCountsResetButtonCommand { get { if (_UserCountsResetButtonCommand == null) { _UserCountsResetButtonCommand = new DelegateCommand(ExecuteUserCountsResetButtonCommand); } return _UserCountsResetButtonCommand; } }
 
+        public ICommand FrontDoorInterlockActivate { get { if (_FrontDoorInterlockActivate == null) { _FrontDoorInterlockActivate = new DelegateCommand(ExecuteFrontDoorInterlockActivate); } return _FrontDoorInterlockActivate; } }
+        public ICommand FrontDoorInterlockDeactivate { get { if (_FrontDoorInterlockDeactivate == null) { _FrontDoorInterlockDeactivate = new DelegateCommand(ExecuteFrontDoorInterlockDeactivate); } return _FrontDoorInterlockDeactivate; } }
+        public ICommand LeftDoorInterlockActivate { get { if (_LeftDoorInterlockActivate == null) { _LeftDoorInterlockActivate = new DelegateCommand(ExecuteLeftDoorInterlockActivate); } return _LeftDoorInterlockActivate; } }
+        public ICommand LeftDoorInterlockDeactivate { get { if (_LeftDoorInterlockDeactivate == null) { _LeftDoorInterlockDeactivate = new DelegateCommand(ExecuteLeftDoorInterlockDeactivate); } return _LeftDoorInterlockDeactivate; } }
+
+        public ICommand RightDoorInterlockActivate { get { if (_RightDoorInterlockActivate == null) { _RightDoorInterlockActivate = new DelegateCommand(ExecuteRightDoorInterlockActivate); } return _RightDoorInterlockActivate; } }
+        public ICommand RightDoorInterlockDeactivate { get { if (_RightDoorInterlockDeactivate == null) { _RightDoorInterlockDeactivate = new DelegateCommand(ExecuteRightDoorInterlockDeactivate); } return _RightDoorInterlockDeactivate; } }
+
 
 
         public SettingParameterViewModel()
@@ -169,6 +198,14 @@ namespace ECS.UI.ViewModel
             TotalCounts = DataManager.Instance.GET_INT_DATA(IoNameHelper.IN_INT_LASER_STATUS_COUNTERTOTAL, out bool _);
             UserCounts = DataManager.Instance.GET_INT_DATA(IoNameHelper.IN_INT_LASER_STATUS_COUNTER, out bool _);
             NFCounts = DataManager.Instance.GET_INT_DATA(IoNameHelper.IN_INT_LASER_STATUS_COUNTERNEWFILL, out bool _);
+
+            this.FrontDoorInterlockState = "작동중";
+            this.LeftDoorInterlockState = "작동중";
+            this.RightDoorInterlockState = "작동중";
+
+            this.FrontDoorInterlockChecked = true;
+            this.LeftDoorInterlockChecked = true;
+            this.RightDoorInterlockChecked = true;
         }
 
         private void ExecuteVisionPosXSetButtonCommand()
@@ -340,6 +377,42 @@ namespace ECS.UI.ViewModel
         {
             DataManager.Instance.CHANGE_DEFAULT_DATA(IoNameHelper.OUT_INT_LASER_RESET_COUNTER, 1);
             DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_LASER_RESET_COUNTER, 1);
+        }
+
+        private void ExecuteFrontDoorInterlockActivate()
+        {
+            InterlockManager.Instance.SET_SETPOINT_INTERLOCK_USE(InterlockNameHelper.I_SP_DOOR_OPEN_FRONT, true);
+            FrontDoorInterlockState = "작동중";
+        }
+
+        private void ExecuteFrontDoorInterlockDeactivate()
+        {
+            InterlockManager.Instance.SET_SETPOINT_INTERLOCK_USE(InterlockNameHelper.I_SP_DOOR_OPEN_FRONT, false);
+            FrontDoorInterlockState = "해제중";
+        }
+
+        private void ExecuteLeftDoorInterlockActivate()
+        {
+            InterlockManager.Instance.SET_SETPOINT_INTERLOCK_USE(InterlockNameHelper.I_SP_DOOR_OPEN_LEFT, true);
+            LeftDoorInterlockState = "작동중";
+        }
+
+        private void ExecuteLeftDoorInterlockDeactivate()
+        {
+            InterlockManager.Instance.SET_SETPOINT_INTERLOCK_USE(InterlockNameHelper.I_SP_DOOR_OPEN_LEFT, false);
+            LeftDoorInterlockState = "해제중";
+        }
+
+        private void ExecuteRightDoorInterlockActivate()
+        {
+            InterlockManager.Instance.SET_SETPOINT_INTERLOCK_USE(InterlockNameHelper.I_SP_DOOR_OPEN_RIGHT, true);
+            RightDoorInterlockState = "작동중";
+        }
+
+        private void ExecuteRightDoorInterlockDeactivate()
+        {
+            InterlockManager.Instance.SET_SETPOINT_INTERLOCK_USE(InterlockNameHelper.I_SP_DOOR_OPEN_RIGHT, false);
+            RightDoorInterlockState = "해제중";
         }
     }
 }

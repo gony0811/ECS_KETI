@@ -102,7 +102,7 @@ namespace INNO6.IO
                 }
 
                 if (!data.Value.Equals(value))
-                {
+                {                   
                     result = _rmtObj.SetValue(name, value);
 
                     if (DataChangedEvent != null && data.PollingTime > 0)

@@ -94,12 +94,13 @@ namespace DEV.LaserControl
                         while (!xSerial.IsOpen)
                         {
                             xSerial.Open();
-
+                            
                             Thread.Sleep(5000);
                         }
 
                         if (xSerial.IsOpen)
                         {
+                            //xSerial.Start();
                             _deviceMode = eDevMode.CONNECT;
                         }
                         else

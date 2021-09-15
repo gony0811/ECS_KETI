@@ -61,9 +61,10 @@ namespace ECS.UI.ViewModel
 
             ButtonTableVacuumContent = "VACUUM ON";
             ButtonLightContent = "LAMP ON";
-            ButtonPowerMeterContent = "P/M OPEN";
-
+            ButtonPowerMeterContent = "P/M CLOSE";
         }
+
+
 
         private string _ButtonTableVacuumContent;
 

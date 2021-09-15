@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Threading;
 using INNO6.Core;
 using System.IO;
+using INNO6.Core.Manager;
+using INNO6.Core.Manager.Model;
 
 namespace INNO6.IO
 {
@@ -159,7 +161,37 @@ namespace INNO6.IO
 
                 _deviceInfoList[name].DevicePolling = deviceThread;
             }
-        }    
+        }
+
+        private bool CheckInterlockEx(string name, object value, Data data = null)
+        {
+            bool result = false;
+
+            if (data == null && !DataManager.Instance.DataAccess.RemoteObject.GetData(name, out data))
+            {
+                return false;
+            }
+
+            List<INTERLOCK> interlocks = InterlockManager.Instance.GET_INTERLOCK_LIST(name);
+
+            if (interlocks == null) return false;
+
+            foreach (INTERLOCK i in interlocks)
+            {
+                if (i.Type.StartsWith("V"))
+                {
+                    if (result |= InterlockManager.Instance.VALUE_INTERLOCK(i.Name, value, (int)data.Type))
+                        LogHelper.Instance.SystemLog.DebugFormat("VALUE INTERLOCK={0} : IONAME={1}, VALUE={2}", i.Name, data.Name, value.ToString());
+                }
+                else if (i.Type.StartsWith("S"))
+                {
+                    if (result |= InterlockManager.Instance.SETPOINT_INTERLOCK(i.Name, value, (int)data.Type))
+                        LogHelper.Instance.SystemLog.DebugFormat("SETPOINT INTERLOCK={0} : IONAME={1}, VALUE={2}", i.Name, data.Name, value.ToString());
+                }
+            }
+
+            return result;
+        }
 
         private void DataPollingMethod(object deviceHandler)
         {        
@@ -184,7 +216,12 @@ namespace INNO6.IO
                     case eDataType.Int:
                         {
                             int value = handler.GET_INT_IN(data.Config1, data.Config2, data.Config3, data.Config4, ref result);
-                            if (result) { DataManager.Instance.DataAccess.SET_INT_DATA(data.Name, value); }
+                            if (result) {
+                                if (value.Equals(data.Value)) break;
+
+                                CheckInterlockEx(data.Name, value);
+                                DataManager.Instance.DataAccess.SET_INT_DATA(data.Name, value); 
+                            }
                         }
                         break;
                     case eDataType.Double:
@@ -192,6 +229,8 @@ namespace INNO6.IO
                             double value = handler.GET_DOUBLE_IN(data.Config1, data.Config2, data.Config3, data.Config4, ref result);
                             if (result)
                             {
+                                if (value.Equals(data.Value)) break;
+                                CheckInterlockEx(data.Name, value);
                                 double format = data.Format;
                                 if (format <= 0) format = 1.0;
                                 value /= format;
@@ -204,6 +243,8 @@ namespace INNO6.IO
                             string value = handler.GET_STRING_IN(data.Config1, data.Config2, data.Config3, data.Config4, ref result);
                             if (result)
                             {
+                                if (value.Equals(data.Value)) break;
+                                CheckInterlockEx(data.Name, value);
                                 DataManager.Instance.DataAccess.SET_STRING_DATA(data.Name, value);
                             }
                         }

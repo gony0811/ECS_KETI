@@ -23,7 +23,8 @@ namespace ECS.Function.Physical
 
         public override string Execute()
         {
-            if (DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_PMAC_SHUTTER_FORWARD, 1))
+            if (DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_PMAC_SHUTTER_FORWARD, 1)
+                && DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_PMAC_SHUTTER_BACKWARD, 0))
             {
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
@@ -41,7 +42,7 @@ namespace ECS.Function.Physical
                         AlarmManager.Instance.SetAlarm(AlarmCodeHelper.POWER_METER_SHUTTER_FORWARD_TIMEOUT);
                         return this.F_RESULT_TIMEOUT;
                     }
-                    else if (DataManager.Instance.GET_INT_DATA(IoNameHelper.IN_INT_PMAC_SHUTTER_FORWARD_STATUS, out _) == 1)
+                    else if (true/*DataManager.Instance.GET_INT_DATA(IoNameHelper.IN_INT_PMAC_SHUTTER_FORWARD_STATUS, out _) == 1*/)
                     {
                         Abort = false;
                         IsProcessing = false;

@@ -80,14 +80,18 @@ namespace DEV.MotionControl
         private const string AXIS_X_GET_POSITION = "P411";
         private const string AXIS_X_GET_VELOCITY = "P412";
 
-        private const string EMERGENCY_DOOR_OPEN_STATUS = "M7100";
-        private const string EMERGENCY_CPBOX_OPEN_STATUS = "M7101";
+        private const string EMERGENCY_DOOR_STATUS = "M7100";
+        private const string EMERGENCY_CPBOX_STATUS = "M7101";
         private const string GAS_ALARM_STATUS = "M7103";
         private const string LASER_SHUTTER_FORWARD_STATUS = "M7107";
         private const string LASER_SHUTTER_BACKWARD_STATUS = "M7108";
         private const string TABLE_VACCUM_STATUS = "M7109";
         private const string TABLE_VACCUM_PRESSURE_ON_STATUS = "M7110";
         private const string TABLE_VACCUM_DIGITAL_PRESSURE_STATUS = "M7111";
+
+        private const string DOOR_OPEN_FRONT = "M7111";
+        private const string DOOR_OPEN_LEFT = "M7112";
+        private const string DOOR_OPEN_RIGHT = "M7113";
 
         private const string SET_TOWERLAMP_RED = "M7200";
         private const string SET_TOWERLAMP_YELLOW = "M7201";
@@ -321,11 +325,11 @@ namespace DEV.MotionControl
                 {
                     if (id_4.Equals("1")) //M7100 Emergency input (Door)  : id1 = '1', id2 = '2', id3 = '3', id4 = '1'
                     {
-                        result = QueryEmergencyDoorOpen(ref retValue);
+                        result = QueryEmergencyDoor(ref retValue);
                     }
                     else if(id_4.Equals("2")) //M7101 Emergency input (CpBox) : id1 = '1', id2 = '2', id3 = '3', id4 = '2'
                     {
-                        result = QueryEmergencyCpBoxOpen(ref retValue); 
+                        result = QueryEmergencyCpBox(ref retValue); 
                     }
                     else if(id_4.Equals("4")) //M7103 GAS ALARM: id1 = '1', id2 = '2', id3 = '3', id4 = '4'
                     {
@@ -350,6 +354,18 @@ namespace DEV.MotionControl
                     else if (id_4.Equals("12")) //M7111 Table Vaccum Digital Pressure : id1 = '1', id2 = '2', id3 = '3', id4 = '12'
                     {
                         result = QueryTableVaccumDigitalPressure(ref retValue);
+                    }
+                    else if (id_4.Equals("13"))
+                    {
+                        result = QueryFrontDoorOpenStatus(ref retValue);
+                    }
+                    else if (id_4.Equals("14"))
+                    {
+                        result = QueryLeftDoorOpenStatus(ref retValue);
+                    }
+                    else if (id_4.Equals("15"))
+                    {
+                        result = QueryRightDoorOpenStatus(ref retValue);
                     }
                 }
             }
@@ -1481,13 +1497,13 @@ namespace DEV.MotionControl
             }
         }
 
-        private bool QueryEmergencyDoorOpen(ref int isOpen)
+        private bool QueryEmergencyDoor(ref int isOpen)
         {
             StringBuilder strRequest = new StringBuilder();
             string strResponse = "";
             int result = 0;
 
-            strRequest.AppendFormat("{0}", EMERGENCY_DOOR_OPEN_STATUS);
+            strRequest.AppendFormat("{0}", EMERGENCY_DOOR_STATUS);
 
             CommandOrQuery(strRequest.ToString(), out strResponse);
 
@@ -1503,13 +1519,13 @@ namespace DEV.MotionControl
             }
         }
 
-        private bool QueryEmergencyCpBoxOpen(ref int isOpen)
+        private bool QueryEmergencyCpBox(ref int isOpen)
         {
             StringBuilder strRequest = new StringBuilder();
             string strResponse = "";
             int result = 0;
 
-            strRequest.AppendFormat("{0}", EMERGENCY_CPBOX_OPEN_STATUS);
+            strRequest.AppendFormat("{0}", EMERGENCY_CPBOX_STATUS);
 
             CommandOrQuery(strRequest.ToString(), out strResponse);
 
@@ -1653,6 +1669,72 @@ namespace DEV.MotionControl
             else
             {
                 LogHelper.Instance.DeviceLog.DebugFormat("[ERROR] QueryTableVaccumDigitalPressure() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                return false;
+            }
+        }
+
+        private bool QueryFrontDoorOpenStatus(ref int doorOpenStatus)
+        {
+            StringBuilder strRequest = new StringBuilder();
+            string strResponse = "";
+            int result = 0;
+
+            strRequest.AppendFormat("{0}", DOOR_OPEN_FRONT);
+
+            CommandOrQuery(strRequest.ToString(), out strResponse);
+
+            if (int.TryParse(strResponse, out doorOpenStatus))
+            {
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryFrontDoorOpenStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                return true;
+            }
+            else
+            {
+                LogHelper.Instance.DeviceLog.DebugFormat("[ERROR] QueryFrontDoorOpenStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                return false;
+            }
+        }
+
+        private bool QueryLeftDoorOpenStatus(ref int doorOpenStatus)
+        {
+            StringBuilder strRequest = new StringBuilder();
+            string strResponse = "";
+            int result = 0;
+
+            strRequest.AppendFormat("{0}", DOOR_OPEN_LEFT);
+
+            CommandOrQuery(strRequest.ToString(), out strResponse);
+
+            if (int.TryParse(strResponse, out doorOpenStatus))
+            {
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryLeftDoorOpenStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                return true;
+            }
+            else
+            {
+                LogHelper.Instance.DeviceLog.DebugFormat("[ERROR] QueryLeftDoorOpenStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                return false;
+            }
+        }
+
+        private bool QueryRightDoorOpenStatus(ref int doorOpenStatus)
+        {
+            StringBuilder strRequest = new StringBuilder();
+            string strResponse = "";
+            int result = 0;
+
+            strRequest.AppendFormat("{0}", DOOR_OPEN_RIGHT);
+
+            CommandOrQuery(strRequest.ToString(), out strResponse);
+
+            if (int.TryParse(strResponse, out doorOpenStatus))
+            {
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryRightDoorOpenStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                return true;
+            }
+            else
+            {
+                LogHelper.Instance.DeviceLog.DebugFormat("[ERROR] QueryRightDoorOpenStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return false;
             }
         }

@@ -98,8 +98,12 @@ namespace ECS.Common.Helper
         public const string IN_INT_PMAC_Y_ISMOVING = "iPMAC.iAxisY.IsMoving";
         public const string IN_INT_PMAC_Y_MOTOR_ACTIVE = "iPMAC.iAxisY.MotorActive";
 
-        public const string IN_INT_PMAC_COVER_OPENCLOSE = "iPMAC.iCover.OpenClose";
-        public const string IN_INT_PMAC_CPBOX_OPENCLOSE = "iPMAC.iCpBox.OpenClose";
+        public const string IN_INT_PMAC_EMO_SWITCH_FRONT = "iPMAC.iEmo.FrontSwitch";
+        public const string IN_INT_PMAC_EMO_SWITCH_BACK = "iPMAC.iEmo.BackSwitch";
+
+        public const string IN_INT_PMAC_DOOR_FRONT = "iPMAC.iDoor.FrontStatus";
+        public const string IN_INT_PMAC_DOOR_LEFT = "iPMAC.iDoor.LeftStatus";
+        public const string IN_INT_PMAC_DOOR_RIGHT = "iPMAC.iDoor.RightStatus";
 
         public const string IN_INT_PMAC_GAS_ALARM = "iPMAC.iGAS.Alarm";
 

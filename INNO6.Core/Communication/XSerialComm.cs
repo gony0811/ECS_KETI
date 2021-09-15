@@ -35,7 +35,7 @@ namespace INNO6.Core.Communication
                 {
                     string readData = _serialPort.ReadExisting();
 
-                    if (readData.StartsWith("\0")) return;
+                    if (string.IsNullOrEmpty(readData) || readData.StartsWith("\0")) return;
                     receivedQueue.Enqueue(readData);
                 }
             }
@@ -73,8 +73,12 @@ namespace INNO6.Core.Communication
 
         public void SendMessage(string message)
         {
-            if (_serialPort.IsOpen)
-                _serialPort.Write(message);
+            lock (critical_section)
+            {
+                if (_serialPort.IsOpen)
+                    _serialPort.Write(message);
+            }
+
         }
 
         public void SendMessage(byte[] message)

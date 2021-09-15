@@ -284,6 +284,50 @@ namespace INNO6.Core.Manager
             return null;
         }
 
+        public void SET_SETPOINT_INTERLOCK_USE(string interlockName, bool use)
+        {
+            if (_SetpointInterlockInfoList.ContainsKey(interlockName))
+            {
+                SETPOINT_INTERLOCK interlock_info = _SetpointInterlockInfoList[interlockName];
+                interlock_info.IsUse = use;
+            }
+        }
+
+        public void SET_VALUE_INTERLOCK_USE(string interlockName, bool use)
+        {
+            if (_ValueInterlockInfoList.ContainsKey(interlockName))
+            {
+                VALUE_INTERLOCK interlock_info = _ValueInterlockInfoList[interlockName];
+                interlock_info.IsUse = use;
+            }
+        }
+
+        public bool GET_SETPOINT_INTERLOCK_USE(string interlockName)
+        {
+            if(_SetpointInterlockInfoList.ContainsKey(interlockName))
+            {
+                SETPOINT_INTERLOCK interlock_info = _SetpointInterlockInfoList[interlockName];
+                return interlock_info.IsUse;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool GET_VALUE_INTERLOCK_USE(string interlockName)
+        {
+            if (_ValueInterlockInfoList.ContainsKey(interlockName))
+            {
+                VALUE_INTERLOCK interlock_info = _ValueInterlockInfoList[interlockName];
+                return interlock_info.IsUse;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public bool SETPOINT_INTERLOCK(string interlockName, object setValue, int dataType)
         {
             if (!_SetpointInterlockInfoList.ContainsKey(interlockName) || !_SetpointInterlockList.ContainsKey(interlockName))
@@ -294,7 +338,7 @@ namespace INNO6.Core.Manager
 
             if (_SetpointInterlockInfoList[interlockName].IsUse == false)
             {
-                LogHelper.Instance.SystemLog.DebugFormat("[ERROR] INTERLOCK NOT USE : INTERLOCK={0}", interlockName);
+                LogHelper.Instance.SystemLog.InfoFormat("[INFO] INTERLOCK NOT USE : INTERLOCK={0}", interlockName);
                 return false;
             }
 
@@ -381,7 +425,7 @@ namespace INNO6.Core.Manager
 
             if (_ValueInterlockInfoList[interlockName].IsUse == false)
             {
-                LogHelper.Instance.SystemLog.DebugFormat("[ERROR] INTERLOCK NOT USE : INTERLOCK={0}", interlockName);
+                LogHelper.Instance.SystemLog.InfoFormat("[INFO] INTERLOCK NOT USE : INTERLOCK={0}", interlockName);
                 return false;
             }
 
@@ -418,7 +462,7 @@ namespace INNO6.Core.Manager
                         {
                             double compareValue = (double)setValue;
 
-                            if (lowValue <= compareValue && highValue >= compareValue)                                   
+                            if (lowValue > compareValue || highValue < compareValue)
                             {
                                 ValueInterlockExecute(interlockName);
                                 return true;

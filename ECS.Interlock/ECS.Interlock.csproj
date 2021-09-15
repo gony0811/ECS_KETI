@@ -41,8 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SetPoint\I_CPBOX_OPEN.cs" />
-    <Compile Include="SetPoint\I_DOOR_OPEN.cs" />
+    <Compile Include="SetPoint\I_DOOR_OPEN_FRONT.cs" />
+    <Compile Include="SetPoint\I_DOOR_OPEN_LEFT.cs" />
+    <Compile Include="SetPoint\I_DOOR_OPEN_RIGHT.cs" />
+    <Compile Include="SetPoint\I_EMO_SWITCH_BACK.cs" />
+    <Compile Include="SetPoint\I_EMO_SWITCH_FRONT.cs" />
     <Compile Include="SetPoint\I_EMERGENCY_STOP.cs" />
     <Compile Include="SetPoint\I_GAS_DETECT_ALERT.cs" />
     <Compile Include="INTLK_Z_POSITION_ALERT.cs" />

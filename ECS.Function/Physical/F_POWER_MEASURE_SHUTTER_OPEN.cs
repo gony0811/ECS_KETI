@@ -23,7 +23,9 @@ namespace ECS.Function.Physical
 
         public override string Execute()
         {
-            if (DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_PMAC_SHUTTER_BACKWARD, 1))
+            if (DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_PMAC_SHUTTER_BACKWARD, 1) 
+                && DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_PMAC_SHUTTER_FORWARD, 0) 
+                )
             {
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();

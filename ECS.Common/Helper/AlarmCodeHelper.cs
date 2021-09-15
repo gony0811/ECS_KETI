@@ -75,8 +75,8 @@ namespace ECS.Common.Helper
         public const string POWER_METER_SHUTTER_FORWARD_TIMEOUT = "E3018";
         public const string POWER_METER_SHUTTER_FORWARD_FAIL = "E3019";
 
-        public const string DOOR_OPEN_INTERLOCK = "E9002";
-        public const string CPBOX_OPEN_INTERLOCK = "E9003";
+        public const string EMO_SWITCH_FRONT_INTERLOCK = "E9002";
+        public const string EMO_SWITCH_BACK_INTERLOCK = "E9003";
 
     }
 }

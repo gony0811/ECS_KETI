@@ -118,85 +118,81 @@ namespace INNO6.IO
 
         public bool SET_INT_DATA(string name, int value)
         {
-            lock (_key)
+
+            bool result = false;
+            Data data;
+
+            if (!_dataAccess.RemoteObject.GetData(name, out data))
+                return false;
+
+            if (data.Logging)
+                LogHelper.Instance.SystemLog.InfoFormat("[SET_INT_DATA] {0} : {1}", name, value.ToString());
+
+            if (CheckInterlockEx(name, value))
             {
-                bool result = false;
-                Data data;
-
-                if (!_dataAccess.RemoteObject.GetData(name, out data))
-                    return false;
-
-                if (data.Logging)
-                    LogHelper.Instance.SystemLog.InfoFormat("[SET_INT_DATA] {0} : {1}", name, value.ToString());
-
-                if (CheckInterlockEx(name, value))
+                return false;
+            }
+            else
+            {
+                if (DeviceManager.Instance.SetDataToDevice(name, value))
                 {
-                    return false;
+                    result = _dataAccess.SET_INT_DATA(name, value);
                 }
                 else
                 {
-                    if (DeviceManager.Instance.SetDataToDevice(name, value))
-                    {
-                        result = _dataAccess.SET_INT_DATA(name, value);
-                    }
-                    else
-                    {
-                        result = false;
-                    }
-
-                    return result;
+                    result = false;
                 }
+
+                return result;
             }
+
         }
 
         public bool SET_DOUBLE_DATA(string name, double value)
         {
-            lock (_key)
+            bool result = false;
+            if (!_dataAccess.RemoteObject.GetData(name, out Data data))
+                return false;
+
+            if (data.Logging)
+                LogHelper.Instance.SystemLog.DebugFormat("[SET_DOUBLE_DATA] {0} : {1}", name, value.ToString());
+
+            if (CheckInterlockEx(name, value))
             {
-                bool result = false;
-                if (!_dataAccess.RemoteObject.GetData(name, out Data data))
-                    return false;
-
-                if (data.Logging)
-                    LogHelper.Instance.SystemLog.DebugFormat("[SET_DOUBLE_DATA] {0} : {1}", name, value.ToString());
-
-                if (CheckInterlockEx(name, value))
-                {
-                    return false;
-                }
-
-                DeviceManager.Instance.SetDataToDevice(name, value);
-
-                result = _dataAccess.SET_DOUBLE_DATA(name, value);
-
-                return result;
+                return false;
             }
+
+            DeviceManager.Instance.SetDataToDevice(name, value);
+
+            result = _dataAccess.SET_DOUBLE_DATA(name, value);
+
+            return result;
+
         }
 
         public bool SET_STRING_DATA(string name, string value)
         {
-            lock (_key)
+
+            bool result = false;
+            Data data;
+            if (!_dataAccess.RemoteObject.GetData(name, out data))
+                return false;
+
+            if (data.Logging)
+                LogHelper.Instance.SystemLog.DebugFormat("[SET_STRING_DATA] {0} : {1}", name, value.ToString());
+
+            if (CheckInterlockEx(name, value))
             {
-                bool result = false;
-                Data data;
-                if (!_dataAccess.RemoteObject.GetData(name, out data))
-                    return false;
-
-                if (data.Logging)
-                    LogHelper.Instance.SystemLog.DebugFormat("[SET_STRING_DATA] {0} : {1}", name, value.ToString());
-
-                if(CheckInterlockEx(name, value))
-                {
-                    return false;
-                }
-                else
-                {
-                    DeviceManager.Instance.SetDataToDevice(name, value);
-                    result = _dataAccess.SET_STRING_DATA(name, value);
-
-                    return result;
-                }
+                return false;
             }
+            else
+            {
+                DeviceManager.Instance.SetDataToDevice(name, value);
+                result = _dataAccess.SET_STRING_DATA(name, value);
+
+                return result;
+            }
+
         }
 
         private bool CheckInterlockEx(string name, object value, Data data = null)
@@ -262,26 +258,25 @@ namespace INNO6.IO
 
         public bool SET_OBJECT_DATA(string name, object value)
         {
-            lock (_key)
+
+            bool result = false;
+            Data data;
+            if (!_dataAccess.RemoteObject.GetData(name, out data))
+                return false;
+
+            if (data.Logging)
+                LogHelper.Instance.SystemLog.DebugFormat("[SET_OBJECT_DATA] {0} : {1}", name, value.ToString());
+
+            if (CheckInterlockEx(name, value, data))
             {
-                bool result = false;
-                Data data;
-                if (!_dataAccess.RemoteObject.GetData(name, out data))
-                    return false;
-
-                if (data.Logging)
-                    LogHelper.Instance.SystemLog.DebugFormat("[SET_OBJECT_DATA] {0} : {1}", name, value.ToString());
-
-                if (CheckInterlockEx(name, value, data))
-                {
-                    return false;
-                }
-
-                DeviceManager.Instance.SetDataToDevice(name, value);
-                result = _dataAccess.SET_OBJECT_DATA(name, value);
-
-                return result;
+                return false;
             }
+
+            DeviceManager.Instance.SetDataToDevice(name, value);
+            result = _dataAccess.SET_OBJECT_DATA(name, value);
+
+            return result;
+
         }
 
         public int GET_INT_DATA(string name, out bool result)
@@ -291,12 +286,10 @@ namespace INNO6.IO
             object value;
 
             if (DeviceManager.Instance.GetDataFromDevice(name, out value))
-            {
-                CheckInterlockEx(name, value);
-
+            {              
                 if ((int)value != mmf_value)
                 {
-                    //CheckInterlock(name, value);
+                    CheckInterlockEx(name, value);
                     _dataAccess.SET_INT_DATA(name, (int)value);               
                 }               
             }
@@ -318,11 +311,11 @@ namespace INNO6.IO
 
             if (DeviceManager.Instance.GetDataFromDevice(name, out value))
             {
-                CheckInterlockEx(name, value);
+                
 
                 if ((double)value != mmf_value)
                 {
-                    //CheckInterlock(name, value);
+                     CheckInterlockEx(name, value);
                     _dataAccess.SET_DOUBLE_DATA(name, (double)value);
                 }                  
             }
@@ -341,11 +334,11 @@ namespace INNO6.IO
 
             if (DeviceManager.Instance.GetDataFromDevice(name, out value))
             {
-                CheckInterlockEx(name, value);
+                
 
                 if (value.ToString() != mmf_value)
                 {
-                    //CheckInterlock(name, value);
+                    CheckInterlockEx(name, value);
                     _dataAccess.SET_STRING_DATA(name, (string)value);
                 }
             }
@@ -364,10 +357,11 @@ namespace INNO6.IO
 
             if (DeviceManager.Instance.GetDataFromDevice(name, out value))
             {
-                CheckInterlockEx(name, value);
+                
 
                 if (value != mmf_value)
-                {                    
+                {
+                    CheckInterlockEx(name, value);
                     _dataAccess.SET_OBJECT_DATA(name, (byte[])value);
                 }
             }

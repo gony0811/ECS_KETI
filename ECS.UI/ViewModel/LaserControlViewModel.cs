@@ -108,7 +108,7 @@ namespace ECS.UI.ViewModel
 
         private void Start()
         {
-            _Timer = new Timer(LaserControlViewSchedulingTimmer, this, 0, 500);
+            _Timer = new Timer(LaserControlViewSchedulingTimmer, this, 0, 1000);
         }
 
         private void Stop()

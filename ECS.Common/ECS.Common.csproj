@@ -44,6 +44,7 @@
     <Compile Include="Helper\EnumHelper.cs" />
     <Compile Include="Helper\AlarmCodeHelper.cs" />
     <Compile Include="Helper\FuncNameHelper.cs" />
+    <Compile Include="Helper\InterlockNameHelper.cs" />
     <Compile Include="Helper\IoNameHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
