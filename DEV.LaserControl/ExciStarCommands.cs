@@ -1,4 +1,5 @@
-﻿using INNO6.Core.Communication;
+﻿using INNO6.Core;
+using INNO6.Core.Communication;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,7 +19,7 @@ namespace DEV.LaserControl
         public const string COMM_ERROR = "ERROR";
         public const string COMM_UNKNOWN = "UNKNOWN";
         public const char CR = '\r';
-        private static object critical_section = new object();
+        private static object key = new object();
         private XSerialComm xSerial;
         private long _milisecondResponseTimeout;
         private string _StatusCode;
@@ -27,29 +28,27 @@ namespace DEV.LaserControl
 
         private string SendMessageAndWaitForReply(string request, out string returnValue)
         {
-            lock (critical_section)
-            {
-                xSerial.SendMessage(request);
-                Stopwatch sw = new Stopwatch();
-                sw.Start();
+            LogHelper.Instance.DeviceLog.DebugFormat("Send Command : {0}", request);
+            xSerial.SendMessage(request);
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
 
-                while (true)
+            while (true)
+            {
+                if (sw.ElapsedMilliseconds >= _milisecondResponseTimeout)
                 {
-                    if (sw.ElapsedMilliseconds >= _milisecondResponseTimeout)
-                    {
-                        returnValue = null;
-                        return COMM_TIMEOUT;
-                    }
-                    else if (ReplyMessage(out string reply))
-                    {
-                        returnValue = reply;
-                        return COMM_SUCCESS;
-                    }
-                    else
-                    {
-                        Thread.Sleep(10);
-                        continue;
-                    }
+                    returnValue = null;
+                    return COMM_TIMEOUT;
+                }
+                else if (ReplyMessage(out string reply))
+                {
+                    returnValue = reply.TrimEnd(CR);
+                    return COMM_SUCCESS;
+                }
+                else
+                {
+                    Thread.Sleep(10);
+                    continue;
                 }
             }
         }
@@ -61,11 +60,11 @@ namespace DEV.LaserControl
 
             if(xSerial.ReadBuffer(out string data))
             {
-                _buffer += data;
-
+                LogHelper.Instance.DeviceLog.DebugFormat("Received Message : {0}\n", data);
                 if (!string.IsNullOrEmpty(data) && data.Contains<char>('\r'))
                 {
-                    string[] strArr = data.Split(CR);
+                    reply = data;
+                    return true;
                 }
             }
 
@@ -101,7 +100,10 @@ namespace DEV.LaserControl
             {
                 if (response.Equals(ReplyCodes.ACCEPT_COMMAND)) return true;
                 else
-                    throw new ApplicationException(string.Format("SET OPMODE Exception : Command={0} ReplyCode={1}", data.ToString(), response));
+                {
+                    LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] SET OPMODE Error : Command={0} ReplyCode={1}", data.ToString(), response);
+                    return false;
+                }
             }
 
             return false;
@@ -112,7 +114,8 @@ namespace DEV.LaserControl
             opMode = string.Empty;
             statusCode = string.Empty;
             param = string.Empty;
-            char[] sep = { ',' };
+            char[] sep1 = { '=' };
+            char[] sep2 = { ',' };
             StringBuilder data = new StringBuilder();
 
             data.Append("OPMODE?\r");
@@ -120,10 +123,15 @@ namespace DEV.LaserControl
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
                 if (response.Equals(ReplyCodes.UNKNOWN_COMMAND))
-                    throw new ApplicationException(string.Format("GET OPMODE Exception Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response));
+                {
+                    LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] GET OPMODE Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response);
+                    return false;
+                }
+                else if (!response.StartsWith("OPMODE")) 
+                    return false;
 
-                string reply = response.TrimStart('=');
-                string[] arrReply = reply.Split(sep);
+                string[] reply = response.Split(sep1);
+                string[] arrReply = reply[1].Split(sep2);
 
                 if (arrReply.Length == 2)
                 {
@@ -153,7 +161,10 @@ namespace DEV.LaserControl
             {
                 if (response.Equals(ReplyCodes.ACCEPT_COMMAND)) return true;
                 else
-                    throw new ApplicationException(string.Format("SET MODE Exception : Command={0} ReplyCode={1}", data.ToString(), response));
+                {
+                    LogHelper.Instance.DeviceLog.ErrorFormat("SET MODE Exception : Command={0} ReplyCode={1}", data.ToString(), response);
+                    return false;
+                }
             }
 
             return false;
@@ -161,6 +172,7 @@ namespace DEV.LaserControl
 
         public bool GET_MODE(out string mode)
         {
+            char[] sep = { '=' };
             StringBuilder data = new StringBuilder();
 
             data.Append("MODE?\r");
@@ -168,13 +180,15 @@ namespace DEV.LaserControl
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
                 if (response.Equals(ReplyCodes.UNKNOWN_COMMAND))
-                    throw new ApplicationException(string.Format("GET MODE Exception Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response));
-
-                string reply = response.TrimStart('=');
-
-                if (string.IsNullOrEmpty(reply))
                 {
-                    mode = reply;
+                    throw new ApplicationException(string.Format("GET MODE Exception Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response));
+                    return false;
+                }
+                string[] reply = response.Split(sep);
+
+                if (reply != null && reply.Length > 0)
+                {
+                    mode = reply[1];
                     return true;
                 }
             }
@@ -195,7 +209,10 @@ namespace DEV.LaserControl
             {
                 if (response.Equals(ReplyCodes.ACCEPT_COMMAND)) return true;
                 else
-                    throw new ApplicationException(string.Format("SET EGY Exception : Command={0} ReplyCode={1}", data.ToString(), response));
+                {
+                    LogHelper.Instance.DeviceLog.ErrorFormat("SET EGY Exception : Command={0} ReplyCode={1}", data.ToString(), response);
+                    return false;
+                }
             }
             return false;
         }
@@ -210,12 +227,14 @@ namespace DEV.LaserControl
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
                 if (response.Equals(ReplyCodes.UNKNOWN_COMMAND))
-                    throw new ApplicationException(string.Format("GET EGY Exception Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response));
+                {
+                    LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] GET EGY Exception Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response);
+                    return false;
+                }
 
+                string[] reply = response.Split(sep);
 
-                string reply = response.TrimStart('=');
-
-                if (!string.IsNullOrEmpty(reply) && double.TryParse(reply, out energy))
+                if (reply != null && reply.Length > 0 && double.TryParse(reply[1], out energy))
                 {
                     return true;
                 }
@@ -238,7 +257,10 @@ namespace DEV.LaserControl
             {
                 if (response.Equals(ReplyCodes.ACCEPT_COMMAND)) return true;
                 else
-                    throw new ApplicationException(string.Format("SET EGYSET Exception : Command={0} ReplyCode={1}", data.ToString(), response));
+                {
+                    LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] SET EGYSET Error : Command={0} ReplyCode={1}", data.ToString(), response);
+                    return false;
+                }
             }
             return false;
         }
@@ -253,11 +275,14 @@ namespace DEV.LaserControl
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
                 if (response.Equals(ReplyCodes.UNKNOWN_COMMAND))
-                    throw new ApplicationException(string.Format("GET EGYSET Exception Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response));
+                {
+                    LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] GET EGYSET Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response);
+                    return false;
+                }
 
-                string reply = response.TrimStart('=');
+                string[] reply = response.Split(sep);
 
-                if (!string.IsNullOrEmpty(reply) && double.TryParse(reply, out energy))
+                if (reply != null && reply.Length > 0 && double.TryParse(reply[1], out energy))
                 {
                     return true;
                 }
@@ -280,7 +305,10 @@ namespace DEV.LaserControl
             {
                 if (response.Equals(ReplyCodes.ACCEPT_COMMAND)) return true;
                 else
-                    throw new ApplicationException(string.Format("SET HV Exception : Command={0} ReplyCode={1}", data.ToString(), response));
+                {
+                    LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] SET HV Error : Command={0} ReplyCode={1}", data.ToString(), response);
+                    return false;
+                }
             }
             return false;
         }
@@ -295,11 +323,14 @@ namespace DEV.LaserControl
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
                 if (response.Equals(ReplyCodes.UNKNOWN_COMMAND))
-                    throw new ApplicationException(string.Format("GET HV Exception Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response));
+                {
+                    LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] GET HV Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response);
+                    return false;
+                }
 
-                string reply = response.TrimStart('=');
+                string[] reply = response.Split(sep);
 
-                if (!string.IsNullOrEmpty(reply) && double.TryParse(reply, out hv))
+                if (reply != null && reply.Length > 0 && double.TryParse(reply[1], out hv))
                 {
                     return true;
                 }
@@ -320,26 +351,36 @@ namespace DEV.LaserControl
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
                 if (response.Equals(ReplyCodes.ACCEPT_COMMAND)) return true;
-                else { }
-                    //throw new ApplicationException(string.Format("SET REPRATE Exception : Command={0} ReplyCode={1}", data.ToString(), response));
+                else
+                {
+                    LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] SET REPRATE Exception : Command={0} ReplyCode={1}", data.ToString(), response);
+                    return false;
+                }
             }
             return false;
         }
 
         public bool GET_REPRATE(out int frequency)
         {
+            char[] sep = { '=' };
             StringBuilder data = new StringBuilder();
             frequency = 0;
             data.Append("REPRATE?\r");
 
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
-                if (response.Equals(ReplyCodes.UNKNOWN_COMMAND)) { }
-                    //throw new ApplicationException(string.Format("GET REPRATE Exception Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response));
+                if (response.Equals(ReplyCodes.UNKNOWN_COMMAND)) 
+                { 
+                    LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] GET REPRATE Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response);
+                    return false;
+                }
+                
+                string[] reply = response.Split(sep);
 
-                string reply = response.TrimStart('=');
-
-                if (!string.IsNullOrEmpty(reply) && int.TryParse(reply, out frequency)) return true;
+                if (reply != null && reply.Length > 0 && int.TryParse(reply[1], out frequency))
+                {
+                    return true;
+                }
                 else return false;
             }
             else
@@ -357,8 +398,11 @@ namespace DEV.LaserControl
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
                 if (response.Equals(ReplyCodes.ACCEPT_COMMAND)) return true;
-                else { }
-                    //throw new ApplicationException(string.Format("COUNTER RESET Exception : Command={0} ReplyCode={1}", data.ToString(), response));
+                else 
+                {
+                    LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] COUNTER RESET : Command={0} ReplyCode={1}", data.ToString(), response);
+                    return false;
+                }                
             }
             return false;
         }
@@ -366,18 +410,25 @@ namespace DEV.LaserControl
         public bool GET_COUNTER(out int shots)
         {
             shots = -1;
+            char[] sep = { '=' };
             StringBuilder data = new StringBuilder();
             data.Append("COUNTER?\r");
 
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
-                if (response.Equals(ReplyCodes.UNKNOWN_COMMAND)) { }
-                    //throw new ApplicationException(string.Format("GET COUNTER Exception Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response));
+                if (response.Equals(ReplyCodes.UNKNOWN_COMMAND)) 
+                {
+                    LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] GET COUNTER Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response);
+                    return false;
+                }
+                else if (!response.StartsWith("COUNTER"))
+                {
+                    return false;
+                }
 
+                string[] reply = response.Split(sep);
 
-                string reply = response.TrimStart('=');
-
-                if (!string.IsNullOrEmpty(reply) && int.TryParse(reply, out shots)) return true;
+                if (reply != null && reply.Length > 0 && int.TryParse(reply[1], out shots)) return true;
                 else return false;
             }
             else
@@ -396,8 +447,11 @@ namespace DEV.LaserControl
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
                 if (response.Equals(ReplyCodes.ACCEPT_COMMAND)) return true;
-                else { }
-                    //throw new ApplicationException(string.Format("COUNTERMAINT RESET Exception : Command={0} ReplyCode={1}", data.ToString(), response));
+                else 
+                {
+                    LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] COUNTERMAINT RESET : Command={0} ReplyCode={1}", data.ToString(), response);
+                    return false;
+                }                 
             }
             return false;
         }
@@ -412,13 +466,15 @@ namespace DEV.LaserControl
 
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
-                if (response.Equals(ReplyCodes.UNKNOWN_COMMAND)) { }
-                    //throw new ApplicationException(string.Format("GET COUNTERMAINT Exception Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response));
+                if (response.Equals(ReplyCodes.UNKNOWN_COMMAND)) 
+                {
+                    LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] GET COUNTERMAINT Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response);
+                    return false;
+                }                 
 
+                string[] reply = response.Split(sep);
 
-                string reply = response.TrimStart('=');
-
-                if (!string.IsNullOrEmpty(reply) && int.TryParse(reply, out shots)) return true;
+                if (reply != null && reply.Length > 0 && int.TryParse(reply[1], out shots)) return true;
                 else return false;
             }
             else
@@ -430,18 +486,22 @@ namespace DEV.LaserControl
         public bool GET_COUNTERTOTAL(out int shots)
         {
             shots = -1;
+            char[] sep = { '=' };
             StringBuilder data = new StringBuilder();
             data.Append("COUNTER TOTAL?");
             data.Append(CR);
 
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
-                if (response.Equals(ReplyCodes.UNKNOWN_COMMAND)) { }
-                    //throw new ApplicationException(string.Format("GET COUNTERMAINT Exception Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response));
+                if (response.Equals(ReplyCodes.UNKNOWN_COMMAND)) 
+                {
+                    LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] GET COUNTERMAINT Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response);
+                    return false;
+                }
 
-                string reply = response.TrimStart('=');
+                string[] reply = response.Split(sep);
 
-                if (!string.IsNullOrEmpty(reply) && int.TryParse(reply, out shots)) return true;
+                if ( reply != null && reply.Length > 0 && int.TryParse(reply[1], out shots)) return true;
                 else return false;
             }
             else
@@ -461,18 +521,26 @@ namespace DEV.LaserControl
         public bool GET_COUNTERNEWFILL(out int shots)
         {
             shots = -1;
+            char[] sep = { '=' };
             StringBuilder data = new StringBuilder();
             data.Append("COUNTER NEW FILL?");
             data.Append(CR);
 
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
-                if (response.Equals(ReplyCodes.UNKNOWN_COMMAND)) { }
-                    //throw new ApplicationException(string.Format("GET COUNTERMAINT Exception Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response));
+                if (response.Equals(ReplyCodes.UNKNOWN_COMMAND))
+                {
+                    LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] GET COUNTERMAINT Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response);
+                    return false;
+                }
+                else if (!response.StartsWith("COUNTER"))
+                {
+                    return false;
+                }
+                    
+                string[] reply = response.Split(sep);
 
-                string reply = response.TrimStart('=');
-
-                if (!string.IsNullOrEmpty(reply) && int.TryParse(reply, out shots)) return true;
+                if (reply != null && reply.Length > 0 && int.TryParse(reply[1], out shots)) return true;
                 else return false;
             }
             else
@@ -492,10 +560,13 @@ namespace DEV.LaserControl
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
                 if (response.Equals(ReplyCodes.ACCEPT_COMMAND)) return true;
-                else { }
-                    //throw new ApplicationException(string.Format("SET TRIGGER Exception : Command={0} ReplyCode={1}", data.ToString(), response));
-            }
+                else
+                {
+                    LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] SET TRIGGER Error : Command={0} ReplyCode={1}", data.ToString(), response);
+                    return false;
+                }
 
+            }
             return false;
         }
 
@@ -503,20 +574,27 @@ namespace DEV.LaserControl
         {
             char[] sep = { '=' };
             StringBuilder data = new StringBuilder();
-
+            trigger = "UNKNOWN";
             data.Append("TRIGGER?");
             data.Append(CR);
 
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
-                if (response.Equals(ReplyCodes.UNKNOWN_COMMAND)) { }
-                   // throw new ApplicationException(string.Format("GET TRIGGER Exception Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response));
-
-                string reply = response.TrimStart('=');
-
-                if (!string.IsNullOrEmpty(reply))
+                if (response.Equals(ReplyCodes.UNKNOWN_COMMAND)) 
                 {
-                    trigger = reply;
+                    LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] GET TRIGGER Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response);
+                    return false;
+                } 
+                else if (!response.StartsWith("TRIGGER"))
+                {
+                    return false;
+                }
+
+                string[] reply = response.Split(sep);
+
+                if ( reply != null && reply.Length > 0)
+                {
+                    trigger = reply[1];
                     return true;
                 }
 
@@ -538,8 +616,10 @@ namespace DEV.LaserControl
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
                 if (response.Equals(ReplyCodes.ACCEPT_COMMAND)) return true;
-                else { }
-                    //throw new ApplicationException(string.Format("SET REPRATE Exception : Command={0} ReplyCode={1}", data.ToString(), response));
+                else 
+                {
+                    LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] SET REPRATE Error : Command={0} ReplyCode={1}", data.ToString(), response);
+                }                
             }
             return false;
         }
@@ -554,12 +634,14 @@ namespace DEV.LaserControl
 
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
-                if (response.Equals(ReplyCodes.UNKNOWN_COMMAND)) { }
-                    //throw new ApplicationException(string.Format("GET REPRATE Exception Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response));
+                if (response.Equals(ReplyCodes.UNKNOWN_COMMAND)) {
+                    LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] GET REPRATE Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response);
+                    return false;
+                }
+                  
+                string[] reply = response.Split(sep);
 
-                string reply = response.TrimStart('=');
-
-                if (!string.IsNullOrEmpty(reply) && int.TryParse(reply, out pulses)) return true;
+                if ( reply != null && reply.Length > 0 && int.TryParse(reply[1], out pulses)) return true;
                 else return false;
             }
             else
@@ -579,8 +661,10 @@ namespace DEV.LaserControl
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
                 if (response.Equals(ReplyCodes.ACCEPT_COMMAND)) return true;
-                else { }
-                    //throw new ApplicationException(string.Format("SET BSTPAUSE Exception : Command={0} ReplyCode={1}", data.ToString(), response));
+                else 
+                {
+                    LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] SET BSTPAUSE : Command={0} ReplyCode={1}", data.ToString(), response);
+                }                
             }
             return false;
         }
@@ -595,12 +679,15 @@ namespace DEV.LaserControl
 
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
-                if (response.Equals(ReplyCodes.UNKNOWN_COMMAND)) { }
-                    //throw new ApplicationException(string.Format("GET BSTPAUSE Exception Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response));
+                if (response.Equals(ReplyCodes.UNKNOWN_COMMAND)) 
+                {
+                    LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] GET BSTPAUSE Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response);
+                    return false;
+                }
+                    
+                string[] reply = response.Split(sep);
 
-                string reply = response.TrimStart('=');
-
-                if (!string.IsNullOrEmpty(reply) && int.TryParse(reply, out milliseconds)) return true;
+                if ( reply != null && reply.Length > 0 && int.TryParse(reply[1], out milliseconds)) return true;
                 else return false;
             }
             else
@@ -611,6 +698,7 @@ namespace DEV.LaserControl
 
         public bool SET_SEQBST(int bursts)
         {
+            char[] sep = { '=' };
             StringBuilder data = new StringBuilder();
 
             data.Append(string.Format("SEQBST={0}", String.Format(CultureInfo.InvariantCulture,
@@ -620,14 +708,17 @@ namespace DEV.LaserControl
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
                 if (response.Equals(ReplyCodes.ACCEPT_COMMAND)) return true;
-                else { }
-                    //throw new ApplicationException(string.Format("SET SEQBST Exception : Command={0} ReplyCode={1}", data.ToString(), response));
+                else 
+                {
+                    LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] SET SEQBST Exception : Command={0} ReplyCode={1}", data.ToString(), response);
+                }
             }
             return false;
         }
 
         public bool GET_SEQBST(out int bursts)
         {
+            char[] sep = { '=' };
             StringBuilder data = new StringBuilder();
             bursts = 0;
             data.Append("SEQBST?");
@@ -635,12 +726,14 @@ namespace DEV.LaserControl
 
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
-                if (response.Equals(ReplyCodes.UNKNOWN_COMMAND)) { }
-                    //throw new ApplicationException(string.Format("GET SEQBST Exception Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response));
+                if (response.Equals(ReplyCodes.UNKNOWN_COMMAND)) 
+                {
+                    LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] GET SEQBST Exception Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response);
+                }
 
-                string reply = response.TrimStart('=');
+                string[] reply = response.Split(sep);
 
-                if (!string.IsNullOrEmpty(reply) && int.TryParse(reply, out bursts)) return true;
+                if ( reply != null && reply.Length > 0 && int.TryParse(reply[1], out bursts)) return true;
                 else return false;
             }
             else
@@ -660,14 +753,17 @@ namespace DEV.LaserControl
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
                 if (response.Equals(ReplyCodes.ACCEPT_COMMAND)) return true;
-                else { }
-                    //throw new ApplicationException(string.Format("SET SEQPAUSE Exception : Command={0} ReplyCode={1}", data.ToString(), response));
+                else
+                {
+                    LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] SET SEQPAUSE Error : Command={0} ReplyCode={1}", data.ToString(), response);
+                }
             }
             return false;
         }
 
         public bool GET_SEQPAUSE(out int milliseconds)
         {
+            char[] sep = { '=' };
             StringBuilder data = new StringBuilder();
             milliseconds = 0;
             data.Append("SEQPAUSE?");
@@ -675,12 +771,15 @@ namespace DEV.LaserControl
 
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
-                if (response.Equals(ReplyCodes.UNKNOWN_COMMAND)) { }
-                    //throw new ApplicationException(string.Format("GET SEQPAUSE Exception Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response));
+                if (response.Equals(ReplyCodes.UNKNOWN_COMMAND))
+                {
+                    LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] GET SEQPAUSE Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response);
+                    return false;
+                }
 
-                string reply = response.TrimStart('=');
+                string[] reply = response.Split(sep);
 
-                if (!string.IsNullOrEmpty(reply) && int.TryParse(reply, out milliseconds)) return true;
+                if (reply != null && reply.Length > 0 && int.TryParse(reply[1], out milliseconds)) return true;
                 else return false;
             }
             else
@@ -700,14 +799,17 @@ namespace DEV.LaserControl
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
                 if (response.Equals(ReplyCodes.ACCEPT_COMMAND)) return true;
-                else { }
-                    //throw new ApplicationException(string.Format("SET COUNTS Exception : Command={0} ReplyCode={1}", data.ToString(), response));
+                else
+                {
+                    LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] SET COUNTS Error : Command={0} ReplyCode={1}", data.ToString(), response);
+                }                 
             }
             return false;
         }
 
         public bool GET_COUNTS(out int pulses)
         {
+            char[] sep = { '=' };
             StringBuilder data = new StringBuilder();
             pulses = 0;
             data.Append("COUNTS?");
@@ -715,12 +817,19 @@ namespace DEV.LaserControl
 
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
-                if (response.Equals(ReplyCodes.UNKNOWN_COMMAND)) { }
-                    //throw new ApplicationException(string.Format("GET COUNTS Exception Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response));
+                if (response.Equals(ReplyCodes.UNKNOWN_COMMAND))
+                {
+                    LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] GET COUNTS Error : Command={0} ReplyCode={1}", data.ToString(), response);
+                    return false;
+                }
+                else if (!response.StartsWith("COUNTS"))
+                {
+                    return false;
+                }
 
-                string reply = response.TrimStart('=');
+                string[] reply = response.Split(sep);
 
-                if (!string.IsNullOrEmpty(reply) && int.TryParse(reply, out pulses)) return true;
+                if (reply != null && reply.Length > 0 && int.TryParse(reply[1], out pulses)) return true;
                 else return false;
             }
             else
@@ -741,14 +850,17 @@ namespace DEV.LaserControl
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
                 if (response.Equals(ReplyCodes.ACCEPT_COMMAND)) return true;
-                else { }
-                    //throw new ApplicationException(string.Format("SET FILTER Exception : Command={0} ReplyCode={1}", data.ToString(), response));
+                else
+                {
+                    LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] SET FILTER Exception : Command={0} ReplyCode={1}", data.ToString(), response);
+                }
             }
             return false;
         }
 
         public bool GET_FILTER(out int second_1of10)
         {
+            char[] sep = { '=' };
             StringBuilder data = new StringBuilder();
             second_1of10 = 0;
             data.Append("FILTER?");
@@ -756,12 +868,19 @@ namespace DEV.LaserControl
 
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
-                if (response.Equals(ReplyCodes.UNKNOWN_COMMAND)) { }
-                    //throw new ApplicationException(string.Format("GET FILTER Exception Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response));
+                if (response.Equals(ReplyCodes.UNKNOWN_COMMAND)) 
+                {
+                    LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] GET FILTER Exception Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response);
+                    return false;
+                }
+                else if (!response.StartsWith("FILTER"))
+                {
+                    return false;
+                }
 
-                string reply = response.TrimStart('=');
+                string[] reply = response.Split(sep);
 
-                if (!string.IsNullOrEmpty(reply) && int.TryParse(reply, out second_1of10)) return true;
+                if ( reply != null && reply.Length > 0 && int.TryParse(reply[1], out second_1of10)) return true;
                 else return false;
             }
             else
@@ -780,8 +899,10 @@ namespace DEV.LaserControl
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
                 if (response.Equals(ReplyCodes.ACCEPT_COMMAND)) return true;
-                else { }
-                   // throw new ApplicationException(string.Format("FILTERCONTAMINATION RESET Exception : Command={0} ReplyCode={1}", data.ToString(), response));
+                else 
+                {
+                    LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] FILTERCONTAMINATION RESET : Command={0} ReplyCode={1}", data.ToString(), response);
+                }              
             }
             return false;
         }
@@ -796,12 +917,14 @@ namespace DEV.LaserControl
 
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
-                if (response.Equals(ReplyCodes.UNKNOWN_COMMAND)) { }
-                    //throw new ApplicationException(string.Format("GET FILTERCONTAMINATION Exception Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response));
+                if (response.Equals(ReplyCodes.UNKNOWN_COMMAND))
+                {
+                    LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] GET FILTERCONTAMINATION Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response);
+                }
 
-                string reply = response.TrimStart('=');
+                string[] reply = response.Split(sep);
 
-                if (!string.IsNullOrEmpty(reply) && int.TryParse(reply, out percent)) return true;
+                if (reply != null && reply.Length > 0 && int.TryParse(reply[1], out percent)) return true;
                 else return false;
             }
             else
@@ -814,21 +937,28 @@ namespace DEV.LaserControl
         public bool GET_INTERLOCK(out string interlocks)
         {
             interlocks = string.Empty;
+            char[] sep = { '=' };
             StringBuilder data = new StringBuilder();
             data.Append("INTERLOCK?");
             data.Append(CR);
 
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
-                if (response.Equals(ReplyCodes.UNKNOWN_COMMAND)) { }
-                   // throw new ApplicationException(string.Format("GET INTERLOCK Exception Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response));
-
-
-                string reply = response.TrimStart('=');
-
-                if (reply != null)
+                if (response.Equals(ReplyCodes.UNKNOWN_COMMAND)) 
                 {
-                    interlocks = reply;
+                    LogHelper.Instance.DeviceLog.ErrorFormat("GET INTERLOCK Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response);
+                }
+                else if(!response.StartsWith("INTERLOCK"))
+                {
+                    return false;
+                }
+
+
+                string[] reply = response.Split(sep);
+
+                if (reply != null && reply.Length > 0)
+                {
+                    interlocks = reply[1];
                     return true;
                 }
                 else return false;
@@ -843,7 +973,7 @@ namespace DEV.LaserControl
 
         public bool GET_MAINTENANCE(out string maintCodes)
         {
-            char[] sep = { '=', ',' };
+            char[] sep = { '=' };
             maintCodes = string.Empty;
             StringBuilder data = new StringBuilder();
             data.Append("MAINTENANCE?");
@@ -851,14 +981,20 @@ namespace DEV.LaserControl
 
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
-                if (response.Equals(ReplyCodes.UNKNOWN_COMMAND)) { }
-                    //throw new ApplicationException(string.Format("GET MAINTENANCE Exception Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response));
-
-                string reply = response.TrimStart('=');
-
-                if (reply != null)
+                if (response.Equals(ReplyCodes.UNKNOWN_COMMAND))
                 {
-                    maintCodes = reply;
+                    LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] GET MAINTENANCE Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response);
+                }
+                else if(!response.StartsWith("MAINTENANCE"))
+                {
+                    return false;
+                }
+
+                string[] reply = response.Split(sep);
+
+                if (reply != null && reply.Length > 0)
+                {
+                    maintCodes = reply[1];
                     return true;
                 }
                 else return false;
@@ -872,7 +1008,7 @@ namespace DEV.LaserControl
 
         public bool GET_TUBETEMP(out double temperature)
         {
-            char[] sep = { '=', ',' };
+            char[] sep = { '=' };
             temperature = 0.0;
             StringBuilder data = new StringBuilder();
             data.Append("TUBETEMP?");
@@ -880,12 +1016,21 @@ namespace DEV.LaserControl
 
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
-                if (response.Equals(ReplyCodes.UNKNOWN_COMMAND)) { }
+                if (response.Equals(ReplyCodes.UNKNOWN_COMMAND)) 
+                {
+                    LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] GET TUBETEMP Exception Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response);
+                }
+                else if(!response.StartsWith("TUBETEMP"))
+                {
+                    return false;
+                }
                     //throw new ApplicationException(string.Format("GET TUBETEMP Exception Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response));
 
-                response = response.TrimStart('=');
+                string[] reply = response.Split(sep);
 
-                if (double.TryParse(response, out temperature))
+                
+
+                if (reply != null && reply.Length > 0 && double.TryParse(reply[1], out temperature))
                     return true;
                 else 
                     return false;
@@ -899,7 +1044,7 @@ namespace DEV.LaserControl
 
         public bool GET_PRESSURE(out int mbar)
         {
-            char[] sep = { '=', ',' };
+            char[] sep = { '=' };
             mbar = 0;
             StringBuilder data = new StringBuilder();
             data.Append("PRESSURE?");
@@ -907,12 +1052,19 @@ namespace DEV.LaserControl
 
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
-                if (response.Equals(ReplyCodes.UNKNOWN_COMMAND)) { }
-                    //throw new ApplicationException(string.Format("GET PRESSURE Exception Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response));
+                if (response.Equals(ReplyCodes.UNKNOWN_COMMAND)) 
+                {
+                    LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] GET PRESSURE Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response);
+                }
+                else if (!response.StartsWith("PRESSURE"))
+                {
+                    return false;
+                }
 
-                response = response.TrimStart('=');
 
-                if (int.TryParse(response, out mbar))
+                string[] reply = response.Split(sep);
+
+                if (reply != null && reply.Length > 0 && int.TryParse(reply[1], out mbar))
                     return true;
                 else
                     return false;
@@ -926,7 +1078,7 @@ namespace DEV.LaserControl
 
         public bool GET_MANPRESS(out int mbar)
         {
-            char[] sep = { '=', ',' };
+            char[] sep = { '=' };
             mbar = 0;
             StringBuilder data = new StringBuilder();
             data.Append("MANPRESS?");
@@ -934,12 +1086,18 @@ namespace DEV.LaserControl
 
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
-                if (response.Equals(ReplyCodes.UNKNOWN_COMMAND)) { }
-                    //throw new ApplicationException(string.Format("GET MANPRESS Exception Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response));
+                if (response.Equals(ReplyCodes.UNKNOWN_COMMAND)) 
+                {
+                    LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] GET MANPRESS Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response);
+                }
+                else if (!response.StartsWith("MANPRESS"))
+                {
+                    return false;
+                }
 
-                response = response.TrimStart('=');
+                string[] reply = response.Split(sep);
 
-                if (int.TryParse(response, out mbar))
+                if ( reply != null && reply.Length > 0 && int.TryParse(reply[1], out mbar))
                     return true;
                 else
                     return false;

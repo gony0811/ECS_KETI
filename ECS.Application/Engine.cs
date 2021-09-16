@@ -201,6 +201,11 @@ namespace ECS.Application
             nextRefreshTime = DateTime.Now;
             refreshInterval = TimeSpan.FromSeconds(1.0);
 
+            _alarmManager = AlarmManager.Instance;
+            _alarmManager.Initialize(_dbFilePath);
+            _alarmManager.SetAlarmEvent += _alarmManager_SetAlarmEvent;
+            _alarmManager.ResetAlarmEvent += _alarmManager_ResetAlarmEvent;
+
             _interlockManager = InterlockManager.Instance;
             _interlockManager.Initialize(_dbFilePath);
             _dataManager = DataManager.Instance;
@@ -216,10 +221,6 @@ namespace ECS.Application
             _userAuthorityManager = UserAuthorityManager.Instance;
             _userAuthorityManager.Initialize(@"./config/db_io.mdb");
 
-            _alarmManager = AlarmManager.Instance;
-            _alarmManager.Initialize(_dbFilePath);
-            _alarmManager.SetAlarmEvent += _alarmManager_SetAlarmEvent;
-            _alarmManager.ResetAlarmEvent += _alarmManager_ResetAlarmEvent;
 
             _workQueue = WorkQueue.Instance;
             _workQueue.ConcurrentLimit = 10;

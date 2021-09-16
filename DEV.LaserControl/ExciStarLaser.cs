@@ -71,7 +71,7 @@ namespace DEV.LaserControl
             if (int.TryParse(baudRate, out int parse)) iBaudRate = parse;
            
 
-            xSerial = new XSerialComm(portName, iBaudRate, (Parity)int.Parse(parity), int.Parse(dataBits), (StopBits)int.Parse(stopBits));
+            xSerial = new XSerialComm(portName, iBaudRate, (Parity)int.Parse(parity), int.Parse(dataBits), (StopBits)int.Parse(stopBits), '\r');
             _LaserDevice = new ExciStarCommands(xSerial, _milisecondResponseTimeout);
 
             if (xSerial == null)
@@ -140,133 +140,142 @@ namespace DEV.LaserControl
 
         public double GET_DOUBLE_IN(string id_1, string id_2, string id_3, string id_4, ref bool result)
         {
-            result = false;
-            double outData = 0.0;
+            lock (_CriticalSectionKey)
+            {
+                result = false;
+                double outData = 0.0;
 
-            if (id_1 != ID_1_INPUT || id_2 != ID_2_DOUBLE) return outData;
+                if (id_1 != ID_1_INPUT || id_2 != ID_2_DOUBLE) return outData;
 
-            if (id_3 == ID_3_ENERGY && id_4 == "1")
-            {
-                result = _LaserDevice.GET_EGY(out outData);
-            }
-            else if (id_3 == ID_3_ENERGY && id_4 == "2")
-            {
-                result = _LaserDevice.GET_EGYSET(out outData);
-            }
-            else if (id_3 == ID_3_ENERGY && id_4 == "3")
-            {
-                result = _LaserDevice.GET_HV(out outData);
-            }
-            else if (id_3 == ID_3_STATUS && id_4 == "1")
-            {
-                result = _LaserDevice.GET_TUBETEMP(out outData);
-            }
+                if (id_3 == ID_3_ENERGY && id_4 == "1")
+                {
+                    result = _LaserDevice.GET_EGY(out outData);
+                }
+                else if (id_3 == ID_3_ENERGY && id_4 == "2")
+                {
+                    result = _LaserDevice.GET_EGYSET(out outData);
+                }
+                else if (id_3 == ID_3_ENERGY && id_4 == "3")
+                {
+                    result = _LaserDevice.GET_HV(out outData);
+                }
+                else if (id_3 == ID_3_STATUS && id_4 == "1")
+                {
+                    result = _LaserDevice.GET_TUBETEMP(out outData);
+                }
 
-            return outData;
+                return outData;
+            }
         }
 
         public int GET_INT_IN(string id_1, string id_2, string id_3, string id_4, ref bool result)
         {
-            result = false;
-            int outData = -1;
+            lock (_CriticalSectionKey)
+            {
+                result = false;
+                int outData = -1;
 
-            if (id_1 != ID_1_INPUT || id_2 != ID_2_INT) return outData;
+                if (id_1 != ID_1_INPUT || id_2 != ID_2_INT) return outData;
 
-            if (id_3 == ID_3_PULSE && id_4 == "1")
-            {
-                result = _LaserDevice.GET_REPRATE(out outData);
-            }
-            else if (id_3 == ID_3_PULSE && id_4 == "2")
-            {
-                result = _LaserDevice.GET_BSTPULSES(out outData);
-            }
-            else if (id_3 == ID_3_PULSE && id_4 == "3")
-            {
-                result = _LaserDevice.GET_BSTPAUSE(out outData);
-            }
-            else if (id_3 == ID_3_PULSE && id_4 == "4")
-            {
-                result = _LaserDevice.GET_SEQBST(out outData);
-            }
-            else if (id_3 == ID_3_PULSE && id_4 == "5")
-            {
-                result = _LaserDevice.GET_SEQPAUSE(out outData);
-            }
-            else if (id_3 == ID_3_PULSE && id_4 == "6")
-            {
-                result = _LaserDevice.GET_COUNTS(out outData);
-            }
-            else if (id_3 == ID_3_STATUS && id_4 == "1")
-            {
-                result = _LaserDevice.GET_COUNTER(out outData);
-            }
-            else if (id_3 == ID_3_STATUS && id_4 == "2")
-            {
-                result = _LaserDevice.GET_COUNTERMAINT(out outData);
-            }
-            else if (id_3 == ID_3_STATUS && id_4 == "3")
-            {
-                result = _LaserDevice.GET_COUNTERTOTAL(out outData);
-            }
-            else if (id_3 == ID_3_STATUS && id_4 == "4")
-            {
-                result = _LaserDevice.GET_COUNTERNEWFILL(out outData);
-            }
-            else if (id_3 == ID_3_STATUS && id_4 == "5")
-            {
-                result = _LaserDevice.GET_PRESSURE(out outData);
-            }
-            else if (id_3 == ID_3_STATUS && id_4 == "6")
-            {
-                result = _LaserDevice.GET_MANPRESS(out outData);
-            }
-            else if (id_3 == ID_3_OPMODE && id_4 == "1")
-            {
-                result = _LaserDevice.GET_OPMODE(out string opMode, out string param, out string statusCode);
+                if (id_3 == ID_3_PULSE && id_4 == "1")
+                {
+                    result = _LaserDevice.GET_REPRATE(out outData);
+                }
+                else if (id_3 == ID_3_PULSE && id_4 == "2")
+                {
+                    result = _LaserDevice.GET_BSTPULSES(out outData);
+                }
+                else if (id_3 == ID_3_PULSE && id_4 == "3")
+                {
+                    result = _LaserDevice.GET_BSTPAUSE(out outData);
+                }
+                else if (id_3 == ID_3_PULSE && id_4 == "4")
+                {
+                    result = _LaserDevice.GET_SEQBST(out outData);
+                }
+                else if (id_3 == ID_3_PULSE && id_4 == "5")
+                {
+                    result = _LaserDevice.GET_SEQPAUSE(out outData);
+                }
+                else if (id_3 == ID_3_PULSE && id_4 == "6")
+                {
+                    result = _LaserDevice.GET_COUNTS(out outData);
+                }
+                else if (id_3 == ID_3_STATUS && id_4 == "1")
+                {
+                    result = _LaserDevice.GET_COUNTER(out outData);
+                }
+                else if (id_3 == ID_3_STATUS && id_4 == "2")
+                {
+                    result = _LaserDevice.GET_COUNTERMAINT(out outData);
+                }
+                else if (id_3 == ID_3_STATUS && id_4 == "3")
+                {
+                    result = _LaserDevice.GET_COUNTERTOTAL(out outData);
+                }
+                else if (id_3 == ID_3_STATUS && id_4 == "4")
+                {
+                    result = _LaserDevice.GET_COUNTERNEWFILL(out outData);
+                }
+                else if (id_3 == ID_3_STATUS && id_4 == "5")
+                {
+                    result = _LaserDevice.GET_PRESSURE(out outData);
+                }
+                else if (id_3 == ID_3_STATUS && id_4 == "6")
+                {
+                    result = _LaserDevice.GET_MANPRESS(out outData);
+                }
+                else if (id_3 == ID_3_OPMODE && id_4 == "1")
+                {
+                    result = _LaserDevice.GET_OPMODE(out string opMode, out string param, out string statusCode);
 
-                if (param == "WAIT") outData = 1;
-                else outData = 0;
+                    if (param == "WAIT") outData = 1;
+                    else outData = 0;
+                }
+
+
+                return outData;
             }
-
-
-            return outData;
         }
 
         public string GET_STRING_IN(string id_1, string id_2, string id_3, string id_4, ref bool result)
         {
-            result = false;
-            string outData = "";
+            lock (_CriticalSectionKey)
+            {
+                result = false;
+                string outData = "";
 
-            if (id_1 != ID_1_INPUT || id_2 != ID_2_STRING) return outData;
+                if (id_1 != ID_1_INPUT || id_2 != ID_2_STRING) return outData;
 
-            if (id_3 == ID_3_OPMODE && id_4 == "1")
-            {
-                result = _LaserDevice.GET_OPMODE(out string opMode, out string _, out string _);
-                outData = opMode;
+                if (id_3 == ID_3_OPMODE && id_4 == "1")
+                {
+                    result = _LaserDevice.GET_OPMODE(out string opMode, out string _, out string _);
+                    outData = opMode;
+                }
+                else if (id_3 == ID_3_OPMODE && id_4 == "2")
+                {
+                    result = _LaserDevice.GET_OPMODE(out string _, out string _, out string statusCode);
+                    outData = statusCode;
+                }
+                else if (id_3 == ID_3_TRIGGER && id_4 == "1")
+                {
+                    result = _LaserDevice.GET_TRIGGER(out outData);
+                }
+                else if (id_3 == ID_3_EGYMODE && id_4 == "1")
+                {
+                    result = _LaserDevice.GET_MODE(out outData);
+                }
+                else if (id_3 == ID_3_STATUS && id_4 == "1")
+                {
+                    result = _LaserDevice.GET_INTERLOCK(out outData);
+                }
+                else if (id_3 == ID_3_STATUS && id_4 == "2")
+                {
+                    result = _LaserDevice.GET_MAINTENANCE(out outData);
+                }
+
+                return outData;
             }
-            else if (id_3 == ID_3_OPMODE && id_4 == "2")
-            {
-                result = _LaserDevice.GET_OPMODE(out string _, out string _, out string statusCode);
-                outData = statusCode;
-            }
-            else if (id_3 == ID_3_TRIGGER && id_4 == "1")
-            {
-                result = _LaserDevice.GET_TRIGGER(out outData);
-            }
-            else if (id_3 == ID_3_EGYMODE && id_4 == "1")
-            {
-                result = _LaserDevice.GET_MODE(out outData);
-            }
-            else if (id_3 == ID_3_STATUS && id_4 == "1")
-            {
-                result = _LaserDevice.GET_INTERLOCK(out outData);
-            }
-            else if (id_3 == ID_3_STATUS && id_4 == "2")
-            {
-                result = _LaserDevice.GET_MAINTENANCE(out outData);
-            }
- 
-            return outData;
         }
 
         public eDevMode IsDevMode()
@@ -276,117 +285,129 @@ namespace DEV.LaserControl
 
         public void SET_DATA_OUT(string id_1, string id_2, string id_3, string id_4, object value, ref bool result)
         {
-            throw new NotImplementedException();
+            lock (_CriticalSectionKey)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         public void SET_DOUBLE_OUT(string id_1, string id_2, string id_3, string id_4, double value, ref bool result)
         {
-            result = false;
+            lock (_CriticalSectionKey)
+            {
+                result = false;
 
-            if (id_1 != ID_1_OUTPUT || id_2 != ID_2_DOUBLE) return;
+                if (id_1 != ID_1_OUTPUT || id_2 != ID_2_DOUBLE) return;
 
-            if (id_3 == ID_3_ENERGY && id_4 == "1" && value == 1) 
-            {
-                result = _LaserDevice.SET_EGY(value);
-            }
-            else if (id_3 == ID_3_ENERGY && id_4 == "2" && value == 1)
-            {
-                result = _LaserDevice.SET_EGYSET(value);
-            }
-            else if (id_3 == ID_3_ENERGY && id_4 == "3" && value == 1)
-            {
-                result = _LaserDevice.SET_HV(value);
+                if (id_3 == ID_3_ENERGY && id_4 == "1" && value == 1)
+                {
+                    result = _LaserDevice.SET_EGY(value);
+                }
+                else if (id_3 == ID_3_ENERGY && id_4 == "2" && value == 1)
+                {
+                    result = _LaserDevice.SET_EGYSET(value);
+                }
+                else if (id_3 == ID_3_ENERGY && id_4 == "3" && value == 1)
+                {
+                    result = _LaserDevice.SET_HV(value);
+                }
             }
         }
 
         public void SET_INT_OUT(string id_1, string id_2, string id_3, string id_4, int value, ref bool result)
         {
-            result = false;
+            lock (_CriticalSectionKey)
+            {
+                result = false;
 
-            if (id_1 != ID_1_OUTPUT || id_2 != ID_2_INT) return;
+                if (id_1 != ID_1_OUTPUT || id_2 != ID_2_INT) return;
 
 
-            if (id_3 == ID_3_OPMODE && id_4 == "1" && value == 1) // SET OPMODE=OFF [oLaser.iOpMode.Off]
-            {
-                result = _LaserDevice.SET_OPMODE(OPMODE.OFF);
-            }
-            else if (id_3 == ID_3_OPMODE && id_4 == "2" && value == 1)
-            {
-                result = _LaserDevice.SET_OPMODE(OPMODE.ON);
-            }
-            else if (id_3 == ID_3_OPMODE && id_4 == "3" && value == 1)
-            {
-                result = _LaserDevice.SET_OPMODE(OPMODE.STANDBY);
-            }
-            else if (id_3 == ID_3_OPMODE && id_4 == "4" && value == 1)
-            {
-                result = _LaserDevice.SET_OPMODE(OPMODE.SHUTDOWN);
-            }
-            else if (id_3 == ID_3_TRIGGER && id_4 == "1" && value == 1)
-            {
-                result = _LaserDevice.SET_TRIGGER(TRIGGER.INT);
-            }
-            else if (id_3 == ID_3_TRIGGER && id_4 == "2" && value == 1)
-            {
-                result = _LaserDevice.SET_TRIGGER(TRIGGER.INTB);
-            }
-            else if (id_3 == ID_3_TRIGGER && id_4 == "3" && value == 1)
-            {
-                result = _LaserDevice.SET_TRIGGER(TRIGGER.INT_COUNTS);
-            }
-            else if (id_3 == ID_3_EGYMODE && id_4 == "1" && value == 1)
-            {
-                result = _LaserDevice.SET_MODE(MODE.EGY_NGR);
-            }
-            else if (id_3 == ID_3_EGYMODE && id_4 == "2" && value == 1)
-            {
-                result = _LaserDevice.SET_MODE(MODE.EGYBURST_NGR);
-            }
-            else if (id_3 == ID_3_EGYMODE && id_4 == "3" && value == 1)
-            {
-                result = _LaserDevice.SET_MODE(MODE.HV_NGR);
-            }
-            else if (id_3 == ID_3_RESET && id_4 == "1" && value == 1)
-             {
-                result = _LaserDevice.RESET_COUNTER();
-            }
-            else if (id_3 == ID_3_RESET && id_4 == "2" && value == 1)
-            {
-                result = _LaserDevice.RESET_COUNTERMAINT();
-            }
-            else if (id_3 == ID_3_RESET && id_4 == "3" && value == 1)
-            {
-                result = _LaserDevice.RESET_FILTERCONTAMINATION();
-            }
-            else if (id_3 == ID_3_PULSE && id_4 == "1")
-            {
-                result = _LaserDevice.SET_REPRATE(value);
-            }
-            else if (id_3 == ID_3_PULSE && id_4 == "2")
-            {
-                result = _LaserDevice.SET_BSTPULSES(value);
-            }
-            else if (id_3 == ID_3_PULSE && id_4 == "3")
-            {
-                result = _LaserDevice.SET_BSTPAUSE(value);
-            }
-            else if (id_3 == ID_3_PULSE && id_4 == "4")
-            {
-                result = _LaserDevice.SET_SEQBST(value);
-            }
-            else if (id_3 == ID_3_PULSE && id_4 == "5")
-            {
-                result = _LaserDevice.SET_SEQPAUSE(value);
-            }
-            else if (id_3 == ID_3_PULSE && id_4 == "6")
-            {
-                result = _LaserDevice.SET_COUNTS(value);
+                if (id_3 == ID_3_OPMODE && id_4 == "1" && value == 1) // SET OPMODE=OFF [oLaser.iOpMode.Off]
+                {
+                    result = _LaserDevice.SET_OPMODE(OPMODE.OFF);
+                }
+                else if (id_3 == ID_3_OPMODE && id_4 == "2" && value == 1)
+                {
+                    result = _LaserDevice.SET_OPMODE(OPMODE.ON);
+                }
+                else if (id_3 == ID_3_OPMODE && id_4 == "3" && value == 1)
+                {
+                    result = _LaserDevice.SET_OPMODE(OPMODE.STANDBY);
+                }
+                else if (id_3 == ID_3_OPMODE && id_4 == "4" && value == 1)
+                {
+                    result = _LaserDevice.SET_OPMODE(OPMODE.SHUTDOWN);
+                }
+                else if (id_3 == ID_3_TRIGGER && id_4 == "1" && value == 1)
+                {
+                    result = _LaserDevice.SET_TRIGGER(TRIGGER.INT);
+                }
+                else if (id_3 == ID_3_TRIGGER && id_4 == "2" && value == 1)
+                {
+                    result = _LaserDevice.SET_TRIGGER(TRIGGER.INTB);
+                }
+                else if (id_3 == ID_3_TRIGGER && id_4 == "3" && value == 1)
+                {
+                    result = _LaserDevice.SET_TRIGGER(TRIGGER.INT_COUNTS);
+                }
+                else if (id_3 == ID_3_EGYMODE && id_4 == "1" && value == 1)
+                {
+                    result = _LaserDevice.SET_MODE(MODE.EGY_NGR);
+                }
+                else if (id_3 == ID_3_EGYMODE && id_4 == "2" && value == 1)
+                {
+                    result = _LaserDevice.SET_MODE(MODE.EGYBURST_NGR);
+                }
+                else if (id_3 == ID_3_EGYMODE && id_4 == "3" && value == 1)
+                {
+                    result = _LaserDevice.SET_MODE(MODE.HV_NGR);
+                }
+                else if (id_3 == ID_3_RESET && id_4 == "1" && value == 1)
+                {
+                    result = _LaserDevice.RESET_COUNTER();
+                }
+                else if (id_3 == ID_3_RESET && id_4 == "2" && value == 1)
+                {
+                    result = _LaserDevice.RESET_COUNTERMAINT();
+                }
+                else if (id_3 == ID_3_RESET && id_4 == "3" && value == 1)
+                {
+                    result = _LaserDevice.RESET_FILTERCONTAMINATION();
+                }
+                else if (id_3 == ID_3_PULSE && id_4 == "1")
+                {
+                    result = _LaserDevice.SET_REPRATE(value);
+                }
+                else if (id_3 == ID_3_PULSE && id_4 == "2")
+                {
+                    result = _LaserDevice.SET_BSTPULSES(value);
+                }
+                else if (id_3 == ID_3_PULSE && id_4 == "3")
+                {
+                    result = _LaserDevice.SET_BSTPAUSE(value);
+                }
+                else if (id_3 == ID_3_PULSE && id_4 == "4")
+                {
+                    result = _LaserDevice.SET_SEQBST(value);
+                }
+                else if (id_3 == ID_3_PULSE && id_4 == "5")
+                {
+                    result = _LaserDevice.SET_SEQPAUSE(value);
+                }
+                else if (id_3 == ID_3_PULSE && id_4 == "6")
+                {
+                    result = _LaserDevice.SET_COUNTS(value);
+                }
             }
         }
 
         public void SET_STRING_OUT(string id_1, string id_2, string id_3, string id_4, string value, ref bool result)
         {
-            throw new NotImplementedException();
+            lock (_CriticalSectionKey)
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }
