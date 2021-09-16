@@ -42,6 +42,7 @@
     <Compile Include="AbstractFunction.cs" />
     <Compile Include="Operation\OP_AUTO_PROCESS.cs" />
     <Compile Include="Operation\OP_INIT_PROCESS.cs" />
+    <Compile Include="Operation\OP_LASER_DEVICE_SHUTDOWN.cs" />
     <Compile Include="Physical\F_LASER_OFF.cs" />
     <Compile Include="Physical\F_LASER_ON.cs" />
     <Compile Include="Physical\F_LASER_SHUTDOWN.cs" />

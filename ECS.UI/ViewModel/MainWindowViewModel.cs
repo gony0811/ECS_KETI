@@ -504,6 +504,21 @@ namespace ECS.UI.ViewModel
             }
         }
 
+        private string _WorkerAuthority;
+        public string WorkerAuthority
+        {
+            get { return _WorkerAuthority; }
+            set
+            {
+                if (_WorkerAuthority != value)
+                {
+                    _WorkerAuthority = value;
+                    RaisePropertyChanged("WorkerAuthority");
+                }
+            }
+        }
+
+
 
         private string _WorkerID;
         public string WorkerID
@@ -588,6 +603,8 @@ namespace ECS.UI.ViewModel
             AlarmManager.Instance.SetAlarmEvent += AlarmManager_SetAlarmEvent;
             AlarmManager.Instance.ResetAlarmEvent += AlarmManager_ResetAlarmEvent;
 
+            InterlockManager.Instance.InterlockEvent += Instance_InterlockEvent;
+
             if (AlarmManager.Instance.GetCurrentAlarmAsList().Count > 0)
             {
                 IsEnableAlarmButton = true;
@@ -615,6 +632,12 @@ namespace ECS.UI.ViewModel
             _Timer = new Timer(TimerCallbackFunction, null, 0, 100);
 
             EMOProcessStart(@"./config/Server.Config.ini");
+        }
+
+        private void Instance_InterlockEvent(object sender, EventArgs e)
+        {
+            DataManager.Instance.SET_INT_DATA(IoNameHelper.V_INT_SYS_EQP_INTERLOCK, 1);
+            TowerLampSetting(false, true, true);
         }
 
         private void TowerLampSetting(bool green, bool red, bool yellow)
@@ -682,6 +705,15 @@ namespace ECS.UI.ViewModel
                 DataManager.Instance.SET_INT_DATA(IoNameHelper.V_INT_EMO_CMD_ESTOP, 0);
                 ExecuteEmergencyStopCommand();
             }
+
+            if(DataManager.Instance.GET_STRING_DATA(IoNameHelper.IN_STR_LASER_OPMODE_STATUS, out _) == "ON")
+            {
+                IsEnableCautionButton = true;
+            }
+            else
+            {
+                IsEnableCautionButton = false;
+            }
         }
 
         private void AlarmManager_ResetAlarmEvent(object sender, EventArgs e)
@@ -732,7 +764,7 @@ namespace ECS.UI.ViewModel
             {
                 if(OperationModeChange())
                 {
-                    UserInfoUpdate(WorkerName, WorkerID, "", "");
+                    UserInfoUpdate(WorkerName, WorkerID, "", WorkerAuthority);
                     IsSelectMainSystemView = true;
                     IsSelectAutoView = false;
 
@@ -926,6 +958,7 @@ namespace ECS.UI.ViewModel
                     {
                         baseinfo.LoginState = false;
                         LoginCaption = "LOGIN";
+                        UserInfoUpdate("", "", "", "");
                         LogHelper.Instance.UILog.DebugFormat("[{0}] Logout Done.", this.GetType().Name);
                     }
                     baseinfo.LoginStateFlag = true;
@@ -943,13 +976,16 @@ namespace ECS.UI.ViewModel
             {
                 WorkerID = id;
                 WorkerName = name;
-                switch (WorkerID)
+                WorkerAuthority = authority;
+               
+                switch (WorkerAuthority)
                 {
                     case "ADMIN":
                         if (SelectedView != Views.MAIN_SYSTEM) IsSelectMainSystemView = true;
                         IsEnableIoList = true;
                         IsEnableSettingsView = true;
                         IsEnableRecipeManagerView = true;
+                        IsEnableAlarmHistory = true;
                         IsEnableAutoView = true;
                         break;
                     case "ENGINEER":
@@ -957,15 +993,32 @@ namespace ECS.UI.ViewModel
                         IsEnableIoList = true;
                         IsEnableSettingsView = true;
                         IsEnableRecipeManagerView = true;
+                        IsEnableAlarmHistory = true;
                         IsEnableAutoView = true;
                         break;
                     case "OPERATOR":
                         if (SelectedView != Views.MAIN_SYSTEM) IsSelectMainSystemView = true;
+                        IsEnableIoList = false;
+                        IsEnableSettingsView = false;
+                        IsEnableRecipeManagerView = false;
                         IsEnableAutoView = true;
+                        IsEnableAlarmHistory = true;
                         break;
                     case "":
                         if (SelectedView != Views.MAIN_SYSTEM) IsSelectMainSystemView = true;
                         IsEnableIoList = false;
+                        IsEnableSettingsView = false;
+                        IsEnableRecipeManagerView = false;
+                        IsEnableAlarmHistory = false;
+                        IsEnableAutoView = false;
+                        break;
+                    default:
+                        if (SelectedView != Views.MAIN_SYSTEM) IsSelectMainSystemView = true;
+                        IsEnableIoList = false;
+                        IsEnableSettingsView = false;
+                        IsEnableRecipeManagerView = false;
+                        IsEnableAlarmHistory = false;
+                        IsEnableAutoView = false;
                         break;
                 }
 
@@ -995,7 +1048,7 @@ namespace ECS.UI.ViewModel
                         }
                         else
                         {
-                            UserInfoUpdate(WorkerName, WorkerID, "", "");
+                            UserInfoUpdate(WorkerName, WorkerID, "", WorkerAuthority);
                         }
                     }
 

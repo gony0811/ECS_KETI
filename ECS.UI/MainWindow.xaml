@@ -65,6 +65,7 @@
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
             <Label Content="{Binding WorkerID}" VerticalContentAlignment="Center"/>
+            <Label Content="{Binding WorkerAuthority}" VerticalContentAlignment="Center"/>
             <Button Content="{Binding LoginCaption}" Command="{Binding LoginCommand}"/>
             <Button>
                 <materialDesign:PackIcon Kind="HelpCircleOutline"/>
@@ -284,13 +285,13 @@
                 </Button>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.ColumnSpan="2"  HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,5,5,5">
+            <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.ColumnSpan="2"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,5,5,5">
                 <Button x:Name="EMOButton" ToolTip="Emergency Stop" Width="Auto" Height="Auto" IsEnabled="{Binding IsEnableEMOButton}" Command="{Binding EmergencyStopCommand}" Foreground="Transparent" Background="Transparent" BorderBrush="LightGray" Margin="5,0,0,0"/>
                 <Button x:Name="CurrentAlarmButton" ToolTip="Alarm Window"  Width="Auto" Height="Auto" IsEnabled="{Binding IsEnableAlarmButton}" Command="{Binding CurrentAlarmButtonClickCommand}"  Foreground="Transparent" Background="LightGray" BorderBrush="Gray" Margin="5,0,0,0"/>
                 <Button x:Name="BuzzerButton" ToolTip="Buzzer Off"  Width="Auto" Height="Auto" IsEnabled="{Binding IsEnableBuzzerButton}" Command="{Binding BuzzerButtonClickCommand}" Foreground="Transparent" Background="Transparent" BorderBrush="LightGray" Margin="5,0,0,0"/>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5,5,5,5">
+            <StackPanel Orientation="Horizontal" Grid.Column="4" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5,5,5,5">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Label Content="Availability :" VerticalContentAlignment="Center" HorizontalContentAlignment="Right"/>
                     <Label Content="Interlock :"  VerticalContentAlignment="Center" HorizontalContentAlignment="Right"/>

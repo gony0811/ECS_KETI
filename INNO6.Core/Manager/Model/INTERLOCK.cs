@@ -10,7 +10,7 @@ namespace INNO6.Core.Manager.Model
     {
        public string Name { get; set; }
        public bool IsUse { get; set; }
-
+       public bool NotFlag { get; set; }
        public string Type { get; set; }
        public string IoName { get; set; }
        public string Status { get; set; }

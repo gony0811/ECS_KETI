@@ -15,6 +15,8 @@ namespace INNO6.Core.Manager
 {
     public class FunctionManager
     {
+        public delegate void ExecuteResultCallback(string functionName, object result);
+
         public enum FunctionStatus
         {
             UNKNOWN = 0,
@@ -242,7 +244,7 @@ namespace INNO6.Core.Manager
             }
         }
 
-        public void EXECUTE_FUNCTION_ASYNC(string executeName)
+        public void EXECUTE_FUNCTION_ASYNC(string executeName, ExecuteResultCallback executeResultCallback = null)
         {
             lock (Instance)
             {
@@ -281,7 +283,8 @@ namespace INNO6.Core.Manager
                     {
                         MethodInfo execute = type.GetMethod(FUNCTION_EXECUTE);
                         resultExecute = (string)execute.Invoke(instance, null);
-
+                        if(executeResultCallback != null)
+                            executeResultCallback(executeName, resultExecute);
                         MethodInfo postExecute = type.GetMethod(FUNCTION_POSTEXECUTRE);
                         postExecute.Invoke(instance, null);
                     }
