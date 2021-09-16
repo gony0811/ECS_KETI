@@ -13,6 +13,10 @@ namespace ECS.Function.Operation
 {
     public class OP_INIT_PROCESS : AbstractFunction
     {
+        private bool visionPositionMoveResult = false;
+        private bool ModeEgyNgrSetResult = false;
+        private bool laserStandByResult = false;
+
         public override string Execute()
         {
             string result = F_RESULT_SUCCESS;
@@ -20,9 +24,9 @@ namespace ECS.Function.Operation
             IsProcessing = true;
             ProgressRate = CalcurateProgressRate(StopWatch.ElapsedMilliseconds);
 
-            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC("F_MOVE_VISION_POSITION");
-            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC("F_SET_MODE_EGYNGR");
-            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC("F_LASER_STANDBY");
+            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC("F_MOVE_VISION_POSITION", this.ExecuteFunctionResult);
+            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC("F_SET_MODE_EGYNGR", this.ExecuteFunctionResult);
+            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC("F_LASER_STANDBY", this.ExecuteFunctionResult);
 
             StopWatch.Restart();
 
@@ -41,7 +45,10 @@ namespace ECS.Function.Operation
                     && !FunctionManager.Instance.CHECK_EXECUTING_FUNCTION_EXSIST("F_LASER_STANDBY")
                     )
                 {
-                    return F_RESULT_SUCCESS;
+                    if (visionPositionMoveResult && ModeEgyNgrSetResult && laserStandByResult)
+                        return F_RESULT_SUCCESS;
+                    else
+                        return F_RESULT_FAIL;
                 }
                 else if (StopWatch.ElapsedMilliseconds > TimeoutMiliseconds)
                 {
@@ -58,6 +65,40 @@ namespace ECS.Function.Operation
         public override void PostExecute()
         {
             //throw new NotImplementedException();
+        }
+
+
+        private void ExecuteFunctionResult(string executeName, object state)
+        {
+            string result = state as string;
+
+            switch(executeName)
+            {
+                case "F_MOVE_VISION_POSITION":
+                    {
+                        if (result == F_RESULT_SUCCESS)
+                            visionPositionMoveResult = true;
+                        else
+                            visionPositionMoveResult = false;
+                    }
+                    break;
+                case "F_SET_MODE_EGYNGR":
+                    {
+                        if (result == F_RESULT_SUCCESS)
+                            ModeEgyNgrSetResult = true;
+                        else
+                            ModeEgyNgrSetResult = false;
+                    }
+                    break;
+                case "F_LASER_STANDBY":
+                    {
+                        if (result == F_RESULT_SUCCESS)
+                            laserStandByResult = true;
+                        else
+                            laserStandByResult = false;
+                    }
+                    break;
+            }
         }
     }
 }

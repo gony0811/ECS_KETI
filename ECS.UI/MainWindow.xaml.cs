@@ -21,6 +21,8 @@ using INNO6.Core.Manager;
 using System.Windows.Media.Animation;
 using INNO6.Core;
 using ECS.UI.ViewModel;
+using ECS.Common.Helper;
+using System.Threading;
 
 namespace ECS.UI
 {
@@ -35,7 +37,6 @@ namespace ECS.UI
         string _EmergencyStopImageSource = "Resources/Images/emergency_stop.png";
         string _LaserCautionImageSource = "Resources/Images/laser_radiation.png";
         string _BuzzerImageSource = "Resources/Images/buzzer.png";
-
         public MainWindow()
         {
             InitializeComponent();
@@ -51,6 +52,17 @@ namespace ECS.UI
         private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             ViewModelLocator.Instance.VisionCameraViewModel.Stop();
+
+            if (MessageBoxManager.ShowYesNoBox("Do you want to execute laser shutdown process ?", "ECS SHUTDOWN") == MSGBOX_RESULT.OK)
+            {
+                PROCESS_RESULT result = MessageBoxManager.ShowProgressWindow("ECS SHUTDOWN", "ECS SHUTDOWN PROCESSING...", FuncNameHelper.LASER_SHUTDOWN);
+
+                if (result == PROCESS_RESULT.SUCCESS) return;
+                else
+                {
+                    e.Cancel = true;
+                }
+            }
         }
 
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)

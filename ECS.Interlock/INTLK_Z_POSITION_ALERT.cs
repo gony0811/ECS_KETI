@@ -10,7 +10,7 @@ using INNO6.IO;
 
 namespace ECS.Interlock
 {
-    public class INTLK_Z_POSITION_ALERT : IExecuteInterlock
+    public class INTLK_Z_POSITION_ALERT : AbstractExecuteInterlock
     {
         private const string IO_GET_X_POSITION = "iPMAC.dAxisX.Position";
         private const string IO_GET_Y_POSITION = "iPMAC.dAxisY.Position";
@@ -18,7 +18,7 @@ namespace ECS.Interlock
         private const string IO_GET_R_POSITION = "iPMAC.dAxisR.Position";
         private const string IO_GET_T_POSITION = "iPMAC.dAxisX.Position";
 
-        public void Execute()
+        public override bool Execute(object setvalue)
         {
             double xPosition = DataManager.Instance.GET_DOUBLE_DATA(IO_GET_X_POSITION, out bool _);
             double yPosition = DataManager.Instance.GET_DOUBLE_DATA(IO_GET_Y_POSITION, out bool _);
@@ -29,7 +29,7 @@ namespace ECS.Interlock
             //if ()
             AlarmManager.Instance.SetAlarm("E5002");
 
-
+            return true;
         }
     }
 }

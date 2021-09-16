@@ -8,12 +8,14 @@ using System.Threading.Tasks;
 
 namespace ECS.Interlock.Value
 {
-    public class I_AXIS_X_LIMIT : IExecuteInterlock
+    public class I_AXIS_X_LIMIT : AbstractExecuteInterlock
     {
-        public void Execute()
+        public override bool Execute(object setvalue)
         {
             FunctionManager.Instance.ABORT_FUNCTION_ALL();
             AlarmManager.Instance.SetAlarm("E9901");
+
+            return true;
         }
     }
 }

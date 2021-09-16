@@ -70,15 +70,13 @@ namespace ECS.Function.Physical
         {
             string opModeStatus = DataManager.Instance.GET_STRING_DATA(IoNameHelper.IN_STR_LASER_OPMODE_STATUS, out bool _);
 
-            string[] arrStatus = opModeStatus.Split(',');
-
-            if (arrStatus != null && arrStatus.Contains("SHUTDOWN")) return true;
+            if (opModeStatus != null && opModeStatus.Contains("IDLE")) return true;
             else return false;
         }
 
         public override void ExecuteWhenSimulate()
         {
-            DataManager.Instance.SET_STRING_DATA(IoNameHelper.OUT_INT_LASER_OPMODE_SHUTDOWN, "SHUTDOWN");
+            DataManager.Instance.SET_STRING_DATA(IoNameHelper.IN_STR_LASER_OPMODE_STATUS, "IDLE");
         }
 
         public override void PostExecute()

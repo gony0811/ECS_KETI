@@ -8,6 +8,6 @@ namespace INNO6.Core.Interlock.Interface
 {
     public interface IExecuteInterlock
     {
-        void Execute();
+        bool Execute(object setValue);
     }
 }

@@ -84,7 +84,7 @@ namespace ECS.UI
                 return;
             }
 
-            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(_ExecuteName);
+            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(_ExecuteName, ExecuteResult);
 
 
             while (true)
@@ -99,8 +99,7 @@ namespace ECS.UI
                 }
                 else if (FunctionManager.Instance.CHECK_EXECUTING_FUNCTION_EXSIST(_ExecuteName) == false)
                 {
-                    _BackgroundWorker.ReportProgress(100);
-                    Result = PROCESS_RESULT.SUCCESS;
+                    _BackgroundWorker.ReportProgress(100);                  
                     return;
                 }
                 else
@@ -110,6 +109,20 @@ namespace ECS.UI
                     _BackgroundWorker.ReportProgress(_CurrentProgress, processMessage);
                 }
             }
+        }
+
+        private void ExecuteResult(string executeName, object state)
+        {
+            string result = state as string;
+
+            if (result == FunctionManager.FUNC_RESULT_SUCCESS)
+                Result = PROCESS_RESULT.SUCCESS;
+            else if (result == FunctionManager.FUNC_RESULT_FAIL)
+                Result = PROCESS_RESULT.FAIL;
+            else if (result == FunctionManager.FUNC_RESULT_TIMEOUT)
+                Result = PROCESS_RESULT.FAIL;
+            else
+                Result = PROCESS_RESULT.FAIL;
         }
     }
 }
