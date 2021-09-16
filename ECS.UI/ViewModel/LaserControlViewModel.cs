@@ -93,7 +93,9 @@ namespace ECS.UI.ViewModel
             LaserOffButtonContent = "OFF";
             LaserStandByButtonContent = "STANDBY";
 
-            
+            LaserOffButtonEnable = true;
+            LaserOnButtonEnable = true;
+            LaserStandByButtonEnable = true;
         }
 
         private void ExecuteLoadedCommand()
@@ -128,56 +130,62 @@ namespace ECS.UI.ViewModel
 
             TubeTemperature = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.IN_DBL_LASER_STATUS_TUBETEMP, out bool _);
 
-            if (OpModeText == "OFF")
-            {
-                LaserOffButtonEnable = false;
-                LaserOnButtonEnable = true;
-                LaserStandByButtonEnable = true;
-            }
-            else if(OpModeText == "ON")
-            {
-                LaserOffButtonEnable = true;
-                LaserOnButtonEnable = false;
-                LaserStandByButtonEnable = true;
-            }
-            else if (OpModeText == "STANDBY")
-            {
-                LaserOffButtonEnable = true;
-                LaserOnButtonEnable = true;
-                LaserStandByButtonEnable = false;
-            }
-            else
-            {
-                LaserOffButtonEnable = true;
-                LaserOnButtonEnable = false;
-                LaserStandByButtonEnable = false;
-            }
+            SelectedEnergyMode = DataManager.Instance.GET_STRING_DATA(IoNameHelper.IN_STR_LASER_EGYMODE_STATUS, out bool _);
+
+            LaserEnergy = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.IN_DBL_LASER_ENERGY_EGYSET, out bool _);
+
+            LaserHV = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.IN_DBL_LASER_ENERGY_HV, out bool _);
+
+            //if (OpModeText == "OFF")
+            //{
+            //    LaserOffButtonEnable = false;
+            //    LaserOnButtonEnable = true;
+            //    LaserStandByButtonEnable = true;
+            //}
+            //else if(OpModeText == "ON")
+            //{
+            //    LaserOffButtonEnable = true;
+            //    LaserOnButtonEnable = false;
+            //    LaserStandByButtonEnable = true;
+            //}
+            //else if (OpModeText == "STANDBY")
+            //{
+            //    LaserOffButtonEnable = true;
+            //    LaserOnButtonEnable = true;
+            //    LaserStandByButtonEnable = false;
+            //}
+            //else
+            //{
+            //    LaserOffButtonEnable = true;
+            //    LaserOnButtonEnable = false;
+            //    LaserStandByButtonEnable = false;
+            //}
         }
 
         private void ExecuteEnergyModeSelectionChanged()
         {
-            if (SelectedEnergyMode.Equals("EGY NGR"))
-            {
-                FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.SET_MODE_EGYNGR);
-            }
-            else if (SelectedEnergyMode.Equals("EGYBURST NGR"))
-            {
-                FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.SET_MODE_EGYBURSTNGR);
-            }
-            else if (SelectedEnergyMode.Equals("HV NGR"))
-            {
-                FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.SET_MODE_HVNGR);
-            }
+            //if (SelectedEnergyMode.Equals("EGY NGR"))
+            //{
+            //    FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.SET_MODE_EGYNGR);
+            //}
+            //else if (SelectedEnergyMode.Equals("EGYBURST NGR"))
+            //{
+            //    FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.SET_MODE_EGYBURSTNGR);
+            //}
+            //else if (SelectedEnergyMode.Equals("HV NGR"))
+            //{
+            //    FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.SET_MODE_HVNGR);
+            //}
         }
 
         private void ExecuteLaserHVTextChanged()
         {
-            DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.OUT_DBL_LASER_ENERGY_HV, LaserEnergy);
+            //DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.OUT_DBL_LASER_ENERGY_HV, LaserEnergy);
         }
 
         private void ExecuteLaserEnergyTextChanged()
         {
-            DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.OUT_DBL_LASER_ENERGY_EGYSET, LaserEnergy);
+            //DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.OUT_DBL_LASER_ENERGY_EGYSET, LaserEnergy);
         }
 
         private void ExecuteLaserOffButtonCommand()

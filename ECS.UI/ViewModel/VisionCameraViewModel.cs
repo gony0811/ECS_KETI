@@ -2,6 +2,7 @@
 using ECS.UI.Model;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using OpenCvSharp;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
@@ -586,7 +587,15 @@ namespace ECS.UI.ViewModel
 
                         // Assign a temporary variable to dispose the bitmap after assigning the new bitmap to the display control.
                         //Bitmap bitmapOld = (Bitmap)this.BitmapSource;
-                        
+                        // Assign a temporary variable to dispose the bitmap after assigning the new bitmap to the display control.
+                        //Bitmap bitmapOld = (Bitmap)this.BitmapSource;
+                        //Mat img = OpenCvSharp.Extensions.BitmapConverter.ToMat(bitmap);
+
+                        //Cv2.Line(img, new OpenCvSharp.Point(0, bitmap.Height / 2), new OpenCvSharp.Point(bitmap.Width, bitmap.Height / 2), Scalar.Red, 1, LineTypes.Link4);
+                        //Cv2.Line(img, new OpenCvSharp.Point(bitmap.Width / 2, 0), new OpenCvSharp.Point(bitmap.Width / 2, bitmap.Height), Scalar.Red, 1, LineTypes.Link4);
+
+                        //Bitmap bit = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(img);
+
 
 
 

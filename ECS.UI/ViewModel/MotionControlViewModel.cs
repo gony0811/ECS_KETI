@@ -738,29 +738,20 @@ namespace ECS.UI.ViewModel
 
         private void ExecuteVisionMoveCommand()
         {
-            if(FunctionManager.Instance.EXECUTE_FUNCTION_SYNC("F_MOVE_VISION_POSITION") == FunctionManager.FUNC_RESULT_SUCCESS)
-            {
-                MessageBoxManager.ShowMessageBox("Camera Position으로 이동이 완료되었습니다.");
-                ButtonOffsetMoveEnable = true;
-            }
+            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC("F_MOVE_VISION_POSITION");
+            ButtonOffsetMoveEnable = true;
         }
 
         private void ExecuteProcessMoveCommand()
         {
-            if(FunctionManager.Instance.EXECUTE_FUNCTION_SYNC("F_MOVE_PROCESS_POSITION") == FunctionManager.FUNC_RESULT_SUCCESS)
-            {
-                MessageBoxManager.ShowMessageBox("Process Position으로 이동이 완료되었습니다.");
-                ButtonOffsetMoveEnable = false;
-            }
+            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC("F_MOVE_PROCESS_POSITION");
+            ButtonOffsetMoveEnable = false;   
         }
 
         private void ExecuteOffsetMoveCommand()
         {
-            if (FunctionManager.Instance.EXECUTE_FUNCTION_SYNC(FuncNameHelper.MOVE_PROCESS_OFFSET) == FunctionManager.FUNC_RESULT_SUCCESS)
-            {
-                MessageBoxManager.ShowMessageBox("Process Position으로 이동이 완료되었습니다.");
-                ButtonOffsetMoveEnable = false;
-            }
+            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.MOVE_PROCESS_OFFSET);
+            ButtonOffsetMoveEnable = false;      
         }
 
         #endregion

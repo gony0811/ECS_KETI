@@ -88,7 +88,7 @@ namespace DEV.LEDControlEx
                 isDeviceLogging = false;
             }
 
-            xSerial = new XSerialComm(portName, int.Parse(baudRate), (Parity)int.Parse(parity), int.Parse(dataBits), (StopBits)int.Parse(stopBits));
+            xSerial = new XSerialComm(portName, int.Parse(baudRate), (Parity)int.Parse(parity), int.Parse(dataBits), (StopBits)int.Parse(stopBits), char.MinValue);
 
             if (xSerial == null)
             {
