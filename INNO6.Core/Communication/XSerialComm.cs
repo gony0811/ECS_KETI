@@ -14,49 +14,30 @@ namespace INNO6.Core.Communication
 
         private ConcurrentQueue<string> receivedQueue = new ConcurrentQueue<string>();
         private static object critical_section = new object();
-        private string _Buffer;
-        private char _Seperator;
+
 
         private SerialPort _serialPort { get; set; }
 
 
         public bool IsOpen { get { return _serialPort.IsOpen; } }
 
-        public XSerialComm(string portName, int baudRate, Parity parity, int dataBits, StopBits stopBits, char seperator = char.MinValue)
+        public XSerialComm(string portName, int baudRate, Parity parity, int dataBits, StopBits stopBits)
         {
             _serialPort = new SerialPort(portName: portName, baudRate: baudRate, parity: parity, dataBits: dataBits, stopBits: stopBits);
             _serialPort.DataReceived += SerialPort_DataReceived;
-            _Seperator = seperator;
         }
 
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-
-            if (_serialPort.IsOpen && _serialPort.BytesToRead > 0)
+            lock (critical_section)
             {
-                string readData = _serialPort.ReadExisting();
+                if (_serialPort.IsOpen && _serialPort.BytesToRead > 0)
+                {
+                    string readData = _serialPort.ReadExisting();
 
-                DataProcessing(readData, _Seperator);
-            }
-
-        }
-
-        private bool DataProcessing(string read, char seperator = char.MinValue)
-        {
-            if (string.IsNullOrEmpty(read) || read.StartsWith("\0")) return false;
-
-            _Buffer += read;
-
-            if (seperator == char.MinValue || _Buffer.Contains<char>(seperator))
-            {              
-                receivedQueue.Enqueue(_Buffer);
-                _Buffer = string.Empty;
-                return true;
-            }
-            else
-            {
-                
-                return false;
+                    if (string.IsNullOrEmpty(readData) || readData.StartsWith("\0")) return;
+                    receivedQueue.Enqueue(readData);
+                }
             }
         }
 
@@ -91,12 +72,14 @@ namespace INNO6.Core.Communication
         }
 
         public void SendMessage(string message)
-        {           
-            if (_serialPort.IsOpen)
+        {
+            lock (critical_section)
             {
-                _serialPort.Write(message);
-            }               
-        } 
+                if (_serialPort.IsOpen)
+                    _serialPort.Write(message);
+            }
+
+        }
 
         public void SendMessage(byte[] message)
         {

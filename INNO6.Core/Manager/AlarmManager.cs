@@ -91,11 +91,9 @@ namespace INNO6.Core.Manager
 
         public void SetAlarm(string alarm_id)
         {
-            if (ContainsCurrentAlarm(alarm_id)) return;
-
             ALARM alarm = _alarmDefineList.FindAll((x) => (x.ID == alarm_id)).FirstOrDefault();
 
-            
+            if (ContainsCurrentAlarm(alarm_id)) return;
 
             if (alarm != null)
             {
