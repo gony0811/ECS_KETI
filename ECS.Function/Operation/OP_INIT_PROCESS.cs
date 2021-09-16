@@ -43,6 +43,10 @@ namespace ECS.Function.Operation
                 {
                     return F_RESULT_SUCCESS;
                 }
+                else if (StopWatch.ElapsedMilliseconds > TimeoutMiliseconds)
+                {
+                    return F_RESULT_TIMEOUT;
+                }
                 else
                 {
                     Thread.Sleep(100);
