@@ -858,6 +858,7 @@ namespace ECS.UI.ViewModel
         public void ResourceRelease()
         {
             _engine.Stop();
+            ViewModelLocator.Instance.VisionCameraViewModel.Stop();
         
             if(_ManagedProcess != null)
             {

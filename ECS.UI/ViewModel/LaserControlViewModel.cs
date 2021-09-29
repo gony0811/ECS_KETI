@@ -190,17 +190,20 @@ namespace ECS.UI.ViewModel
 
         private void ExecuteLaserOffButtonCommand()
         {
-            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.LASER_OFF);
+            //FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.LASER_OFF);
+            MessageBoxManager.ShowProgressRingWindow("LASER OFF Processing..", FuncNameHelper.LASER_OFF);
         }
 
         private void ExecuteLaserOnButtonCommand()
         {
-            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.LASER_ON);
+            //FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.LASER_ON);
+            MessageBoxManager.ShowProgressRingWindow("LASER ON Processing..", FuncNameHelper.LASER_OFF);
         }
 
         private void ExecuteLaserStandByButtonCommand()
         {
-            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.LASER_STANDBY);
+            //FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.LASER_STANDBY);
+            MessageBoxManager.ShowProgressRingWindow("LASER STANDBY Processing..", FuncNameHelper.LASER_STANDBY);
         }
     }
 }

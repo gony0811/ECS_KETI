@@ -101,6 +101,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsProgressRing">
+      <HintPath>..\Library\WindowsProgressRing.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -168,6 +171,9 @@
     <Compile Include="ProcessChecker.cs" />
     <Compile Include="Windows\NewRecipeWindow.xaml.cs">
       <DependentUpon>NewRecipeWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\ProgressRingWindow.xaml.cs">
+      <DependentUpon>ProgressRingWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\ProgressWindow.xaml.cs">
       <DependentUpon>ProgressWindow.xaml</DependentUpon>
@@ -254,6 +260,10 @@
     <Page Include="Windows\NewRecipeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ProgressRingWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\ProgressWindow.xaml">
       <SubType>Designer</SubType>

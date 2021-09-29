@@ -5,6 +5,7 @@
  * description  : 메세지박스 소스입니다.
  * 
  * ***********************************/
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,6 +49,14 @@ namespace ECS.UI
             ProgressWindow window = new ProgressWindow(progressTitle, message, executeName);
             window.ShowDialog();
 
+
+            return window.Result;
+        }
+
+        public static PROCESS_RESULT ShowProgressRingWindow(string windowTitle, string executeName)
+        {
+            ProgressRingWindow window = new ProgressRingWindow(windowTitle, executeName);
+            window.ShowDialog();
 
             return window.Result;
         }

@@ -41,6 +41,7 @@ namespace ECS.Common.Helper
         public const string V_DBL_SET_Y_INPOS_RANGE = "vSet.dAxisY.InPosRange";
         public const string V_DBL_SET_Y_ABS_VELOCITY = "vSet.dAxisY.AbsVelocity";
         public const string V_DBL_SET_Y_ABS_POSITION = "vSet.dAxisY.AbsPosition";
+        public const string V_DBL_SET_Y_POSITION_OFFSET = "vSet.dAxisY.PositionOffset";
 
         public const string V_DBL_SET_X_VISION_POSITION = "vSet.dAxisX.VisionPosition";
         public const string V_DBL_SET_X_REL_VELOCITY = "vSet.dAxisX.RelVelocity";
@@ -55,6 +56,7 @@ namespace ECS.Common.Helper
         public const string V_DBL_SET_X_INPOS_RANGE = "vSet.dAxisX.InPosRange";
         public const string V_DBL_SET_X_ABS_VELOCITY = "vSet.dAxisX.AbsVelocity";
         public const string V_DBL_SET_X_ABS_POSITION = "vSet.dAxisX.AbsPosition";
+        public const string V_DBL_SET_X_POSITION_OFFSET = "vSet.dAxisX.PositionOffset";
 
         public const string V_INT_SAFETY_LASER_INTERLOCK = "vSys.iSafety.LaserInterlock";
 
@@ -124,7 +126,8 @@ namespace ECS.Common.Helper
         public const string OUT_INT_PMAC_SHUTTER_BACKWARD = "oPMAC.iShutter.Backward";
         public const string OUT_INT_PMAC_VACUUM_ONOFF = "oPMAC.iVacuum.OnOff";
         public const string OUT_INT_PMAC_PURGE_ONOFF = "oPMAC.iPurge.OnOff";
-
+        public const string OUT_INT_PMAC_ALL_SERVO_STOP = "oPMAC.iAxisAll.ServoStop";
+        public const string OUT_INT_PMAC_ALL_MOVE_STOP = "oPMAC.iAxisAll.MoveStop";
 
 
         public const string OUT_INT_PMAC_Y_MOVETOSETPOS = "oPMAC.iAxisY.MoveToSetPos";

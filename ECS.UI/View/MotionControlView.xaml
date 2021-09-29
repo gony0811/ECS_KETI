@@ -100,6 +100,7 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -130,14 +131,15 @@
                     </RadioButton>
                 </StackPanel>
 
-                <Border Grid.Row="1" Grid.ColumnSpan="4" Margin="5" Background="{DynamicResource MaterialDesignDivider}" Height="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" />
+                <Border Grid.Row="1" Grid.ColumnSpan="5" Margin="5" Background="{DynamicResource MaterialDesignDivider}" Height="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" />
 
 
-                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" Grid.ColumnSpan="2">
+                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" Grid.ColumnSpan="3">
                     <Button x:Name="ButtonServo" Margin="5" Width="100" Content="{Binding ButtonServoContent}" Command="{Binding ButtonServoCommand}" IsEnabled="{Binding ButtonServoEnable}"/>
-                    <Button x:Name="ButtonHomming" Margin="5" Width="100"  Content="{Binding ButtonHommingContent}" Command="{Binding ButtonHommingCommand}" IsEnabled="{Binding ButtonHommingEnable}"/>
+                    <Button x:Name="ButtonServoKillAll" Margin="5" Width="100" Content="{Binding ButtonKillAllContent}" Command="{Binding ButtonServoKillAllCommand}" IsEnabled="{Binding ButtonServoKillAllEnable}"/>
                 </StackPanel>
-                <StackPanel Grid.Row="3" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Left">
+                <StackPanel Grid.Row="3" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Button x:Name="ButtonHomming" Margin="5" Width="100"  Content="{Binding ButtonHommingContent}" Command="{Binding ButtonHommingCommand}" IsEnabled="{Binding ButtonHommingEnable}"/>
                     <Button x:Name="ButtonJogPlus" Margin="5" Width="100" Content="{Binding ButtonJogPlusContent}" IsEnabled="{Binding ButtonJogPlusEnable}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
@@ -171,7 +173,7 @@
                     </ToggleButton>
                     <TextBlock Text="{Binding TextBlockJogSpeedHighLow}" Width="100" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14"/>
                 </StackPanel>
-                <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Center" Margin="20,5" Grid.ColumnSpan="2">
+                <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Center" Margin="5" Grid.ColumnSpan="2">
                     <Label Content="{Binding LabelAbsoluteMove}" FontSize="14" Width="Auto" Height="Auto" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                         <Label Content="위치 :" FontSize="14" Width="50" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
@@ -197,7 +199,7 @@
                     </StackPanel>
                     <Button Content="{Binding ButtonAbsoluteMoveContent}" Command="{Binding ButtonAbsoluteMoveCommand}" IsEnabled="{Binding ButtonAbsoluteMoveEnable}" Margin="5"/>
                 </StackPanel>
-                <StackPanel Grid.Row="4" Grid.Column="2" Orientation="Vertical" HorizontalAlignment="Center" Margin="20,5" Grid.ColumnSpan="2">
+                <StackPanel Grid.Row="4" Grid.Column="2" Orientation="Vertical" HorizontalAlignment="Center" Margin="5" Grid.ColumnSpan="2">
                     <Label Content="{Binding LabelRelativeMove}" FontSize="14" Width="Auto" Height="Auto" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                         <Label Content="거리 :" FontSize="14" Width="50" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5"/>
@@ -221,7 +223,11 @@
                         </mah:NumericUpDown>
                         <Label Content="(mm/s)" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </StackPanel>
-                    <Button Content="{Binding ButtonRelativeMoveContent}" Command="{Binding ButtonRelativeMoveCommand}" IsEnabled="{Binding ButtonRelativeMoveEnable}" Margin="5"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="{Binding ButtonRelativePlusMoveContent}" Command="{Binding ButtonRelativePlusMoveCommand}" IsEnabled="{Binding ButtonRelativeMoveEnable}" Margin="5" MinWidth="120"/>
+                        <Button Content="{Binding ButtonRelativeMinusMoveContent}" Command="{Binding ButtonRelativeMinusMoveCommand}" IsEnabled="{Binding ButtonRelativeMoveEnable}" Margin="5" MinWidth="120"/>
+                    </StackPanel>
+
                 </StackPanel>
             </Grid>
 
@@ -231,7 +237,7 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button Content="{Binding ButtonVisionMoveContent}" Command="{Binding ButtonVisionMoveCommand}" IsEnabled="{Binding ButtonVisionMoveEnable}" Margin="10" Width="150"/>
                     <Button Content="{Binding ButtonProcessMoveContent}" Command="{Binding ButtonProcessMoveCommand}" IsEnabled="{Binding ButtonProcessMoveEnable}" Margin="10" Width="150"/>
-                    <Button Content="{Binding ButtonOffsetMoveContent}" Command="{Binding ButtonOffsetMoveCommand}" IsEnabled="{Binding ButtonOffsetMoveEnable}" Margin="10" Width="150"/>
+                    <Button Content="{Binding ButtonMoveStopContent}" Command="{Binding ButtonMoveStopCommand}" IsEnabled="{Binding ButtonMoveStopEnable}" Margin="10" Width="150"/>
                 </StackPanel>
             </StackPanel>
 

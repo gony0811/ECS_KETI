@@ -71,23 +71,43 @@
             
                         <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center">
                             <Label Content="Process Position X:" VerticalContentAlignment="Bottom"  FontSize="12" Width="120"/>
-                            <TextBox Text="{Binding ProcessPositionX, StringFormat=N2}" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom">
+                            <TextBox Text="{Binding ProcessPositionX, StringFormat=N2}" IsReadOnly="True" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom">
                                 <i:Interaction.Behaviors>
                                     <Behaviors:TextBoxInputBehavior InputMode="DecimalInput"/>
                                 </i:Interaction.Behaviors>
                             </TextBox>
                             <Label Content="(mm)" VerticalContentAlignment="Bottom" FontSize="12" Width="50"/>
-                            <Button Content="SET" Command="{Binding ProcPosXSetButtonCommand}" Margin="5,0,0,0" VerticalContentAlignment="Center"/>
+                            <Button Content="SET" Command="{Binding ProcPosXSetButtonCommand}" IsEnabled="False" Margin="5,0,0,0" VerticalContentAlignment="Center"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center">
                             <Label Content="Process Position Y:" VerticalContentAlignment="Bottom" FontSize="12" Width="120"/>
-                            <TextBox Text="{Binding ProcessPositionY, StringFormat=N2}" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom">
+                            <TextBox Text="{Binding ProcessPositionY, StringFormat=N2}" IsReadOnly="True" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom">
                                 <i:Interaction.Behaviors>
                                     <Behaviors:TextBoxInputBehavior InputMode="DecimalInput"/>
                                 </i:Interaction.Behaviors>
                             </TextBox>
                             <Label Content="(mm)" VerticalContentAlignment="Bottom" FontSize="12" Width="50"/>
-                            <Button Content="SET" Command="{Binding ProcPosYSetButtonCommand}" Margin="5,0,0,0" VerticalContentAlignment="Center"/>
+                            <Button Content="SET" Command="{Binding ProcPosYSetButtonCommand}" IsEnabled="False" Margin="5,0,0,0" VerticalContentAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Label Content="Position Offset X:" VerticalContentAlignment="Bottom" FontSize="12" Width="120"/>
+                            <TextBox Text="{Binding PositionOffsetX, StringFormat=N2}" IsReadOnly="False" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom">
+                                <i:Interaction.Behaviors>
+                                    <Behaviors:TextBoxInputBehavior InputMode="DecimalInput"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                            <Label Content="(mm)" VerticalContentAlignment="Bottom" FontSize="12" Width="50"/>
+                            <Button Content="SET" Command="{Binding PositionOffsetXSetButtonCommand}" IsEnabled="True" Margin="5,0,0,0" VerticalContentAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Label Content="Position Offset Y:" VerticalContentAlignment="Bottom" FontSize="12" Width="120"/>
+                            <TextBox Text="{Binding PositionOffsetY, StringFormat=N2}" IsReadOnly="False" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom">
+                                <i:Interaction.Behaviors>
+                                    <Behaviors:TextBoxInputBehavior InputMode="DecimalInput"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                            <Label Content="(mm)" VerticalContentAlignment="Bottom" FontSize="12" Width="50"/>
+                            <Button Content="SET" Command="{Binding PositionOffsetYSetButtonCommand}" IsEnabled="True" Margin="5,0,0,0" VerticalContentAlignment="Center"/>
                         </StackPanel>
                     </StackPanel>
 
