@@ -163,6 +163,7 @@ namespace INNO6.Core.Manager
 
                 string status = string.Empty;
                 if (Convert.IsDBNull(dr["Status"])) status = "OFF";
+                else status = "ON";
                 _ = status.Contains("OFF") ? interlockInfo.Status = "OFF" : interlockInfo.Status = "ON";
                 interlockInfo.Status = dr["Status"] as string;
 
@@ -195,10 +196,9 @@ namespace INNO6.Core.Manager
                 string status = string.Empty;
 
                 if (Convert.IsDBNull(dr["Status"])) status = "OFF";
+                else status = "ON";
 
                 _ = status.Contains("OFF") ? interlockInfo.Status = "OFF" : interlockInfo.Status = "ON";
-
-                interlockInfo.Status = dr["Status"] as string;
 
                 interlockInfo.IoName = dr["IoName"] as string;
 
@@ -267,14 +267,20 @@ namespace INNO6.Core.Manager
 
         private bool SetpointInterlockExecute(string interlockName, object setValue)
         {
-            if (_SetpointInterlockList.ContainsKey(interlockName))
+            if (_SetpointInterlockList.ContainsKey(interlockName) && _SetpointInterlockInfoList.ContainsKey(interlockName))
             {
+                if (_SetpointInterlockInfoList[interlockName].Status == INTERLOCK_ON) return false;
+
                 object instance = _SetpointInterlockList[interlockName];
                 Type type = instance.GetType();
                 MethodInfo interlockExecute = type.GetMethod(INTERLOCK_EXECUTE);
                 object returnValue = interlockExecute.Invoke(instance, new object[] { setValue });
-                if((bool)returnValue) 
+                if((bool)returnValue)
+                {
                     _InterlockEvent?.Invoke(this, new InterlockEventArgs(interlockName, "SETPOINT"));
+                    _SetpointInterlockInfoList[interlockName].Status = INTERLOCK_ON;
+                }
+                    
 
                 return (bool)returnValue;
             }
@@ -286,15 +292,21 @@ namespace INNO6.Core.Manager
 
         private bool ValueInterlockExecute(string interlockName, object setValue)
         {
-            if (_ValueInterlockList.ContainsKey(interlockName))
+            if (_ValueInterlockList.ContainsKey(interlockName) && _ValueInterlockInfoList.ContainsKey(interlockName))
             {
+                if (_ValueInterlockInfoList[interlockName].Status == INTERLOCK_ON) return false;
+
                 object instance = _ValueInterlockList[interlockName];
                 Type type = instance.GetType();
                 MethodInfo interlockExecute = type.GetMethod(INTERLOCK_EXECUTE);
                 object returnValue = interlockExecute.Invoke(instance, new object[] { setValue });
 
                 if ((bool)returnValue)
+                {
                     _InterlockEvent?.Invoke(this, new InterlockEventArgs(interlockName, "VALUE"));
+                    _ValueInterlockInfoList[interlockName].Status = INTERLOCK_ON;
+                }
+                   
 
                 return (bool)returnValue;
             }
@@ -535,6 +547,19 @@ namespace INNO6.Core.Manager
                     {
                         return false;
                     }
+            }
+        }
+
+        public void INTERLOCK_RESET()
+        {
+            foreach(var setpoint in this._SetpointInterlockInfoList.Values)
+            {
+                if (setpoint.Status == INTERLOCK_ON) setpoint.Status = INTERLOCK_OFF;
+            }
+
+            foreach (var value in this._ValueInterlockInfoList.Values)
+            {
+                if (value.Status == INTERLOCK_ON) value.Status = INTERLOCK_OFF;
             }
         }
     }

@@ -19,7 +19,7 @@ namespace ECS.Function.Physical
 
         public override bool CanExecute()
         {
-            Abort = false;
+            IsAbort = false;
             IsProcessing = false;
 
             return this.EquipmentStatusCheck();
@@ -50,7 +50,7 @@ namespace ECS.Function.Physical
 
                 Thread.Sleep(100);
 
-                if (Abort)
+                if (IsAbort)
                 {
                     FunctionManager.Instance.ABORT_FUNCTION(F_X_AXIS_MOVE_TO_SETPOS);
                     FunctionManager.Instance.ABORT_FUNCTION(F_Y_AXIS_MOVE_TO_SETPOS);

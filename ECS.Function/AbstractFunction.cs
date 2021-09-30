@@ -46,10 +46,12 @@ namespace ECS.Function
 
         public Stopwatch StopWatch;
 
+        private List<string> _RunningFunctionList = new List<string>();
+
         public int ProgressRate { get; protected set; }
         public string ProcessingMessage { get; protected set; }
         public bool IsProcessing { get; protected set; }
-        public bool Abort { get; set; }
+        public bool IsAbort { get; set; }
         public int TimeoutMiliseconds { get; set; }
 
         public string EquipmentSimulation { get; set; }
@@ -58,7 +60,7 @@ namespace ECS.Function
 
         public AbstractFunction()
         {
-            Abort = false;
+            IsAbort = false;
             IsProcessing = false;
             TimeoutMiliseconds = 10000;
             StopWatch = new Stopwatch();
@@ -68,6 +70,25 @@ namespace ECS.Function
             DataManager.Instance.DataAccess.DataChangedEvent += DataAccess_DataChanged;
 
             if (!result) EquipmentSimulation = "UNKNOWN";
+        }
+
+        public virtual void Abort()
+        {
+            foreach (string run in _RunningFunctionList)
+            {
+                FunctionManager.Instance.ABORT_FUNCTION(run);
+            }
+
+            IsAbort = true;
+        }
+
+        public virtual void ExecuteFunctionAsync(string functionName)
+        {
+            if(FunctionManager.Instance.CHECK_EXECUTING_FUNCTION_EXSIST(functionName))
+            {
+                _RunningFunctionList.Add(functionName);
+                FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(functionName);
+            }
         }
 
         public virtual void ProgressUpdate(int progress, string message)
@@ -113,7 +134,7 @@ namespace ECS.Function
 
         public virtual bool CanExecute()
         {
-            Abort = false;
+            IsAbort = false;
             IsProcessing = false;
             EquipmentSimulation = DataManager.Instance.GET_STRING_DATA(IoNameHelper.V_STR_SYS_SIMULATION_MODE, out bool _);
             return this.EquipmentStatusCheck();
@@ -127,7 +148,7 @@ namespace ECS.Function
             {
                 while(true)
                 {
-                    if(Abort)
+                    if(IsAbort)
                     {
                         return F_RESULT_ABORT;
                     }

@@ -39,7 +39,7 @@ namespace ECS.Function.Physical
             {
                 Thread.Sleep(100);
 
-                if (Abort)
+                if (IsAbort)
                 {
                     FunctionManager.Instance.ABORT_FUNCTION(F_X_AXIS_MOVE_TO_SETDIS);
                     FunctionManager.Instance.ABORT_FUNCTION(F_Y_AXIS_MOVE_TO_SETDIS);

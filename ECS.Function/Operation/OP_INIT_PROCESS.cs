@@ -32,7 +32,7 @@ namespace ECS.Function.Operation
 
             while (true)
             {
-                if (Abort)
+                if (IsAbort)
                 {
                     FunctionManager.Instance.ABORT_FUNCTION("F_MOVE_VISION_POSITION");
                     FunctionManager.Instance.ABORT_FUNCTION("F_SET_MODE_EGYNGR");

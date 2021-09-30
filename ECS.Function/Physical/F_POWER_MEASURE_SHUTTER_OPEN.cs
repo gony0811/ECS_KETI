@@ -15,7 +15,7 @@ namespace ECS.Function.Physical
     {
         public override bool CanExecute()
         {
-            Abort = false;
+            IsAbort = false;
             IsProcessing = false;
 
             return this.EquipmentStatusCheck();
@@ -34,7 +34,7 @@ namespace ECS.Function.Physical
                 {
                     Thread.Sleep(100);
 
-                    if (Abort)
+                    if (IsAbort)
                     {
                         return F_RESULT_ABORT;
                     }
@@ -45,7 +45,7 @@ namespace ECS.Function.Physical
                     }
                     else if (DataManager.Instance.GET_INT_DATA(IoNameHelper.IN_INT_PMAC_SHUTTER_BACKWARD_STATUS, out _) == 1)
                     {
-                        Abort = false;
+                        IsAbort = false;
                         IsProcessing = false;
                         return this.F_RESULT_SUCCESS;
                     }

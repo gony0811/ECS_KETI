@@ -30,7 +30,7 @@ namespace ECS.Function.Physical
         private const string VIO_DBL_Y_INPOS_RANGE = "vSet.dAxisY.InPosRange";
         public override bool CanExecute()
         {
-            Abort = false;
+            IsAbort = false;
             IsProcessing = false;
             return this.EquipmentStatusCheck();
         }
@@ -59,7 +59,7 @@ namespace ECS.Function.Physical
                 {
                     Thread.Sleep(100);
 
-                    if (Abort)
+                    if (IsAbort)
                     {
                         return F_RESULT_ABORT;
                     }
@@ -110,7 +110,7 @@ namespace ECS.Function.Physical
 
         public override void PostExecute()
         {
-            Abort = false;
+            IsAbort = false;
             IsProcessing = false;
             DataManager.Instance.SET_INT_DATA(IO_Y_MOVE_TO_SETPOS, 0);
         }

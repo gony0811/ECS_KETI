@@ -71,7 +71,7 @@ namespace ECS.Function.Operation
 
                 while (result)
                 {                  
-                    if(Abort)
+                    if(IsAbort)
                     {
 
                         return F_RESULT_ABORT;
