@@ -21,6 +21,7 @@ namespace ECS.Common.Helper
         public const string MOVE_PROCESS_POSITION = "F_MOVE_PROCESS_POSITION";
         public const string MOVE_PROCESS_OFFSET = "F_MOVE_PROCESS_OFFSET";
         public const string MOVE_VISION_POSITION = "F_MOVE_VISION_POSITION";
+        public const string MOVE_MOTION_STOP = "F_MOVE_MOTION_STOP";
         public const string X_AXIS_HOME_STOP = "F_X_AXIS_HOME_STOP";
         public const string X_AXIS_HOMMING = "F_X_AXIS_HOMMING";
         public const string X_AXIS_JOG_MINUS = "F_X_AXIS_JOG_MINUS";

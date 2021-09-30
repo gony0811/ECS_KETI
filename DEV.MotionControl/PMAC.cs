@@ -483,7 +483,25 @@ namespace DEV.MotionControl
         {
             if(id_1.Equals(ID_1_OUTPUT) && id_2.Equals(ID_2_INT))
             {
-                if (id_3.Equals("2")) // AXIS X
+                if (id_3.Equals("0"))
+                {
+                    if(id_4.Equals("0"))
+                    {
+                        if (value == 1) // RUN
+                        {
+                            result = CommandServoKillAll();
+                        }
+                    }
+                    else if(id_4.Equals("1"))
+                    {
+                        if (value == 1)
+                        {
+                            result &= CommandJogStop(iAXIS_X);
+                            result &= CommandJogStop(iAXIS_Y);
+                        }
+                    }
+                }
+                else if (id_3.Equals("2")) // AXIS X
                 {
                     if (id_4.Equals("1")) // JOG FORWARD
                     {
@@ -577,11 +595,13 @@ namespace DEV.MotionControl
                     }
                     else if (id_4.Equals("5")) // ABSOLUTE POSTION MOVE Y AXIS
                     {
-                        result = CommnadMoveToSetPosition(iAXIS_Y, value);
+                        if(value == 1)
+                            result = CommnadMoveToSetPosition(iAXIS_Y, value);
                     }
                     else if (id_4.Equals("6")) // ABSOLUTE POSTION MOVE Y AXIS
                     {
-                        result = CommandJogStop(iAXIS_Y);
+                        if(value == 1)
+                            result = CommandJogStop(iAXIS_Y);
                     }
                     else if (id_4.Equals("7")) // JOG STOP Y AXIS
                     {
@@ -640,12 +660,47 @@ namespace DEV.MotionControl
                         result = CommandTablePurgeOnOff(value);
                     }
                 }
+
+                result = true;
             }
             else
             {
                 result = false;
             }
 
+        }
+
+        private bool CommandServoKillAll()
+        {
+            StringBuilder strRequest = new StringBuilder();
+            string strResponse = "";
+
+            strRequest.AppendFormat("#1K, #2K");
+            //switch (axis)
+            //{
+            //    case iAXIS_X:
+            //        strRequest.AppendFormat("{0}{1}", sAXIS_X, SERVO_STOP);
+            //        break;
+            //    case iAXIS_Y:
+            //        strRequest.AppendFormat("{0}{1}", sAXIS_Y, SERVO_STOP);
+            //        break;
+            //    default:
+            //        LogHelper.Instance.DeviceLog.DebugFormat("[ERROR] CommandServoStop() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
+            //        return false;
+            //}
+
+            CommandOrQuery(strRequest.ToString(), out strResponse);
+
+            if (string.IsNullOrEmpty(strResponse))
+            {
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandServoStop() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
+                return true;
+            }
+            else
+            {
+                LogHelper.Instance.DeviceLog.DebugFormat("[ERROR] CommandServoStop() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
+                return false;
+            }
         }
 
         private bool CommandServoStop(int axis)

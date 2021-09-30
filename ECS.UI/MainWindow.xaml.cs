@@ -53,16 +53,20 @@ namespace ECS.UI
         {
             ViewModelLocator.Instance.VisionCameraViewModel.Stop();
 
-            if (MessageBoxManager.ShowYesNoBox("Do you want to execute laser shutdown process ?", "ECS SHUTDOWN") == MSGBOX_RESULT.OK)
-            {
-                PROCESS_RESULT result = MessageBoxManager.ShowProgressWindow("ECS SHUTDOWN", "ECS SHUTDOWN PROCESSING...", FuncNameHelper.LASER_SHUTDOWN);
+            //if (MessageBoxManager.ShowYesNoBox("Do you want to execute laser shutdown process ?", "ECS SHUTDOWN") == MSGBOX_RESULT.OK)
+            //{
+            //    PROCESS_RESULT result = MessageBoxManager.ShowProgressWindow("ECS SHUTDOWN", "ECS SHUTDOWN PROCESSING...", FuncNameHelper.LASER_SHUTDOWN);
 
-                if (result == PROCESS_RESULT.SUCCESS) return;
-                else
-                {
-                    e.Cancel = true;
-                }
-            }
+            //    if (result == PROCESS_RESULT.SUCCESS) return;
+            //    else
+            //    {
+            //        e.Cancel = true;
+            //    }
+            //}
+            //else
+            //{
+            //    e.Cancel = true;
+            //}
         }
 
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)

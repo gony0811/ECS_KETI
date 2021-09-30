@@ -381,7 +381,27 @@ namespace ECS.UI.ViewModel
 
         private void ExecuteTriggerModeSetButtonCommand()
         {
+            DataManager.Instance.CHANGE_DEFAULT_DATA(IoNameHelper.V_STR_SET_LASER_TRIGGER_MODE, SelectedTriggerMode);
+            DataManager.Instance.SET_STRING_DATA(IoNameHelper.V_STR_SET_LASER_TRIGGER_MODE, SelectedTriggerMode);
 
+            switch (SelectedTriggerMode)
+            {
+                case "INT":
+                    {
+                        DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_LASER_TRIGGER_INT, 1);
+                    }
+                    break;
+                case "INT COUNTS":
+                    {
+                        DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_LASER_TRIGGER_INTCNT, 1);
+                    }
+                    break;
+                case "INTB":
+                    {
+                        DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_LASER_TRIGGER_INTB, 1);
+                    }
+                    break;
+            }
         }
 
         private void ExecuteTriggerRepRateSetButtonCommand()

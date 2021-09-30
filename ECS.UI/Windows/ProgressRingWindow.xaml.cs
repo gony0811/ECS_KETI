@@ -52,12 +52,12 @@ namespace ECS.UI
         {
             Close();
 
-            if (Result == PROCESS_RESULT.SUCCESS)
-                MessageBoxManager.ShowMessageBox(string.Format("{0} : 실행 완료되었습니다.", this._ExecuteName));
-            else if (Result == PROCESS_RESULT.ABORT)
-                MessageBoxManager.ShowMessageBox(string.Format("{0} : 실행이 중단되었습니다.", this._ExecuteName));
-            else
-                MessageBoxManager.ShowMessageBox(string.Format("{0} : 실행이 실패하였습니다.", this._ExecuteName));
+            //if (Result == PROCESS_RESULT.SUCCESS)
+            //    MessageBoxManager.ShowMessageBox(string.Format("{0} : 실행 완료되었습니다.", this._ExecuteName));
+            //else if (Result == PROCESS_RESULT.ABORT)
+            //    MessageBoxManager.ShowMessageBox(string.Format("{0} : 실행이 중단되었습니다.", this._ExecuteName));
+            //else
+            //    MessageBoxManager.ShowMessageBox(string.Format("{0} : 실행이 실패하였습니다.", this._ExecuteName));
         }
 
         private void DoWork(object sender, DoWorkEventArgs e)

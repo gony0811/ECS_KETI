@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ECS.Function.Physical
 {
-    public class F_MOVE_PROCESS_POSITION : AbstractFunction
+    public class F_MOVE_MOTION_STOP : AbstractFunction
     {
         public override bool CanExecute()
         {
@@ -20,17 +20,10 @@ namespace ECS.Function.Physical
 
             return this.EquipmentStatusCheck();
         }
+
         public override string Execute()
         {
-            double processPosX = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_X_PROCESS_POSITION, out _);
-            double processPosY = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Y_PROCESS_POSITION, out _);
-
-            DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_X_ABS_POSITION, processPosX);
-            DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Y_ABS_POSITION, processPosY);
-
-          
-            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.X_AXIS_MOVE_TO_SETPOS);
-            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.Y_AXIS_MOVE_TO_SETPOS);
+            DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_PMAC_ALL_MOVE_STOP, 1);
 
             Stopwatch stopwatch = Stopwatch.StartNew();
 
@@ -40,25 +33,20 @@ namespace ECS.Function.Physical
 
                 if (Abort)
                 {
-                    FunctionManager.Instance.ABORT_FUNCTION(FuncNameHelper.X_AXIS_MOVE_TO_SETPOS);
-                    FunctionManager.Instance.ABORT_FUNCTION(FuncNameHelper.Y_AXIS_MOVE_TO_SETPOS);
-
                     return F_RESULT_ABORT;
                 }
                 else if (stopwatch.ElapsedMilliseconds > TimeoutMiliseconds)
                 {
                     return this.F_RESULT_TIMEOUT;
                 }
-                else if (!FunctionManager.Instance.CHECK_EXECUTING_FUNCTION_EXSIST(FuncNameHelper.X_AXIS_MOVE_TO_SETPOS)
-                         && !FunctionManager.Instance.CHECK_EXECUTING_FUNCTION_EXSIST(FuncNameHelper.Y_AXIS_MOVE_TO_SETPOS)
-                    )
-                {                  
-
+                else if (DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.IN_DBL_PMAC_X_VELOCITY, out _) == 0.0
+                    && DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.IN_DBL_PMAC_Y_VELOCITY, out _) == 0.0)
+                {
                     return this.F_RESULT_SUCCESS;
                 }
                 else if (EquipmentSimulation == OperationMode.SIMULATION.ToString())
                 {
-
+                    ExecuteWhenSimulate();
                 }
                 else
                 {
@@ -68,8 +56,15 @@ namespace ECS.Function.Physical
             }
         }
 
+        public override void ExecuteWhenSimulate()
+        {
+            DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.IN_DBL_PMAC_X_VELOCITY, 0.0);
+            DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.IN_DBL_PMAC_Y_VELOCITY, 0.0);
+        }
+
         public override void PostExecute()
         {
+            DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_PMAC_ALL_MOVE_STOP, 0);
         }
     }
 }

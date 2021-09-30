@@ -63,7 +63,7 @@
                     <TextBlock Text="{Binding OpModeText}" VerticalAlignment="Center" Margin="5" Width="100"/>
                 </StackPanel>
                 <StackPanel Grid.Row="1"  Orientation="Horizontal" HorizontalAlignment="Left" Margin="5">
-                    <ComboBox ItemsSource="{Binding EnergyModeList}" SelectedItem="{Binding SelectedEnergyMode}" IsSynchronizedWithCurrentItem="True" Width="140" VerticalAlignment="Bottom">
+                    <ComboBox ItemsSource="{Binding EnergyModeList}" IsReadOnly="True" SelectedItem="{Binding SelectedEnergyMode}" IsSynchronizedWithCurrentItem="True" Width="140" VerticalAlignment="Bottom">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
                                 <mvvm:EventToCommand Command="{Binding EnergyModeSelectionChanged}" PassEventArgsToCommand="True"/>

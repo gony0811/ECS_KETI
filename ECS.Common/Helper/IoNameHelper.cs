@@ -59,6 +59,8 @@ namespace ECS.Common.Helper
         public const string V_DBL_SET_X_POSITION_OFFSET = "vSet.dAxisX.PositionOffset";
 
         public const string V_INT_SAFETY_LASER_INTERLOCK = "vSys.iSafety.LaserInterlock";
+        public const string V_STR_SET_LASER_TRIGGER_MODE = "vSet.sTrigger.Mode";
+
 
         public const string V_INT_EMO_CMD_ESTOP = "vEmo.iCmd.Estop";
 

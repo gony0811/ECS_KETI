@@ -28,27 +28,30 @@ namespace DEV.LaserControl
 
         private string SendMessageAndWaitForReply(string request, out string returnValue)
         {
-            LogHelper.Instance.DeviceLog.DebugFormat("Send Command : {0}", request);
-            xSerial.SendMessage(request);
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
-
-            while (true)
+            lock (key)
             {
-                if (sw.ElapsedMilliseconds >= _milisecondResponseTimeout)
+                LogHelper.Instance.DeviceLog.DebugFormat("Send Command : {0}", request);
+                xSerial.SendMessage(request);
+                Stopwatch sw = new Stopwatch();
+                sw.Start();
+
+                while (true)
                 {
-                    returnValue = null;
-                    return COMM_TIMEOUT;
-                }
-                else if (ReplyMessage(out string reply))
-                {
-                    returnValue = reply.TrimEnd(CR);
-                    return COMM_SUCCESS;
-                }
-                else
-                {
-                    Thread.Sleep(10);
-                    continue;
+                    if (sw.ElapsedMilliseconds >= _milisecondResponseTimeout)
+                    {
+                        returnValue = null;
+                        return COMM_TIMEOUT;
+                    }
+                    else if (ReplyMessage(out string reply))
+                    {
+                        returnValue = reply.TrimEnd(CR);
+                        return COMM_SUCCESS;
+                    }
+                    else
+                    {
+                        Thread.Sleep(10);
+                        continue;
+                    }
                 }
             }
         }
@@ -172,6 +175,7 @@ namespace DEV.LaserControl
 
         public bool GET_MODE(out string mode)
         {
+            mode = "";
             char[] sep = { '=' };
             StringBuilder data = new StringBuilder();
 
@@ -184,6 +188,11 @@ namespace DEV.LaserControl
                     throw new ApplicationException(string.Format("GET MODE Exception Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response));
                     return false;
                 }
+                else if(!response.StartsWith("MODE"))
+                {
+                    return false;
+                }
+
                 string[] reply = response.Split(sep);
 
                 if (reply != null && reply.Length > 0)
@@ -251,7 +260,7 @@ namespace DEV.LaserControl
             StringBuilder data = new StringBuilder();
 
             data.Append(string.Format("EGYSET={0}\r", String.Format(CultureInfo.InvariantCulture,
-                                "{0:000.00}", energy)));
+                                "{0:0.00}", energy)));
 
             if (SendMessageAndWaitForReply(data.ToString(), out string response) == COMM_SUCCESS)
             {
@@ -277,6 +286,10 @@ namespace DEV.LaserControl
                 if (response.Equals(ReplyCodes.UNKNOWN_COMMAND))
                 {
                     LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] GET EGYSET Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response);
+                    return false;
+                }
+                else if(!response.StartsWith("EGYSET"))
+                {
                     return false;
                 }
 
@@ -325,6 +338,10 @@ namespace DEV.LaserControl
                 if (response.Equals(ReplyCodes.UNKNOWN_COMMAND))
                 {
                     LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] GET HV Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response);
+                    return false;
+                }
+                else if (!response.StartsWith("HV"))
+                {
                     return false;
                 }
 

@@ -57,21 +57,20 @@
 
             <Grid Grid.Column="1" Grid.ColumnSpan="3">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="0.8*"/>
-                    <RowDefinition Height="0.2*"/>
+                    <RowDefinition Height="0.85*"/>
+                    <RowDefinition Height="0.15*"/>
                 </Grid.RowDefinitions>
 
-                <local:MotionControlView Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3"/>
+                <local:MotionControlView Grid.Row="0" Grid.RowSpan="1" Grid.Column="1" Grid.ColumnSpan="3"/>
 
                 <GroupBox Header="◎ LED Control" Margin="0,5,5,5" Grid.Row="1" Grid.Column="1">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="87*"/>
-                            <ColumnDefinition Width="34*"/>
-                            <ColumnDefinition Width="256*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
 

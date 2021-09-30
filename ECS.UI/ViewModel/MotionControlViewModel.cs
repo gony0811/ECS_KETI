@@ -90,7 +90,7 @@ namespace ECS.UI.ViewModel
         private Timer _Timer;
 
         private string _ButtonHommingContent;
-        private string _ButtonServoKillAllContent;
+        private string _ButtonKillAllContent;
         private string _ButtonServoContent;
         private string _ButtonJogPlusContent;
         private string _ButtonJogMinusContent;
@@ -150,6 +150,20 @@ namespace ECS.UI.ViewModel
         private ICommand _JogPlusPreviewMouseLeftButtonDownCommand;
         private ICommand _JogMinusPreviewMouseLeftButtonUpCommand;
         private ICommand _JogMinusPreviewMouseLeftButtonDownCommand;
+
+        private ICommand _JogUpMouseLeftButtonDownCommand;
+        private ICommand _JogUpMouseLeftButtonUpCommand;
+
+        private ICommand _JogDownMouseLeftButtonDownCommand;
+        private ICommand _JogDownMouseLeftButtonUpCommand;
+
+        private ICommand _JogLeftMouseLeftButtonDownCommand;
+        private ICommand _JogLeftMouseLeftButtonUpCommand;
+
+        private ICommand _JogRightMouseLeftButtonDownCommand;
+        private ICommand _JogRightMouseLeftButtonUpCommand;
+
+
         private ICommand _ButtonAbsoluteMoveCommand;
         private ICommand _ButtonRelativePlusMoveCommand;
         private ICommand _ButtonRelativeMinusMoveCommand;
@@ -182,7 +196,7 @@ namespace ECS.UI.ViewModel
             ButtonProcessMoveContent = "To Process";
             ButtonMoveStopContent = "Move Stop";
 
-            ButtonServoKillAllContent = "KILL ALL";
+            ButtonKillAllContent = "KILL ALL";
 
             ButtonVisionMoveEnable = true;
             ButtonProcessMoveEnable = true;
@@ -206,7 +220,7 @@ namespace ECS.UI.ViewModel
         #region Define Public Properties
         public string ButtonHommingContent { get { return _ButtonHommingContent; } set { _ButtonHommingContent = value; RaisePropertyChanged("ButtonHommingContent"); } }
         public string ButtonServoContent { get { return _ButtonServoContent; } set { _ButtonServoContent = value; RaisePropertyChanged("ButtonServoContent"); } }
-        public string ButtonServoKillAllContent { get { return _ButtonServoKillAllContent; } set { _ButtonServoKillAllContent = value; RaisePropertyChanged("ButtonServoKillAllContent"); } }
+        public string ButtonKillAllContent { get { return _ButtonKillAllContent; } set { _ButtonKillAllContent = value; RaisePropertyChanged("ButtonKillAllContent"); } }
         public string ButtonJogPlusContent { get { return _ButtonJogPlusContent; } set { _ButtonJogPlusContent = value; RaisePropertyChanged("ButtonJogPlusContent"); } }
         public string ButtonJogMinusContent { get { return _ButtonJogMinusContent; } set { _ButtonJogMinusContent = value; RaisePropertyChanged("ButtonJogMinusContent"); } }
         public string ButtonAbsoluteMoveContent { get { return _ButtonAbsoluteMoveContent; } set { _ButtonAbsoluteMoveContent = value; RaisePropertyChanged("ButtonAbsoluteMoveContent"); } }
@@ -274,6 +288,15 @@ namespace ECS.UI.ViewModel
         public ICommand JogPlusPreviewMouseLeftButtonDownCommand { get { return this._JogPlusPreviewMouseLeftButtonDownCommand ?? (this._JogPlusPreviewMouseLeftButtonDownCommand = new RelayCommand(ExecuteJogPlusMouseLeftButtonDownCommand)); } }
         public ICommand JogMinusPreviewMouseLeftButtonUpCommand { get { return this._JogMinusPreviewMouseLeftButtonUpCommand ?? (this._JogMinusPreviewMouseLeftButtonUpCommand = new RelayCommand(ExecuteJogMinusMouseLeftButtonUpCommand)); } }
         public ICommand JogMinusPreviewMouseLeftButtonDownCommand { get { return this._JogMinusPreviewMouseLeftButtonDownCommand ?? (this._JogMinusPreviewMouseLeftButtonDownCommand = new RelayCommand(ExecuteJogMinusMouseLeftButtonDownCommand)); } }
+
+        public ICommand JogUpMouseLeftButtonUpCommand { get { return this._JogUpMouseLeftButtonUpCommand ?? (this._JogUpMouseLeftButtonUpCommand = new RelayCommand(ExecuteJogUpMouseLeftButtonUpCommand)); } }
+        public ICommand JogUpMouseLeftButtonDownCommand { get { return this._JogUpMouseLeftButtonDownCommand ?? (this._JogUpMouseLeftButtonDownCommand = new RelayCommand(ExecuteJogUpMouseLeftButtonDownCommand)); } }
+        public ICommand JogDownMouseLeftButtonUpCommand { get { return this._JogDownMouseLeftButtonUpCommand ?? (this._JogDownMouseLeftButtonUpCommand = new RelayCommand(ExecuteJogDownMouseLeftButtonUpCommand)); } }
+        public ICommand JogDownMouseLeftButtonDownCommand { get { return this._JogDownMouseLeftButtonDownCommand ?? (this._JogDownMouseLeftButtonDownCommand = new RelayCommand(ExecuteJogDownMouseLeftButtonDownCommand)); } }
+        public ICommand JogLeftMouseLeftButtonUpCommand { get { return this._JogLeftMouseLeftButtonUpCommand ?? (this._JogLeftMouseLeftButtonUpCommand = new RelayCommand(ExecuteJogLeftMouseLeftButtonUpCommand)); } }
+        public ICommand JogLeftMouseLeftButtonDownCommand { get { return this._JogLeftMouseLeftButtonDownCommand ?? (this._JogLeftMouseLeftButtonDownCommand = new RelayCommand(ExecuteJogLeftMouseLeftButtonDownCommand)); } }
+        public ICommand JogRightMouseLeftButtonUpCommand { get { return this._JogRightMouseLeftButtonUpCommand ?? (this._JogRightMouseLeftButtonUpCommand = new RelayCommand(ExecuteJogRightMouseLeftButtonUpCommand)); } }
+        public ICommand JogRightMouseLeftButtonDownCommand { get { return this._JogRightMouseLeftButtonDownCommand ?? (this._JogRightMouseLeftButtonDownCommand = new RelayCommand(ExecuteJogRightMouseLeftButtonDownCommand)); } }
 
         public ICommand RadioButtonXAxisCheckedCommand { get { return this._RadioButtonXAxisCheckedCommand ?? (this._RadioButtonXAxisCheckedCommand = new RelayCommand(ExecuteXAxisCheckedCommand)); } }
         public ICommand RadioButtonYAxisCheckedCommand { get { return this._RadioButtonYAxisCheckedCommand ?? (this._RadioButtonYAxisCheckedCommand = new RelayCommand(ExecuteYAxisCheckedCommand)); } }
@@ -781,6 +804,47 @@ namespace ECS.UI.ViewModel
             }
         }
 
+        private void ExecuteJogUpMouseLeftButtonUpCommand()
+        {
+            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(F_Y_AXIS_JOG_STOP);
+        }
+
+        private void ExecuteJogUpMouseLeftButtonDownCommand()
+        {
+            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(F_Y_AXIS_JOG_PLUS);
+        }
+
+        private void ExecuteJogDownMouseLeftButtonUpCommand()
+        {
+            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(F_Y_AXIS_JOG_STOP);
+        }
+
+        private void ExecuteJogDownMouseLeftButtonDownCommand()
+        {
+            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(F_Y_AXIS_JOG_MINUS);
+        }
+
+        private void ExecuteJogLeftMouseLeftButtonUpCommand()
+        {
+            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(F_X_AXIS_JOG_STOP);
+        }
+
+        private void ExecuteJogLeftMouseLeftButtonDownCommand()
+        {
+            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(F_X_AXIS_JOG_MINUS);
+        }
+
+        private void ExecuteJogRightMouseLeftButtonUpCommand()
+        {
+            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(F_X_AXIS_JOG_STOP);
+        }
+
+        private void ExecuteJogRightMouseLeftButtonDownCommand()
+        {
+            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(F_X_AXIS_JOG_PLUS);
+        }
+
+
         private void ExecuteVisionMoveCommand()
         {
             FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC("F_MOVE_VISION_POSITION");
@@ -793,7 +857,9 @@ namespace ECS.UI.ViewModel
 
         private void ExecuteMoveStopCommand()
         {
-            DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_PMAC_ALL_MOVE_STOP, 1);
+            FunctionManager.Instance.ABORT_FUNCTION(FuncNameHelper.MOVE_VISION_POSITION);
+            FunctionManager.Instance.ABORT_FUNCTION(FuncNameHelper.MOVE_PROCESS_POSITION);
+            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.MOVE_MOTION_STOP);
         }
 
         #endregion

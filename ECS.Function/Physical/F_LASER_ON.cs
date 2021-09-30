@@ -31,7 +31,7 @@ namespace ECS.Function.Physical
 
                 while (true)
                 {
-                    Thread.Sleep(100);
+                    Thread.Sleep(10);
 
                     if (Abort)
                     {
@@ -42,7 +42,7 @@ namespace ECS.Function.Physical
                         AlarmManager.Instance.SetAlarm(AlarmCodeHelper.LASER_ON_TIMEOUT);
                         return this.F_RESULT_TIMEOUT;
                     }
-                    else if (IsCompleted())
+                    else if (/*IsCompleted()*/true)
                     {
                         Abort = false;
                         IsProcessing = false;

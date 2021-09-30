@@ -41,8 +41,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECS.Function", "ECS.Functio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECS.UI", "ECS.UI\ECS.UI.csproj", "{2EC10237-8EE5-4A67-B084-11B2D3C659D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DEV.LaserControl", "DEV.LaserControl\DEV.LaserControl.csproj", "{0FFFF745-6D70-4062-BD56-B62CF08CA184}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECS.Common", "ECS.Common\ECS.Common.csproj", "{E0BAE1FB-F781-4586-AA3B-F84FF3DB69E8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DEV.PowerMeter", "DEV.PowerMeter\DEV.PowerMeter.csproj", "{0D66ADDC-CD72-4420-8911-297462FF60A9}"
@@ -50,6 +48,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECS.Recipe", "ECS.Recipe\ECS.Recipe.csproj", "{5C5BDF09-F80E-4F06-BD19-46637F97ACE9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECS.EMO", "ECS.EMO\ECS.EMO.csproj", "{3B70D771-A393-43C1-96F4-CFC45C1B9AED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DEV.LaserControl", "DEV.LaserControl\DEV.LaserControl.csproj", "{0FFFF745-6D70-4062-BD56-B62CF08CA184}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -52,6 +52,8 @@ namespace ECS.Function.Physical
 
                 if (Abort)
                 {
+                    FunctionManager.Instance.ABORT_FUNCTION(F_X_AXIS_MOVE_TO_SETPOS);
+                    FunctionManager.Instance.ABORT_FUNCTION(F_Y_AXIS_MOVE_TO_SETPOS);
                     return F_RESULT_ABORT;
                 }
                 else if (stopwatch.ElapsedMilliseconds > TimeoutMiliseconds)

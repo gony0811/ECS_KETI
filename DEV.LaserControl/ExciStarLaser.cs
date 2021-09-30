@@ -140,8 +140,6 @@ namespace DEV.LaserControl
 
         public double GET_DOUBLE_IN(string id_1, string id_2, string id_3, string id_4, ref bool result)
         {
-            lock (_CriticalSectionKey)
-            {
                 result = false;
                 double outData = 0.0;
 
@@ -165,13 +163,11 @@ namespace DEV.LaserControl
                 }
 
                 return outData;
-            }
+            
         }
 
         public int GET_INT_IN(string id_1, string id_2, string id_3, string id_4, ref bool result)
         {
-            lock (_CriticalSectionKey)
-            {
                 result = false;
                 int outData = -1;
 
@@ -235,13 +231,10 @@ namespace DEV.LaserControl
 
 
                 return outData;
-            }
         }
 
         public string GET_STRING_IN(string id_1, string id_2, string id_3, string id_4, ref bool result)
         {
-            lock (_CriticalSectionKey)
-            {
                 result = false;
                 string outData = "";
 
@@ -275,7 +268,7 @@ namespace DEV.LaserControl
                 }
 
                 return outData;
-            }
+          
         }
 
         public eDevMode IsDevMode()
@@ -299,15 +292,15 @@ namespace DEV.LaserControl
 
                 if (id_1 != ID_1_OUTPUT || id_2 != ID_2_DOUBLE) return;
 
-                if (id_3 == ID_3_ENERGY && id_4 == "1" && value == 1)
+                if (id_3 == ID_3_ENERGY && id_4 == "1")
                 {
                     result = _LaserDevice.SET_EGY(value);
                 }
-                else if (id_3 == ID_3_ENERGY && id_4 == "2" && value == 1)
+                else if (id_3 == ID_3_ENERGY && id_4 == "2")
                 {
                     result = _LaserDevice.SET_EGYSET(value);
                 }
-                else if (id_3 == ID_3_ENERGY && id_4 == "3" && value == 1)
+                else if (id_3 == ID_3_ENERGY && id_4 == "3")
                 {
                     result = _LaserDevice.SET_HV(value);
                 }
@@ -316,8 +309,6 @@ namespace DEV.LaserControl
 
         public void SET_INT_OUT(string id_1, string id_2, string id_3, string id_4, int value, ref bool result)
         {
-            lock (_CriticalSectionKey)
-            {
                 result = false;
 
                 if (id_1 != ID_1_OUTPUT || id_2 != ID_2_INT) return;
@@ -399,15 +390,12 @@ namespace DEV.LaserControl
                 {
                     result = _LaserDevice.SET_COUNTS(value);
                 }
-            }
+            
         }
 
         public void SET_STRING_OUT(string id_1, string id_2, string id_3, string id_4, string value, ref bool result)
         {
-            lock (_CriticalSectionKey)
-            {
-                throw new NotImplementedException();
-            }
+            result = true;
         }
     }
 }

@@ -50,6 +50,7 @@
     <Compile Include="Physical\F_LASER_STARTUP.cs" />
     <Compile Include="Physical\F_LED_CH1_OFF.cs" />
     <Compile Include="Physical\F_LED_CH1_ON.cs" />
+    <Compile Include="Physical\F_MOVE_MOTION_STOP.cs" />
     <Compile Include="Physical\F_MOVE_PROCESS_OFFSET.cs" />
     <Compile Include="Physical\F_MOVE_PROCESS_POSITION.cs" />
     <Compile Include="Physical\F_MOVE_VISION_POSITION.cs" />
