@@ -2,6 +2,7 @@
 using ECS.UI.Model;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using OpenCvSharp;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
@@ -590,17 +591,13 @@ namespace ECS.UI.ViewModel
                         //Bitmap bitmapOld = (Bitmap)this.BitmapSource;
                         //Mat img = OpenCvSharp.Extensions.BitmapConverter.ToMat(bitmap);
 
-                        //Cv2.Line(img, new OpenCvSharp.Point(0, bitmap.Height / 2), new OpenCvSharp.Point(bitmap.Width, bitmap.Height / 2), Scalar.Red, 1, LineTypes.Link4);
-                        //Cv2.Line(img, new OpenCvSharp.Point(bitmap.Width / 2, 0), new OpenCvSharp.Point(bitmap.Width / 2, bitmap.Height), Scalar.Red, 1, LineTypes.Link4);
-
-                        //Bitmap bit = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(img);
-
-
-
-
+                        Mat img = OpenCvSharp.Extensions.BitmapConverter.ToMat(bitmap);
+                        Cv2.Line(img, new OpenCvSharp.Point(0, bitmap.Height / 2), new OpenCvSharp.Point(bitmap.Width, bitmap.Height / 2), Scalar.Red, 1, LineTypes.Link4);
+                        Cv2.Line(img, new OpenCvSharp.Point(bitmap.Width / 2, 0), new OpenCvSharp.Point(bitmap.Width / 2, bitmap.Height), Scalar.Red, 1, LineTypes.Link4);
+                        Bitmap bit = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(img);
 
                         // Provide the display control with the new bitmap. This action automatically updates the display.
-                        dispatcher.Invoke(()=>( this.BitmapSource = BitmapToImageSource(bitmap)));
+                        dispatcher.Invoke(() => (this.BitmapSource = BitmapToImageSource(bit)));
 
                         if (bitmap != null)
                         {
