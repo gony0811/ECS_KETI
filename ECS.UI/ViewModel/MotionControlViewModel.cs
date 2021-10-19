@@ -98,6 +98,7 @@ namespace ECS.UI.ViewModel
         private string _ButtonProcessMoveContent;
         private string _ButtonMoveStopContent;
         private string _TextBlockJogSpeedHighLow;
+        private string _SelectedJogSpeed;
 
         private string _LabelAbsoluteMove;
         private double _AbsolutePosition;
@@ -183,6 +184,11 @@ namespace ECS.UI.ViewModel
         private ICommand _LoadedCommand;
         private ICommand _UnloadedCommand;
 
+        private ICommand _KeyDownCommand;
+        private ICommand _KeyUpCommand;
+
+        private ICommand _JogSpeedSelectedCommand;
+
         #endregion
 
         #region Define Constructor
@@ -202,6 +208,8 @@ namespace ECS.UI.ViewModel
             ButtonProcessMoveEnable = true;
             ButtonMoveStopEnable = true;
             ButtonServoKillAllEnable = true;
+
+            SelectedJogSpeed = "High";
         }
         #endregion
 
@@ -268,6 +276,7 @@ namespace ECS.UI.ViewModel
         public double YAxisPosition { get { return _YAxisPosition; } set { _YAxisPosition = value; RaisePropertyChanged("YAxisPosition"); } }
 
         public string TextBlockJogSpeedHighLow { get { return _TextBlockJogSpeedHighLow; } set { _TextBlockJogSpeedHighLow = value; RaisePropertyChanged("TextBlockJogSpeedHighLow"); } }
+        public string SelectedJogSpeed { get { return _SelectedJogSpeed; } set { _SelectedJogSpeed = value; RaisePropertyChanged("SelectedJogSpeed"); } }
 
         public bool RadioButtonXAxisIsChecked { get { return _RadioButtonXAxisIsChecked; } set { _RadioButtonXAxisIsChecked = value; RaisePropertyChanged("RadioButtonXAxisChecked"); } }
         public bool RadioButtonYAxisIsChecked { get { return _RadioButtonYAxisIsChecked; } set { _RadioButtonYAxisIsChecked = value; RaisePropertyChanged("RadioButtonYAxisChecked"); } }
@@ -314,6 +323,9 @@ namespace ECS.UI.ViewModel
         public ICommand LoadedCommand { get { return this._LoadedCommand ?? (this._LoadedCommand = new RelayCommand(ExecuteLoadedCommand)); } }
         public ICommand UnloadedCommand { get { return this._UnloadedCommand ?? (this._UnloadedCommand = new RelayCommand(ExecuteUnloadedCommand)); } }
 
+        public ICommand KeyDownCommand { get { return this._KeyDownCommand ?? (this._KeyDownCommand = new RelayCommand<KeyEventArgs>(ExecuteKeyDownCommand)); } }
+        public ICommand KeyUpCommand { get { return this._KeyUpCommand ?? (this._KeyUpCommand = new RelayCommand<KeyEventArgs>(ExecuteKeyUpCommand)); } }
+        public ICommand JogSpeedSelectedCommand { get { return this._JogSpeedSelectedCommand ?? (this._JogSpeedSelectedCommand = new RelayCommand(ExecuteJogSpeedSelectedCommand)); } }
 
         #endregion
 
@@ -327,6 +339,59 @@ namespace ECS.UI.ViewModel
         private void ExecuteUnloadedCommand()
         {
             Stop();
+        }
+
+        private void ExecuteKeyDownCommand(KeyEventArgs args)
+        {
+            if (args.Key == Key.Left)
+            {
+                FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.X_AXIS_JOG_MINUS);
+            }
+            else if (args.Key == Key.Right)
+            {
+                FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.X_AXIS_JOG_PLUS);
+            }
+            else if (args.Key == Key.Up)
+            {
+                FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.Y_AXIS_JOG_PLUS);
+            }
+            else if (args.Key == Key.Down)
+            {
+                FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.Y_AXIS_JOG_MINUS);
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        private void ExecuteKeyUpCommand(KeyEventArgs args)
+        {
+            if (args.Key == Key.Left)
+            {
+                FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.X_AXIS_JOG_STOP);
+            }
+            else if (args.Key == Key.Right)
+            {
+                FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.X_AXIS_JOG_STOP);
+            }
+            else if (args.Key == Key.Up)
+            {
+                FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.Y_AXIS_JOG_STOP);
+            }
+            else if (args.Key == Key.Down)
+            {
+                FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.Y_AXIS_JOG_STOP);
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        private void ExecuteJogSpeedSelectedCommand()
+        {
+            DataManager.Instance.SET_STRING_DATA(V_STR_X_JOGVEL_MODE, SelectedJogSpeed);
         }
 
         private void MotionControlViewSchedulingTimmer(object state)

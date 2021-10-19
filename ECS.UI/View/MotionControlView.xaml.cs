@@ -24,5 +24,15 @@ namespace ECS.UI.View
         {
             InitializeComponent();
         }
+
+        private void UserControl_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void UserControl_PreviewKeyUp(object sender, KeyEventArgs e)
+        {
+
+        }
     }
 }

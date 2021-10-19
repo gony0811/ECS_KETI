@@ -10,9 +10,10 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              TextOptions.TextFormattingMode="Ideal"
              TextOptions.TextRenderingMode="Auto"
+             PreviewKeyDown="UserControl_KeyDown"
+             PreviewKeyUp="UserControl_PreviewKeyUp"
              Background="{DynamicResource MaterialDesignPaper}"
              FontFamily="{DynamicResource MaterialDesignFont}"
-             
              xmlns:Converter="clr-namespace:ECS.UI.Converter"
              xmlns:Command="clr-namespace:ECS.UI" 
              xmlns:mvvm="http://www.galasoft.ch/mvvmlight"
@@ -34,6 +35,12 @@
     </UserControl.DataContext>
 
     <i:Interaction.Triggers>
+        <i:EventTrigger EventName="PreviewKeyDown">
+            <mvvm:EventToCommand Command="{Binding KeyDownCommand}" PassEventArgsToCommand="True"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="PreviewKeyUp">
+            <mvvm:EventToCommand Command="{Binding KeyUpCommand}" PassEventArgsToCommand="True"/>
+        </i:EventTrigger>
         <i:EventTrigger EventName="Loaded">
             <mvvm:EventToCommand Command="{Binding LoadedCommand}" PassEventArgsToCommand="True"/>
         </i:EventTrigger>
@@ -162,7 +169,17 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-
+                    <ComboBox Width="100" SelectedItem="{Binding SelectedJogSpeed}">
+                        <ComboBoxItem Content="High" />
+                        <ComboBoxItem Content="Medium"/>
+                        <ComboBoxItem Content="Low"/>
+                        <ComboBoxItem Content="Very Low"/>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Selected">
+                                <mvvm:EventToCommand Command="{Binding JogSpeedSelectedCommand}" PassEventArgsToCommand="True"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
                     <ToggleButton x:Name="btnJogSpeed" Margin="5" IsChecked="{Binding ToggleButtonJogSpeedHighLow}" Width="50">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Checked">

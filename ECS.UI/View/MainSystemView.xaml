@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ECS.UI.View"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              TextOptions.TextFormattingMode="Ideal"
@@ -75,15 +76,17 @@
                         </Grid.RowDefinitions>
 
                         <StackPanel Grid.Row="0" Orientation="Horizontal" Grid.ColumnSpan="3">
-                            <Label Margin="5,0,0,0" Content="Channel 1 :" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <TextBlock x:Name="tbCh1Output" Margin="5,0,0,0" VerticalAlignment="Center" Text="{Binding Path=Value, ElementName=sliderCh1Output}" TextAlignment="Center" MinWidth="50"/>
-                            <Slider x:Name="sliderCh1Output" Margin="5,0,0,0" VerticalAlignment="Center" Value="{Binding Ch1LedOutputValue}" MinWidth="100" Maximum="255" Minimum="0" IsSnapToTickEnabled="True" TickFrequency="1">
+                            <Label Margin="5,0,0,0" Content="CH1:" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Slider x:Name="sliderCh1Output" Margin="5,0,0,0" VerticalAlignment="Center" Value="{Binding Ch1LedOutputValue}" MinWidth="80" Maximum="255" Minimum="0" IsSnapToTickEnabled="True" TickFrequency="1">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="ValueChanged">
                                         <mvvm:EventToCommand Command="{Binding Ch1LedOutputValueChangedCommand}" PassEventArgsToCommand="True"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </Slider>
+                            <mah:NumericUpDown Value="{Binding Value, ElementName=sliderCh1Output, Mode=TwoWay}" MinWidth="100" Margin="5,0,0,0" HorizontalContentAlignment="Center"/>
+                            <!--Num Margin="5,0,0,0" VerticalAlignment="Center" Text="{Binding Value, ElementName=sliderCh1Output, Mode=TwoWay}" TextAlignment="Center" MinWidth="50"/-->
+                            <!--TextBlock x:Name="tbCh1Output" Margin="5,0,0,0" VerticalAlignment="Center" Text="{Binding Path=Value, ElementName=sliderCh1Output}" TextAlignment="Center" MinWidth="50"/>-->
                             <Button x:Name="Button_Ch1_LedOn" Command="{Binding Ch1_LedOn_Command}" Content="ON" VerticalAlignment="Center" Margin="10,0,5,0" MinWidth="60"  MaxWidth="60"/>
                             <Button x:Name="Button_Ch1_LedOff" Command="{Binding Ch1_LedOff_Command}" Content="OFF" VerticalAlignment="Center" Margin="5,0,5,0" MinWidth="60" MaxWidth="60"/>
                         </StackPanel>
