@@ -17,8 +17,13 @@
              xmlns:Command="clr-namespace:ECS.UI" 
              xmlns:mvvm="http://www.galasoft.ch/mvvmlight" xmlns:Behaviors="clr-namespace:ECS.UI.Behaviors"
              mc:Ignorable="d" 
-            d:DesignWidth="1200" d:DesignHeight="800" >
+            d:DesignWidth="1200" d:DesignHeight="800">
 
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <mvvm:EventToCommand Command="{Binding SettingsLoadedCommand}" PassEventArgsToCommand="True"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -132,6 +137,16 @@
                             <Label Content="(mm/s)" VerticalContentAlignment="Bottom" FontSize="12" Width="50"/>
                             <Button Content="SET" Command="{Binding XJogVelHighButtonCommand}" Margin="5,0,0,0" VerticalAlignment="Center"/>
                         </StackPanel>
+                         <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Label Content="X Jog Velocity (Mid) :" VerticalContentAlignment="Bottom" FontSize="12" Width="150"/>
+                            <TextBox Text="{Binding XJogVelMid, StringFormat=N2}" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom">
+                                <i:Interaction.Behaviors>
+                                    <Behaviors:TextBoxInputBehavior InputMode="DecimalInput"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                            <Label Content="(mm/s)" VerticalContentAlignment="Bottom" FontSize="12" Width="50"/>
+                            <Button Content="SET" Command="{Binding XJogVelMidButtonCommand}" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center">
                             <Label Content="X Jog Velocity (Low) :" VerticalContentAlignment="Bottom" FontSize="12" Width="150"/>
                             <TextBox Text="{Binding XJogVelLow, StringFormat=N2}" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom">
@@ -141,6 +156,16 @@
                             </TextBox>
                             <Label Content="(mm/s)" VerticalContentAlignment="Bottom" FontSize="12" Width="50"/>
                             <Button Content="SET" Command="{Binding XJogVelLowButtonCommand}" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Label Content="X Jog Velocity (Very Low) :" VerticalContentAlignment="Bottom" FontSize="12" Width="150"/>
+                            <TextBox Text="{Binding XJogVelVeryLow, StringFormat=N2}" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom">
+                                <i:Interaction.Behaviors>
+                                    <Behaviors:TextBoxInputBehavior InputMode="DecimalInput"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                            <Label Content="(mm/s)" VerticalContentAlignment="Bottom" FontSize="12" Width="50"/>
+                            <Button Content="SET" Command="{Binding XJogVelVeryLowButtonCommand}" Margin="5,0,0,0" VerticalAlignment="Center"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center">
                             <Label Content="Y Jog Velocity (High) :" VerticalContentAlignment="Bottom" FontSize="12" Width="150"/>
@@ -153,6 +178,16 @@
                             <Button Content="SET" Command="{Binding YJogVelHighButtonCommand}" Margin="5,0,0,0" VerticalAlignment="Center"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Label Content="Y Jog Velocity (Mid) :" VerticalContentAlignment="Bottom" FontSize="12" Width="150"/>
+                            <TextBox Text="{Binding YJogVelMid, StringFormat=N2}" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom">
+                                <i:Interaction.Behaviors>
+                                    <Behaviors:TextBoxInputBehavior InputMode="DecimalInput"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                            <Label Content="(mm/s)" VerticalContentAlignment="Bottom" FontSize="12" Width="50"/>
+                            <Button Content="SET" Command="{Binding YJogVelMidButtonCommand}" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center">
                             <Label Content="Y Jog Velocity (Low) :" VerticalContentAlignment="Bottom" FontSize="12" Width="150"/>
                             <TextBox Text="{Binding YJogVelLow, StringFormat=N2}" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom">
                                 <i:Interaction.Behaviors>
@@ -161,6 +196,16 @@
                             </TextBox>
                             <Label Content="(mm/s)" VerticalContentAlignment="Bottom" FontSize="12" Width="50"/>
                             <Button Content="SET" Command="{Binding YJogVelLowButtonCommand}" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Label Content="Y Jog Velocity (Very Low) :" VerticalContentAlignment="Bottom" FontSize="12" Width="150"/>
+                            <TextBox Text="{Binding YJogVelVeryLow, StringFormat=N2}" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom">
+                                <i:Interaction.Behaviors>
+                                    <Behaviors:TextBoxInputBehavior InputMode="DecimalInput"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                            <Label Content="(mm/s)" VerticalContentAlignment="Bottom" FontSize="12" Width="50"/>
+                            <Button Content="SET" Command="{Binding YJogVelVeryLowButtonCommand}" Margin="5,0,0,0" VerticalAlignment="Center"/>
                         </StackPanel>
                     </StackPanel>
                 </TabItem>

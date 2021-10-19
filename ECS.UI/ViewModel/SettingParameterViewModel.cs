@@ -24,9 +24,13 @@ namespace ECS.UI.ViewModel
         private double _PositionOffsetY;
 
         private double _XJogVelHigh;
+        private double _XJogVelMid;
         private double _XJogVelLow;
+        private double _XJogVelVeryLow;
         private double _YJogVelHigh;
+        private double _YJogVelMid;
         private double _YJogVelLow;
+        private double _YJogVelVeryLow;
 
         private double _LaserHV;
         private double _LaserEnergy;
@@ -68,9 +72,14 @@ namespace ECS.UI.ViewModel
         private ICommand _XJogVelHighButtonCommand;
         private ICommand _YJogVelHighButtonCommand;
 
+        private ICommand _XJogVelMidButtonCommand;
+        private ICommand _YJogVelMidButtonCommand;
 
         private ICommand _XJogVelLowButtonCommand;
         private ICommand _YJogVelLowButtonCommand;
+
+        private ICommand _XJogVelVeryLowButtonCommand;
+        private ICommand _YJogVelVeryLowButtonCommand;
 
         private ICommand _LaserEnergySetButtonCommand;
         private ICommand _LaserHVSetButtonCommand;
@@ -93,6 +102,7 @@ namespace ECS.UI.ViewModel
         private ICommand _LeftDoorInterlockDeactivate;
         private ICommand _RightDoorInterlockActivate;
         private ICommand _RightDoorInterlockDeactivate;
+        private ICommand _SettingsLoadedCommand;
 
         public List<string> EnergyModeList { get { return new List<string>() { "EGY NGR", "EGYBURST NGR", "HV NGR" }; } set { _EnergyModeList = value; } }
         public List<string> TriggerModeList { get { return new List<string>() { "INT", "INTB", "INT COUNTS" }; } set { _TriggerModeList = value; } }
@@ -118,9 +128,13 @@ namespace ECS.UI.ViewModel
 
 
         public double XJogVelHigh { get { return _XJogVelHigh; } set { _XJogVelHigh = value; RaisePropertyChanged("XJogVelHigh"); } }
+        public double XJogVelMid { get { return _XJogVelMid; } set { _XJogVelMid = value; RaisePropertyChanged("XJogVelMid"); } }
         public double YJogVelHigh { get { return _YJogVelHigh; } set { _YJogVelHigh = value; RaisePropertyChanged("YJogVelHigh"); } }
+        public double YJogVelMid { get { return _YJogVelMid; } set { _YJogVelMid = value; RaisePropertyChanged("YJogVelMid"); } }
         public double XJogVelLow { get { return _XJogVelLow; } set { _XJogVelLow = value; RaisePropertyChanged("XJogVelLow"); } }
         public double YJogVelLow { get { return _YJogVelLow; } set { _YJogVelLow = value; RaisePropertyChanged("YJogVelLow"); } }
+        public double XJogVelVeryLow { get { return _XJogVelVeryLow; } set { _XJogVelVeryLow = value; RaisePropertyChanged("XJogVelVeryLow"); } }
+        public double YJogVelVeryLow { get { return _YJogVelVeryLow; } set { _YJogVelVeryLow = value; RaisePropertyChanged("YJogVelVeryLow"); } }
         public double LaserHV { get { return _LaserHV; } set { _LaserHV = value; RaisePropertyChanged("LaserHV"); } }
         public double LaserEnergy { get { return _LaserEnergy; } set { _LaserEnergy = value; RaisePropertyChanged("LaserEnergy"); } }
 
@@ -147,8 +161,17 @@ namespace ECS.UI.ViewModel
         public ICommand XJogVelHighButtonCommand { get { if (_XJogVelHighButtonCommand == null) { _XJogVelHighButtonCommand = new DelegateCommand(ExecuteXJogVelHighButtonCommand); } return _XJogVelHighButtonCommand; } }
         public ICommand YJogVelHighButtonCommand { get { if (_YJogVelHighButtonCommand == null) { _YJogVelHighButtonCommand = new DelegateCommand(ExecuteYJogVelHighButtonCommand); } return _YJogVelHighButtonCommand; } }
 
+        public ICommand XJogVelMidButtonCommand { get { if (_XJogVelMidButtonCommand == null) { _XJogVelMidButtonCommand = new DelegateCommand(ExecuteXJogVelMidButtonCommand); } return _XJogVelMidButtonCommand; } }
+        public ICommand YJogVelMidButtonCommand { get { if (_YJogVelMidButtonCommand == null) { _YJogVelMidButtonCommand = new DelegateCommand(ExecuteYJogVelMidButtonCommand); } return _YJogVelMidButtonCommand; } }
+
+
         public ICommand XJogVelLowButtonCommand { get { if (_XJogVelLowButtonCommand == null) { _XJogVelLowButtonCommand = new DelegateCommand(ExecuteXJogVelLowButtonCommand); } return _XJogVelLowButtonCommand; } }
         public ICommand YJogVelLowButtonCommand { get { if (_YJogVelLowButtonCommand == null) { _YJogVelLowButtonCommand = new DelegateCommand(ExecuteYJogVelLowButtonCommand); } return _YJogVelLowButtonCommand; } }
+
+        public ICommand XJogVelVeryLowButtonCommand { get { if (_XJogVelVeryLowButtonCommand == null) { _XJogVelVeryLowButtonCommand = new DelegateCommand(ExecuteXJogVelVeryLowButtonCommand); } return _XJogVelVeryLowButtonCommand; } }
+        public ICommand YJogVelVeryLowButtonCommand { get { if (_YJogVelVeryLowButtonCommand == null) { _YJogVelVeryLowButtonCommand = new DelegateCommand(ExecuteYJogVelVeryLowButtonCommand); } return _YJogVelVeryLowButtonCommand; } }
+
+
         public ICommand LaserHVSetButtonCommand { get { if (_LaserHVSetButtonCommand == null) { _LaserHVSetButtonCommand = new DelegateCommand(ExecuteLaserHVSetButtonCommand); } return _LaserHVSetButtonCommand; } }
         public ICommand EnergyModeSelectionChanged { get { if (_EnergyModeSelectionChanged == null) { _EnergyModeSelectionChanged = new DelegateCommand(ExecuteEnergyModeSelectionChanged); } return _EnergyModeSelectionChanged; } }
         public ICommand TriggerModeSelectionChanged { get { if (_TriggerModeSelectionChanged == null) { _TriggerModeSelectionChanged = new DelegateCommand(ExecuteTriggerModeSelectionChanged); } return _TriggerModeSelectionChanged; } }
@@ -173,10 +196,23 @@ namespace ECS.UI.ViewModel
 
         public ICommand RightDoorInterlockActivate { get { if (_RightDoorInterlockActivate == null) { _RightDoorInterlockActivate = new DelegateCommand(ExecuteRightDoorInterlockActivate); } return _RightDoorInterlockActivate; } }
         public ICommand RightDoorInterlockDeactivate { get { if (_RightDoorInterlockDeactivate == null) { _RightDoorInterlockDeactivate = new DelegateCommand(ExecuteRightDoorInterlockDeactivate); } return _RightDoorInterlockDeactivate; } }
-
+        public ICommand SettingsLoadedCommand { get { if (_SettingsLoadedCommand == null) { _SettingsLoadedCommand = new DelegateCommand(ExecuteSettingsLoadedCommand); } return _SettingsLoadedCommand; } }
 
 
         public SettingParameterViewModel()
+        {
+            InitSettingValues();
+
+            this.FrontDoorInterlockState = "작동중";
+            this.LeftDoorInterlockState = "작동중";
+            this.RightDoorInterlockState = "작동중";
+
+            this.FrontDoorInterlockChecked = true;
+            this.LeftDoorInterlockChecked = true;
+            this.RightDoorInterlockChecked = true;
+        }
+
+        private void InitSettingValues()
         {
             VisionPositionX = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_X_VISION_POSITION, out bool _);
             VisionPositionY = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Y_VISION_POSITION, out bool _);
@@ -212,14 +248,11 @@ namespace ECS.UI.ViewModel
             TotalCounts = DataManager.Instance.GET_INT_DATA(IoNameHelper.IN_INT_LASER_STATUS_COUNTERTOTAL, out bool _);
             UserCounts = DataManager.Instance.GET_INT_DATA(IoNameHelper.IN_INT_LASER_STATUS_COUNTER, out bool _);
             NFCounts = DataManager.Instance.GET_INT_DATA(IoNameHelper.IN_INT_LASER_STATUS_COUNTERNEWFILL, out bool _);
+        }
 
-            this.FrontDoorInterlockState = "작동중";
-            this.LeftDoorInterlockState = "작동중";
-            this.RightDoorInterlockState = "작동중";
-
-            this.FrontDoorInterlockChecked = true;
-            this.LeftDoorInterlockChecked = true;
-            this.RightDoorInterlockChecked = true;
+        private void ExecuteSettingsLoadedCommand()
+        {
+            InitSettingValues();
         }
 
         private void ExecuteVisionPosXSetButtonCommand()
@@ -287,10 +320,22 @@ namespace ECS.UI.ViewModel
             DataManager.Instance.CHANGE_DEFAULT_DATA("vSet.dAxisX.JogVelHigh", XJogVelHigh);
         }
 
+        private void ExecuteXJogVelMidButtonCommand()
+        {
+            DataManager.Instance.SET_DOUBLE_DATA("vSet.dAxisX.JogVelMid", XJogVelMid);
+            DataManager.Instance.CHANGE_DEFAULT_DATA("vSet.dAxisX.JogVelMid", XJogVelMid);
+        }
+
         private void ExecuteYJogVelHighButtonCommand()
         {
             DataManager.Instance.SET_DOUBLE_DATA("vSet.dAxisY.JogVelHigh", XJogVelHigh);
             DataManager.Instance.CHANGE_DEFAULT_DATA("vSet.dAxisY.JogVelHigh", XJogVelHigh);
+        }
+
+        private void ExecuteYJogVelMidButtonCommand()
+        {
+            DataManager.Instance.SET_DOUBLE_DATA("vSet.dAxisY.JogVelMid", YJogVelMid);
+            DataManager.Instance.CHANGE_DEFAULT_DATA("vSet.dAxisY.JogVelMid", YJogVelMid);
         }
 
         private void ExecuteZJogVelHighButtonCommand()
@@ -321,6 +366,18 @@ namespace ECS.UI.ViewModel
         {
             DataManager.Instance.SET_DOUBLE_DATA("vSet.dAxisY.JogVelLow", YJogVelLow);
             DataManager.Instance.CHANGE_DEFAULT_DATA("vSet.dAxisY.JogVelLow", YJogVelLow);
+        }
+
+        private void ExecuteXJogVelVeryLowButtonCommand()
+        {
+            DataManager.Instance.SET_DOUBLE_DATA("vSet.dAxisX.JogVelVeryLow", XJogVelVeryLow);
+            DataManager.Instance.CHANGE_DEFAULT_DATA("vSet.dAxisX.JogVelVeryLow", XJogVelVeryLow);
+        }
+
+        private void ExecuteYJogVelVeryLowButtonCommand()
+        {
+            DataManager.Instance.SET_DOUBLE_DATA("vSet.dAxisY.JogVelVeryLow", YJogVelVeryLow);
+            DataManager.Instance.CHANGE_DEFAULT_DATA("vSet.dAxisY.JogVelVeryLow", YJogVelVeryLow);
         }
 
         private void ExecuteZJogVelLowButtonCommand()

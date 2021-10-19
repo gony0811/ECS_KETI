@@ -123,7 +123,7 @@
 
 
 
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Margin="5">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4">
                     <RadioButton Content="X-AXIS" IsChecked="{Binding RadioButtonXAxisIsChecked}" Margin="5"  FontSize="18" VerticalContentAlignment="Center">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Checked">
@@ -169,18 +169,8 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <ComboBox Width="100" SelectedItem="{Binding SelectedJogSpeed}">
-                        <ComboBoxItem Content="High" />
-                        <ComboBoxItem Content="Medium"/>
-                        <ComboBoxItem Content="Low"/>
-                        <ComboBoxItem Content="Very Low"/>
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Selected">
-                                <mvvm:EventToCommand Command="{Binding JogSpeedSelectedCommand}" PassEventArgsToCommand="True"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </ComboBox>
-                    <ToggleButton x:Name="btnJogSpeed" Margin="5" IsChecked="{Binding ToggleButtonJogSpeedHighLow}" Width="50">
+                    <!--Button Content="SET" Command="{Binding JogSpeedSelectedCommand}" Margin="5" Width="60"/-->
+                    <!--<ToggleButton x:Name="btnJogSpeed" Margin="5" IsChecked="{Binding ToggleButtonJogSpeedHighLow}" Width="50">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Checked">
                                 <mvvm:EventToCommand Command="{Binding JogSpeedHighCommand}" PassEventArgsToCommand="True"/>
@@ -189,8 +179,8 @@
                                 <mvvm:EventToCommand Command="{Binding JogSpeedLowCommand}" PassEventArgsToCommand="True"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
-                    </ToggleButton>
-                    <TextBlock Text="{Binding TextBlockJogSpeedHighLow}" Width="100" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14"/>
+                    </ToggleButton>-->
+                    <!--<TextBlock Text="{Binding TextBlockJogSpeedHighLow}" Width="100" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14"/>-->
                 </StackPanel>
                 <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Center" Margin="5" Grid.ColumnSpan="2">
                     <Label Content="{Binding LabelAbsoluteMove}" FontSize="14" Width="Auto" Height="Auto" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -254,9 +244,10 @@
 
             <StackPanel Grid.Row="4" Orientation="Vertical">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Content="{Binding ButtonVisionMoveContent}" Command="{Binding ButtonVisionMoveCommand}" IsEnabled="{Binding ButtonVisionMoveEnable}" Margin="10" Width="150"/>
-                    <Button Content="{Binding ButtonProcessMoveContent}" Command="{Binding ButtonProcessMoveCommand}" IsEnabled="{Binding ButtonProcessMoveEnable}" Margin="10" Width="150"/>
-                    <Button Content="{Binding ButtonMoveStopContent}" Command="{Binding ButtonMoveStopCommand}" IsEnabled="{Binding ButtonMoveStopEnable}" Margin="10" Width="150"/>
+                    <Button Content="{Binding ButtonSetPositionContent}" Command="{Binding ButtonSetPositionCommand}" IsEnabled="{Binding ButtonSetPositionEnable}" Margin="5" Width="120"/>
+                    <Button Content="{Binding ButtonVisionMoveContent}" Command="{Binding ButtonVisionMoveCommand}" IsEnabled="{Binding ButtonVisionMoveEnable}" Margin="5" Width="120"/>
+                    <Button Content="{Binding ButtonProcessMoveContent}" Command="{Binding ButtonProcessMoveCommand}" IsEnabled="{Binding ButtonProcessMoveEnable}" Margin="5" Width="120"/>
+                    <Button Content="{Binding ButtonMoveStopContent}" Command="{Binding ButtonMoveStopCommand}" IsEnabled="{Binding ButtonMoveStopEnable}" Margin="5" Width="120"/>
                 </StackPanel>
             </StackPanel>
 
@@ -275,9 +266,66 @@
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <Button Content="UP" Grid.Column="2" Grid.Row="0">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5" Grid.Row="0" Grid.ColumnSpan="2" Width="200">
+                    <Label Content="조그 속도 :"  VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                    <ComboBox ItemsSource="{Binding JogSpeedModeList}" SelectedValue="{Binding SelectedJogSpeed}" IsSynchronizedWithCurrentItem="True" IsReadOnly="True" HorizontalAlignment="Center" SelectedIndex="0" Width="100">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <mvvm:EventToCommand Command="{Binding JogSpeedSelectedCommand}" PassEventArgsToCommand="True"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
+                </StackPanel>
+
+                <Button Content="LEFT-UP" Grid.Column="1" Grid.Row="1" Margin="2">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                            <mvvm:EventToCommand Command="{Binding JogLeftUpMouseLeftButtonDownCommand}" PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                            <mvvm:EventToCommand Command="{Binding JogLeftUpMouseLeftButtonUpCommand}" PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+
+                <Button Content="RIGHT-UP" Grid.Column="3" Grid.Row="1" Margin="2">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                            <mvvm:EventToCommand Command="{Binding JogRightUpMouseLeftButtonDownCommand}" PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                            <mvvm:EventToCommand Command="{Binding JogRightUpMouseLeftButtonUpCommand}" PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+
+                <Button Content="LEFT-DN" Grid.Column="1" Grid.Row="3" Margin="2">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                            <mvvm:EventToCommand Command="{Binding JogLeftDownMouseLeftButtonDownCommand}" PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                            <mvvm:EventToCommand Command="{Binding JogLeftDownMouseLeftButtonUpCommand}" PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+
+                <Button Content="RIGHT-DN" Grid.Column="3" Grid.Row="3" Margin="2">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                            <mvvm:EventToCommand Command="{Binding JogRightDownMouseLeftButtonDownCommand}" PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                            <mvvm:EventToCommand Command="{Binding JogRightDownMouseLeftButtonUpCommand}" PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+
+
+                <Button Content="UP" Grid.Column="2" Grid.Row="1" Margin="2">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                             <mvvm:EventToCommand Command="{Binding JogUpMouseLeftButtonDownCommand}" PassEventArgsToCommand="True"/>
@@ -287,7 +335,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
-                <Button Content="LEFT" Grid.Column="1" Grid.Row="1">
+                <Button Content="LEFT" Grid.Column="1" Grid.Row="2" Margin="2">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                             <mvvm:EventToCommand Command="{Binding JogLeftMouseLeftButtonDownCommand}" PassEventArgsToCommand="True"/>
@@ -297,7 +345,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
-                <Button Content="RIGHT" Grid.Column="3" Grid.Row="1">
+                <Button Content="RIGHT" Grid.Column="3" Grid.Row="2" Margin="2">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                             <mvvm:EventToCommand Command="{Binding JogRightMouseLeftButtonDownCommand}" PassEventArgsToCommand="True"/>
@@ -307,7 +355,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
-                <Button Content="DOWN" Grid.Column="2" Grid.Row="2">
+                <Button Content="DOWN" Grid.Column="2" Grid.Row="3" Margin="2">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                             <mvvm:EventToCommand Command="{Binding JogDownMouseLeftButtonDownCommand}" PassEventArgsToCommand="True"/>

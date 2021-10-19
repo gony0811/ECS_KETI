@@ -9,6 +9,7 @@ using ECS.Function;
 using System.Diagnostics;
 using System.Threading;
 using INNO6.Core.Manager;
+using ECS.Common.Helper;
 
 namespace ECS.Function.Physical
 {
@@ -32,14 +33,24 @@ namespace ECS.Function.Physical
 
         public override string Execute()
         {
-            if (DataManager.Instance.GET_STRING_DATA(VIO_Y_JOG_SPEED_MODE, out bool _) == "HIGH")
+            if (DataManager.Instance.GET_STRING_DATA(IoNameHelper.V_STR_SET_Y_JOGVEL_MODE, out bool _).StartsWith("H"))
             {
-                double velocity = DataManager.Instance.GET_DOUBLE_DATA(VIO_Y_JOG_SPEED_HIGH, out bool _);
+                double velocity = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Y_JOGVEL_HIGH, out bool _);
+                DataManager.Instance.SET_DOUBLE_DATA(IO_Y_JOG_VELOCITY_SET, velocity);
+            }
+            else if (DataManager.Instance.GET_STRING_DATA(IoNameHelper.V_STR_SET_Y_JOGVEL_MODE, out _).StartsWith("M"))
+            {
+                double velocity = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Y_JOGVEL_MID, out bool _);
+                DataManager.Instance.SET_DOUBLE_DATA(IO_Y_JOG_VELOCITY_SET, velocity);
+            }
+            else if (DataManager.Instance.GET_STRING_DATA(IoNameHelper.V_STR_SET_Y_JOGVEL_MODE, out _).StartsWith("L"))
+            {
+                double velocity = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Y_JOGVEL_LOW, out bool _);
                 DataManager.Instance.SET_DOUBLE_DATA(IO_Y_JOG_VELOCITY_SET, velocity);
             }
             else
             {
-                double velocity = DataManager.Instance.GET_DOUBLE_DATA(VIO_Y_JOG_SPEED_LOW, out bool _);
+                double velocity = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Y_JOGVEL_VERYLOW, out bool _);
                 DataManager.Instance.SET_DOUBLE_DATA(IO_Y_JOG_VELOCITY_SET, velocity);
             }
 

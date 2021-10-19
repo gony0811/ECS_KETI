@@ -37,6 +37,8 @@ namespace ECS.Common.Helper
         public const string V_DBL_SET_Y_MIN_POSITION = "vSet.dAxisY.MinPosition";
         public const string V_DBL_SET_Y_MAX_POSITION = "vSet.dAxisY.MaxPosition";
         public const string V_DBL_SET_Y_JOGVEL_LOW = "vSet.dAxisY.JogVelLow";
+        public const string V_DBL_SET_Y_JOGVEL_VERYLOW = "vSet.dAxisY.JogVelVeryLow";
+        public const string V_DBL_SET_Y_JOGVEL_MID = "vSet.dAxisY.JogVelMid";
         public const string V_DBL_SET_Y_JOGVEL_HIGH = "vSet.dAxisY.JogVelHigh";
         public const string V_DBL_SET_Y_INPOS_RANGE = "vSet.dAxisY.InPosRange";
         public const string V_DBL_SET_Y_ABS_VELOCITY = "vSet.dAxisY.AbsVelocity";
@@ -51,7 +53,9 @@ namespace ECS.Common.Helper
         public const string V_DBL_SET_X_MAX_VELOCITY = "vSet.dAxisX.MaxVelocity";
         public const string V_DBL_SET_X_MIN_POSITION = "vSet.dAxisX.MinPosition";
         public const string V_DBL_SET_X_MAX_POSITION = "vSet.dAxisX.MaxPosition";
+        public const string V_DBL_SET_X_JOGVEL_VERYLOW = "vSet.dAxisX.JogVelVeryLow";
         public const string V_DBL_SET_X_JOGVEL_LOW = "vSet.dAxisX.JogVelLow";
+        public const string V_DBL_SET_X_JOGVEL_MID = "vSet.dAxisX.JogVelMid";
         public const string V_DBL_SET_X_JOGVEL_HIGH = "vSet.dAxisX.JogVelHigh";
         public const string V_DBL_SET_X_INPOS_RANGE = "vSet.dAxisX.InPosRange";
         public const string V_DBL_SET_X_ABS_VELOCITY = "vSet.dAxisX.AbsVelocity";
