@@ -5,6 +5,7 @@ using INNO6.Core.Manager;
 using INNO6.IO;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -130,6 +131,12 @@ namespace ECS.UI.ViewModel
         private double _XAxisPosition;
         private double _YAxisPosition;
 
+        private double _VisionPositionX;
+        private double _VisionPositionY;
+
+        private double _ProcessPositionX;
+        private double _ProcessPositionY;
+
 
         private double _PostionLimitMax;
         private double _PostionLimitMin;
@@ -141,7 +148,10 @@ namespace ECS.UI.ViewModel
         private bool _RadioButtonXAxisIsChecked;
         private bool _RadioButtonYAxisIsChecked;
 
+        private string _SelectedPositionItem;
+
         private List<string> _JogSpeedModeList;
+        private ObservableCollection<string> _SavePositionList;
 
         private ICommand _RadioButtonXAxisCheckedCommand;
         private ICommand _RadioButtonYAxisCheckedCommand;
@@ -203,6 +213,9 @@ namespace ECS.UI.ViewModel
 
         private ICommand _JogSpeedSelectedCommand;
 
+        private ICommand _SavePositionCommand;
+        private ICommand _MovePosiitonCommand;
+
         #endregion
 
         #region Define Constructor
@@ -224,6 +237,14 @@ namespace ECS.UI.ViewModel
             ButtonServoKillAllEnable = true;
 
             SelectedJogSpeed = "HIGH";
+
+            VisionPositionX = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_X_VISION_POSITION, out _);
+            VisionPositionY = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Y_VISION_POSITION, out _);
+
+            ProcessPositionX = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_X_PROCESS_POSITION, out _);
+            ProcessPositionY = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Y_PROCESS_POSITION, out _);
+
+            _SavePositionList = new ObservableCollection<string>();
         }
         #endregion
 
@@ -242,6 +263,7 @@ namespace ECS.UI.ViewModel
         #region Define Public Properties
 
         public List<string> JogSpeedModeList { get { return new List<string>() { "HIGH", "MID", "LOW", "VERY LOW" }; } set { _JogSpeedModeList = value; } }
+        public ObservableCollection<string> SavePositionList { get { return _SavePositionList; } set { _SavePositionList = value; RaisePropertyChanged("SavePositionList"); } }
 
         public string ButtonHommingContent { get { return _ButtonHommingContent; } set { _ButtonHommingContent = value; RaisePropertyChanged("ButtonHommingContent"); } }
         public string ButtonServoContent { get { return _ButtonServoContent; } set { _ButtonServoContent = value; RaisePropertyChanged("ButtonServoContent"); } }
@@ -263,6 +285,10 @@ namespace ECS.UI.ViewModel
         public string LabelRelativeMove { get { return _LabelRelativeMove; } set { _LabelRelativeMove = value; RaisePropertyChanged("LabelRelativeMove"); } }
         public double MoveDistance { get { return _MoveDistance; } set { _MoveDistance = value; RaisePropertyChanged("MoveDistance"); } }
         public double RelativeVelocity { get { return _RelativeVelocity; } set { _RelativeVelocity = value; RaisePropertyChanged("RelativeVelocity"); } }
+        public double VisionPositionX { get { return _VisionPositionX; } set { _VisionPositionX = value; RaisePropertyChanged("VisionPositionX"); } }
+        public double VisionPositionY { get { return _VisionPositionY; } set { _VisionPositionY = value; RaisePropertyChanged("VisionPositionY"); } }
+        public double ProcessPositionX { get { return _ProcessPositionX; } set { _ProcessPositionX = value; RaisePropertyChanged("ProcessPositionX"); } }
+        public double ProcessPositionY { get { return _ProcessPositionY; } set { _ProcessPositionY = value; RaisePropertyChanged("ProcessPositionY"); } }
 
         public bool ButtonHommingEnable { get { return _ButtonHommingEnable; } set { _ButtonHommingEnable = value; RaisePropertyChanged("ButtonHommingEnable"); } }
         public bool ButtonServoEnable { get { return _ButtonServoEnable; } set { _ButtonServoEnable = value; RaisePropertyChanged("ButtonServoEnable"); } }
@@ -295,6 +321,9 @@ namespace ECS.UI.ViewModel
 
         public string TextBlockJogSpeedHighLow { get { return _TextBlockJogSpeedHighLow; } set { _TextBlockJogSpeedHighLow = value; RaisePropertyChanged("TextBlockJogSpeedHighLow"); } }
         public string SelectedJogSpeed { get { return _SelectedJogSpeed; } set { _SelectedJogSpeed = value; RaisePropertyChanged("SelectedJogSpeed"); } }
+
+        public string SelectedPositionItem { get { return _SelectedPositionItem; } set { _SelectedPositionItem = value; RaisePropertyChanged("SelectedPositionItem"); } }
+        
 
         public bool RadioButtonXAxisIsChecked { get { return _RadioButtonXAxisIsChecked; } set { _RadioButtonXAxisIsChecked = value; RaisePropertyChanged("RadioButtonXAxisChecked"); } }
         public bool RadioButtonYAxisIsChecked { get { return _RadioButtonYAxisIsChecked; } set { _RadioButtonYAxisIsChecked = value; RaisePropertyChanged("RadioButtonYAxisChecked"); } }
@@ -361,6 +390,9 @@ namespace ECS.UI.ViewModel
         public ICommand KeyUpCommand { get { return this._KeyUpCommand ?? (this._KeyUpCommand = new RelayCommand<KeyEventArgs>(ExecuteKeyUpCommand)); } }
         public ICommand JogSpeedSelectedCommand { get { return this._JogSpeedSelectedCommand ?? (this._JogSpeedSelectedCommand = new RelayCommand(ExecuteJogSpeedSelectedCommand)); } }
 
+        public ICommand SavePositionCommand { get { return this._SavePositionCommand ?? (this._SavePositionCommand = new RelayCommand(ExecuteSavePositionCommand)); } }
+        public ICommand MovePosiitonCommand { get { return this._MovePosiitonCommand ?? (this._MovePosiitonCommand = new RelayCommand(ExecuteMovePositionCommand)); } }
+        
         #endregion
 
         #region Define Private Method
@@ -423,6 +455,35 @@ namespace ECS.UI.ViewModel
             //{
             //    return;
             //}
+        }
+
+        private void ExecuteSavePositionCommand()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(XAxisPosition.ToString("F3"));
+            sb.Append(",");
+            sb.Append(YAxisPosition.ToString("F3"));
+            SavePositionList.Add(sb.ToString());
+        }
+
+        private void ExecuteMovePositionCommand()
+        {
+            if(String.IsNullOrEmpty(SelectedPositionItem))
+            {
+                return;
+            }
+            else
+            {
+                string[] posArray = SelectedPositionItem.Split(',');
+                double x = double.Parse(posArray[0]);
+                double y = double.Parse(posArray[1]);
+
+                DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_X_ABS_POSITION, x);
+                DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Y_ABS_POSITION, y);
+
+                FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.X_AXIS_MOVE_TO_SETPOS);
+                FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.Y_AXIS_MOVE_TO_SETPOS);
+            }
         }
 
         private void ExecuteJogSpeedSelectedCommand()
@@ -1019,21 +1080,24 @@ namespace ECS.UI.ViewModel
             double offsetX = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_X_POSITION_OFFSET, out _);
             double offsetY = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Y_POSITION_OFFSET, out _);
 
-            DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_X_VISION_POSITION, XAxisPosition);
-            DataManager.Instance.CHANGE_DEFAULT_DATA(IoNameHelper.V_DBL_SET_X_VISION_POSITION, XAxisPosition);
+            VisionPositionX = XAxisPosition;
+            VisionPositionY = YAxisPosition;
 
-            DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Y_VISION_POSITION, YAxisPosition);
-            DataManager.Instance.CHANGE_DEFAULT_DATA(IoNameHelper.V_DBL_SET_Y_VISION_POSITION, YAxisPosition);
+            DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_X_VISION_POSITION, VisionPositionX);
+            DataManager.Instance.CHANGE_DEFAULT_DATA(IoNameHelper.V_DBL_SET_X_VISION_POSITION, VisionPositionX);
 
-            double processPositionX = XAxisPosition + offsetX;
-            double processPositionY = YAxisPosition + offsetY;
+            DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Y_VISION_POSITION, VisionPositionY);
+            DataManager.Instance.CHANGE_DEFAULT_DATA(IoNameHelper.V_DBL_SET_Y_VISION_POSITION, VisionPositionY);
 
-            DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_X_PROCESS_POSITION, processPositionX);
-            DataManager.Instance.CHANGE_DEFAULT_DATA(IoNameHelper.V_DBL_SET_X_PROCESS_POSITION, processPositionX);
+            ProcessPositionX = XAxisPosition + offsetX;
+            ProcessPositionY = YAxisPosition + offsetY;
+
+            DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_X_PROCESS_POSITION, ProcessPositionX);
+            DataManager.Instance.CHANGE_DEFAULT_DATA(IoNameHelper.V_DBL_SET_X_PROCESS_POSITION, ProcessPositionX);
 
 
-            DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Y_PROCESS_POSITION, processPositionY);
-            DataManager.Instance.CHANGE_DEFAULT_DATA(IoNameHelper.V_DBL_SET_Y_PROCESS_POSITION, processPositionY);
+            DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Y_PROCESS_POSITION, ProcessPositionY);
+            DataManager.Instance.CHANGE_DEFAULT_DATA(IoNameHelper.V_DBL_SET_Y_PROCESS_POSITION, ProcessPositionY);
         }
 
         #endregion

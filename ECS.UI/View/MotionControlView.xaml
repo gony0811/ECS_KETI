@@ -18,7 +18,7 @@
              xmlns:Command="clr-namespace:ECS.UI" 
              xmlns:mvvm="http://www.galasoft.ch/mvvmlight"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="600">
+             >
 
 
     <UserControl.Resources>
@@ -74,23 +74,19 @@
 
                 <StackPanel Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Stretch">
                     <StackPanel Orientation="Horizontal">
-                        <Label Content="X-Velocity" HorizontalAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="3"/>
-                        <Label Content="{Binding XAxisVelocity, StringFormat=F2, Converter={StaticResource DoubleToStringConverter}}" BorderBrush="LightGray" BorderThickness="2" Background="Black" Foreground="LightGreen" HorizontalContentAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="3" Width="100"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <Label Content="Y-Velocity" HorizontalAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="3"/>
-                        <Label Content="{Binding YAxisVelocity, StringFormat=F2, Converter={StaticResource DoubleToStringConverter}}" BorderBrush="LightGray" BorderThickness="2" Background="Black" Foreground="LightGreen" HorizontalContentAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="3" Width="100"/>
+                        <Label Content="X-Vel" HorizontalAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="2"/>
+                        <Label Content="{Binding XAxisVelocity, StringFormat=F2, Converter={StaticResource DoubleToStringConverter}}" BorderBrush="LightGray" BorderThickness="2" Background="Black" Foreground="LightGreen" HorizontalContentAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="2" Width="90"/>
+                        <Label Content="Y-Vel" HorizontalAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="2"/>
+                        <Label Content="{Binding YAxisVelocity, StringFormat=F2, Converter={StaticResource DoubleToStringConverter}}" BorderBrush="LightGray" BorderThickness="2" Background="Black" Foreground="LightGreen" HorizontalContentAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="2" Width="90"/>
                     </StackPanel>
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Stretch">
                     <StackPanel Orientation="Horizontal" >
-                        <Label Content="X-Position" HorizontalAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="3"/>
-                        <Label Content="{Binding XAxisPosition, StringFormat=F3, Converter={StaticResource DoubleToStringConverter}}" BorderBrush="LightGray" BorderThickness="2" Background="Black" Foreground="LightGreen" HorizontalContentAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="3" Width="100"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <Label Content="Y-Position" HorizontalAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="3"/>
-                        <Label Content="{Binding YAxisPosition, StringFormat=F3, Converter={StaticResource DoubleToStringConverter}}" BorderBrush="LightGray" BorderThickness="2" Background="Black" Foreground="LightGreen" HorizontalContentAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="3" Width="100"/>
+                        <Label Content="X-Pos" HorizontalAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="2"/>
+                        <Label Content="{Binding XAxisPosition, StringFormat=F3, Converter={StaticResource DoubleToStringConverter}}" BorderBrush="LightGray" BorderThickness="2" Background="Black" Foreground="LightGreen" HorizontalContentAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="2" Width="90"/>
+                        <Label Content="Y-Pos" HorizontalAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="2"/>
+                        <Label Content="{Binding YAxisPosition, StringFormat=F3, Converter={StaticResource DoubleToStringConverter}}" BorderBrush="LightGray" BorderThickness="2" Background="Black" Foreground="LightGreen" HorizontalContentAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="2" Width="90"/>
                     </StackPanel>
                 </StackPanel>
 
@@ -123,15 +119,15 @@
 
 
 
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4">
-                    <RadioButton Content="X-AXIS" IsChecked="{Binding RadioButtonXAxisIsChecked}" Margin="5"  FontSize="18" VerticalContentAlignment="Center">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Margin="5">
+                    <RadioButton Content="X-AXIS" IsChecked="{Binding RadioButtonXAxisIsChecked}" Margin="5"  FontSize="14" VerticalContentAlignment="Center">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Checked">
                                 <mvvm:EventToCommand Command="{Binding RadioButtonXAxisCheckedCommand}" PassEventArgsToCommand="True"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </RadioButton>
-                    <RadioButton Content="Y-AXIS" IsChecked="{Binding RadioButtonYAxisIsChecked}" Margin="5" FontSize="18" VerticalContentAlignment="Center">
+                    <RadioButton Content="Y-AXIS" IsChecked="{Binding RadioButtonYAxisIsChecked}" Margin="5" FontSize="14" VerticalContentAlignment="Center">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Checked">
                                 <mvvm:EventToCommand Command="{Binding RadioButtonYAxisCheckedCommand}" PassEventArgsToCommand="True"/>
@@ -143,11 +139,9 @@
                 <Border Grid.Row="1" Grid.ColumnSpan="5" Margin="5" Background="{DynamicResource MaterialDesignDivider}" Height="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" />
 
 
-                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" Grid.ColumnSpan="3">
+                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" Grid.ColumnSpan="4">
                     <Button x:Name="ButtonServo" Margin="5" Width="100" Content="{Binding ButtonServoContent}" Command="{Binding ButtonServoCommand}" IsEnabled="{Binding ButtonServoEnable}"/>
                     <Button x:Name="ButtonServoKillAll" Margin="5" Width="100" Content="{Binding ButtonKillAllContent}" Command="{Binding ButtonServoKillAllCommand}" IsEnabled="{Binding ButtonServoKillAllEnable}"/>
-                </StackPanel>
-                <StackPanel Grid.Row="3" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Left">
                     <Button x:Name="ButtonHomming" Margin="5" Width="100"  Content="{Binding ButtonHommingContent}" Command="{Binding ButtonHommingCommand}" IsEnabled="{Binding ButtonHommingEnable}"/>
                     <Button x:Name="ButtonJogPlus" Margin="5" Width="100" Content="{Binding ButtonJogPlusContent}" IsEnabled="{Binding ButtonJogPlusEnable}">
                         <i:Interaction.Triggers>
@@ -169,6 +163,9 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
+                </StackPanel>
+                <StackPanel Grid.Row="3" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Left">
+                    
                     <!--Button Content="SET" Command="{Binding JogSpeedSelectedCommand}" Margin="5" Width="60"/-->
                     <!--<ToggleButton x:Name="btnJogSpeed" Margin="5" IsChecked="{Binding ToggleButtonJogSpeedHighLow}" Width="50">
                         <i:Interaction.Triggers>
@@ -182,7 +179,7 @@
                     </ToggleButton>-->
                     <!--<TextBlock Text="{Binding TextBlockJogSpeedHighLow}" Width="100" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14"/>-->
                 </StackPanel>
-                <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Center" Margin="5" Grid.ColumnSpan="2">
+                <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Left" Margin="5">
                     <Label Content="{Binding LabelAbsoluteMove}" FontSize="14" Width="Auto" Height="Auto" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                         <Label Content="위치 :" FontSize="14" Width="50" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
@@ -208,7 +205,7 @@
                     </StackPanel>
                     <Button Content="{Binding ButtonAbsoluteMoveContent}" Command="{Binding ButtonAbsoluteMoveCommand}" IsEnabled="{Binding ButtonAbsoluteMoveEnable}" Margin="5"/>
                 </StackPanel>
-                <StackPanel Grid.Row="4" Grid.Column="2" Orientation="Vertical" HorizontalAlignment="Center" Margin="5" Grid.ColumnSpan="2">
+                <StackPanel Grid.Row="4" Grid.Column="2" Orientation="Vertical" HorizontalAlignment="Left" Margin="5" >
                     <Label Content="{Binding LabelRelativeMove}" FontSize="14" Width="Auto" Height="Auto" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                         <Label Content="거리 :" FontSize="14" Width="50" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5"/>
@@ -233,8 +230,8 @@
                         <Label Content="(mm/s)" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <Button Content="{Binding ButtonRelativePlusMoveContent}" Command="{Binding ButtonRelativePlusMoveCommand}" IsEnabled="{Binding ButtonRelativeMoveEnable}" Margin="5" MinWidth="120"/>
-                        <Button Content="{Binding ButtonRelativeMinusMoveContent}" Command="{Binding ButtonRelativeMinusMoveCommand}" IsEnabled="{Binding ButtonRelativeMoveEnable}" Margin="5" MinWidth="120"/>
+                        <Button Content="{Binding ButtonRelativePlusMoveContent}" Command="{Binding ButtonRelativePlusMoveCommand}" IsEnabled="{Binding ButtonRelativeMoveEnable}" Margin="5" MinWidth="100"/>
+                        <Button Content="{Binding ButtonRelativeMinusMoveContent}" Command="{Binding ButtonRelativeMinusMoveCommand}" IsEnabled="{Binding ButtonRelativeMoveEnable}" Margin="5" MinWidth="100"/>
                     </StackPanel>
 
                 </StackPanel>
@@ -243,11 +240,25 @@
             <Border Grid.Row="3" Background="{DynamicResource MaterialDesignDivider}" Height="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" />
 
             <StackPanel Grid.Row="4" Orientation="Vertical">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Button Content="{Binding ButtonSetPositionContent}" Command="{Binding ButtonSetPositionCommand}" IsEnabled="{Binding ButtonSetPositionEnable}" Margin="5" Width="120"/>
                     <Button Content="{Binding ButtonVisionMoveContent}" Command="{Binding ButtonVisionMoveCommand}" IsEnabled="{Binding ButtonVisionMoveEnable}" Margin="5" Width="120"/>
                     <Button Content="{Binding ButtonProcessMoveContent}" Command="{Binding ButtonProcessMoveCommand}" IsEnabled="{Binding ButtonProcessMoveEnable}" Margin="5" Width="120"/>
                     <Button Content="{Binding ButtonMoveStopContent}" Command="{Binding ButtonMoveStopCommand}" IsEnabled="{Binding ButtonMoveStopEnable}" Margin="5" Width="120"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5" VerticalAlignment="Center">
+                    <Label Content="Vision Pos. (X, Y) :" HorizontalAlignment="Center" VerticalAlignment="Center" Width="130"/>
+                    <Label Content="{Binding VisionPositionX}" BorderThickness="2" BorderBrush="DarkGray" Width="70" Height="30"/>
+                    <Label Content="," HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto"/>
+                    <Label Content="{Binding VisionPositionY}" BorderThickness="2" BorderBrush="DarkGray" Width="70" Height="30"/>
+
+                    <Label Content="Process Pos. (X, Y) :" HorizontalAlignment="Center" VerticalAlignment="Center" Width="130"/>
+                    <Label Content="{Binding ProcessPositionX}" BorderThickness="2" BorderBrush="DarkGray" Width="70" Height="30"/>
+                    <Label Content="," HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto"/>
+                    <Label Content="{Binding ProcessPositionY}" BorderThickness="2" BorderBrush="DarkGray" Width="70" Height="30"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5" VerticalAlignment="Center">
+
                 </StackPanel>
             </StackPanel>
 
@@ -269,7 +280,7 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5" Grid.Row="0" Grid.ColumnSpan="2" Width="200">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5" Grid.Row="0" Grid.ColumnSpan="3" Width="200">
                     <Label Content="조그 속도 :"  VerticalAlignment="Center" HorizontalAlignment="Right"/>
                     <ComboBox ItemsSource="{Binding JogSpeedModeList}" SelectedValue="{Binding SelectedJogSpeed}" IsSynchronizedWithCurrentItem="True" IsReadOnly="True" HorizontalAlignment="Center" SelectedIndex="0" Width="100">
                         <i:Interaction.Triggers>
@@ -280,7 +291,14 @@
                     </ComboBox>
                 </StackPanel>
 
-                <Button Content="LEFT-UP" Grid.Column="1" Grid.Row="1" Margin="2">
+                <Button Content="SET POS." Grid.Column="3" Grid.Row="0" Margin="2" Command="{Binding SavePositionCommand}"/>
+                <Button Content="MOVE POS." Grid.Column="4" Grid.Row="0" Margin="2" Command="{Binding MovePosiitonCommand}"/>
+                <ListBox ItemsSource="{Binding SavePositionList}" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" Grid.RowSpan="3" BorderBrush="Gray" BorderThickness="2" Margin="2"
+                         ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True" Height="100" 
+                         SelectedItem="{Binding SelectedPositionItem}"
+                         />
+
+                <Button Content="LEFT-UP" Grid.Column="0" Grid.Row="1" Margin="2">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                             <mvvm:EventToCommand Command="{Binding JogLeftUpMouseLeftButtonDownCommand}" PassEventArgsToCommand="True"/>
@@ -291,7 +309,7 @@
                     </i:Interaction.Triggers>
                 </Button>
 
-                <Button Content="RIGHT-UP" Grid.Column="3" Grid.Row="1" Margin="2">
+                <Button Content="RIGHT-UP" Grid.Column="2" Grid.Row="1" Margin="2">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                             <mvvm:EventToCommand Command="{Binding JogRightUpMouseLeftButtonDownCommand}" PassEventArgsToCommand="True"/>
@@ -302,7 +320,7 @@
                     </i:Interaction.Triggers>
                 </Button>
 
-                <Button Content="LEFT-DN" Grid.Column="1" Grid.Row="3" Margin="2">
+                <Button Content="LEFT-DN" Grid.Column="0" Grid.Row="3" Margin="2">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                             <mvvm:EventToCommand Command="{Binding JogLeftDownMouseLeftButtonDownCommand}" PassEventArgsToCommand="True"/>
@@ -313,7 +331,7 @@
                     </i:Interaction.Triggers>
                 </Button>
 
-                <Button Content="RIGHT-DN" Grid.Column="3" Grid.Row="3" Margin="2">
+                <Button Content="RIGHT-DN" Grid.Column="2" Grid.Row="3" Margin="2">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                             <mvvm:EventToCommand Command="{Binding JogRightDownMouseLeftButtonDownCommand}" PassEventArgsToCommand="True"/>
@@ -325,7 +343,7 @@
                 </Button>
 
 
-                <Button Content="UP" Grid.Column="2" Grid.Row="1" Margin="2">
+                <Button Content="UP" Grid.Column="1" Grid.Row="1" Margin="2">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                             <mvvm:EventToCommand Command="{Binding JogUpMouseLeftButtonDownCommand}" PassEventArgsToCommand="True"/>
@@ -335,7 +353,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
-                <Button Content="LEFT" Grid.Column="1" Grid.Row="2" Margin="2">
+                <Button Content="LEFT" Grid.Column="0" Grid.Row="2" Margin="2">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                             <mvvm:EventToCommand Command="{Binding JogLeftMouseLeftButtonDownCommand}" PassEventArgsToCommand="True"/>
@@ -345,7 +363,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
-                <Button Content="RIGHT" Grid.Column="3" Grid.Row="2" Margin="2">
+                <Button Content="RIGHT" Grid.Column="2" Grid.Row="2" Margin="2">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                             <mvvm:EventToCommand Command="{Binding JogRightMouseLeftButtonDownCommand}" PassEventArgsToCommand="True"/>
@@ -355,7 +373,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
-                <Button Content="DOWN" Grid.Column="2" Grid.Row="3" Margin="2">
+                <Button Content="DOWN" Grid.Column="1" Grid.Row="3" Margin="2">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                             <mvvm:EventToCommand Command="{Binding JogDownMouseLeftButtonDownCommand}" PassEventArgsToCommand="True"/>
