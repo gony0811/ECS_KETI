@@ -291,8 +291,13 @@
                     </ComboBox>
                 </StackPanel>
 
-                <Button Content="SET POS." Grid.Column="3" Grid.Row="0" Margin="2" Command="{Binding SavePositionCommand}"/>
-                <Button Content="MOVE POS." Grid.Column="4" Grid.Row="0" Margin="2" Command="{Binding MovePosiitonCommand}"/>
+                <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="3">
+                    <Button Content="SET" Margin="2" Command="{Binding SavePositionCommand}" Width="80"/>
+                    <Button Content="DEL" Margin="2" Command="{Binding DeletePositionCommand}" Width="80"/>
+                    <Button Content="MOVE" Margin="2" Command="{Binding MovePosiitonCommand}" Width="80"/>
+                </StackPanel>
+
+                
                 <ListBox ItemsSource="{Binding SavePositionList}" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" Grid.RowSpan="3" BorderBrush="Gray" BorderThickness="2" Margin="2"
                          ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True" Height="100" 
                          SelectedItem="{Binding SelectedPositionItem}"

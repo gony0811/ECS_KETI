@@ -214,6 +214,7 @@ namespace ECS.UI.ViewModel
         private ICommand _JogSpeedSelectedCommand;
 
         private ICommand _SavePositionCommand;
+        private ICommand _DeletePositionCommand;
         private ICommand _MovePosiitonCommand;
 
         #endregion
@@ -391,6 +392,8 @@ namespace ECS.UI.ViewModel
         public ICommand JogSpeedSelectedCommand { get { return this._JogSpeedSelectedCommand ?? (this._JogSpeedSelectedCommand = new RelayCommand(ExecuteJogSpeedSelectedCommand)); } }
 
         public ICommand SavePositionCommand { get { return this._SavePositionCommand ?? (this._SavePositionCommand = new RelayCommand(ExecuteSavePositionCommand)); } }
+        public ICommand DeletePositionCommand { get { return this._DeletePositionCommand ?? (this._DeletePositionCommand = new RelayCommand(Execute_eletePositionCommand)); } }
+        
         public ICommand MovePosiitonCommand { get { return this._MovePosiitonCommand ?? (this._MovePosiitonCommand = new RelayCommand(ExecuteMovePositionCommand)); } }
         
         #endregion
@@ -464,6 +467,19 @@ namespace ECS.UI.ViewModel
             sb.Append(",");
             sb.Append(YAxisPosition.ToString("F3"));
             SavePositionList.Add(sb.ToString());
+        }
+
+        private void Execute_eletePositionCommand()
+        {
+            if (String.IsNullOrEmpty(SelectedPositionItem))
+            {
+                MessageBoxManager.ShowMessageBox("삭제할 위치를 선택하십시요!");
+                return;
+            }
+            else
+            {
+                SavePositionList.Remove(SelectedPositionItem);
+            }
         }
 
         private void ExecuteMovePositionCommand()
