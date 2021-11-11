@@ -470,6 +470,7 @@ namespace ECS.UI.ViewModel
         {
             if(String.IsNullOrEmpty(SelectedPositionItem))
             {
+                MessageBoxManager.ShowMessageBox("이동할 위치를 선택하십시요!");
                 return;
             }
             else
@@ -478,11 +479,14 @@ namespace ECS.UI.ViewModel
                 double x = double.Parse(posArray[0]);
                 double y = double.Parse(posArray[1]);
 
-                DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_X_ABS_POSITION, x);
-                DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Y_ABS_POSITION, y);
+                if (MessageBoxManager.ShowYesNoBox(string.Format("X: {0:F3}, Y: {1:F3} 위치로 이동 하시겠습니까?", x, y), "Do you really want to move position ?") == MSGBOX_RESULT.OK)
+                {
+                    DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_X_ABS_POSITION, x);
+                    DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Y_ABS_POSITION, y);
 
-                FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.X_AXIS_MOVE_TO_SETPOS);
-                FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.Y_AXIS_MOVE_TO_SETPOS);
+                    FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.X_AXIS_MOVE_TO_SETPOS);
+                    FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.Y_AXIS_MOVE_TO_SETPOS);
+                }
             }
         }
 
