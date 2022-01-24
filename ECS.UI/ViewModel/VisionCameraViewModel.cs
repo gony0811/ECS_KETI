@@ -590,7 +590,7 @@ namespace ECS.UI.ViewModel
                         //Bitmap bitmapOld = (Bitmap)this.BitmapSource;
                         Mat img = OpenCvSharp.Extensions.BitmapConverter.ToMat(bitmap);
                         Mat dst = new Mat();
-                        Cv2.Flip(img, dst, FlipMode.X);
+                        Cv2.Flip(img, dst, FlipMode.XY);
 
                         Cv2.Line(dst, new OpenCvSharp.Point(0, bitmap.Height / 2), new OpenCvSharp.Point(bitmap.Width, bitmap.Height / 2), Scalar.Red, 1, LineTypes.Link4);
                         Cv2.Line(dst, new OpenCvSharp.Point(bitmap.Width / 2, 0), new OpenCvSharp.Point(bitmap.Width / 2, bitmap.Height), Scalar.Red, 1, LineTypes.Link4);
