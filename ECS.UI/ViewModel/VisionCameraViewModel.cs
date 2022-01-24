@@ -589,11 +589,13 @@ namespace ECS.UI.ViewModel
                         // Assign a temporary variable to dispose the bitmap after assigning the new bitmap to the display control.
                         //Bitmap bitmapOld = (Bitmap)this.BitmapSource;
                         Mat img = OpenCvSharp.Extensions.BitmapConverter.ToMat(bitmap);
+                        Mat dst = new Mat();
+                        Cv2.Flip(img, dst, FlipMode.X);
 
-                        Cv2.Line(img, new OpenCvSharp.Point(0, bitmap.Height / 2), new OpenCvSharp.Point(bitmap.Width, bitmap.Height / 2), Scalar.Red, 1, LineTypes.Link4);
-                        Cv2.Line(img, new OpenCvSharp.Point(bitmap.Width / 2, 0), new OpenCvSharp.Point(bitmap.Width / 2, bitmap.Height), Scalar.Red, 1, LineTypes.Link4);
+                        Cv2.Line(dst, new OpenCvSharp.Point(0, bitmap.Height / 2), new OpenCvSharp.Point(bitmap.Width, bitmap.Height / 2), Scalar.Red, 1, LineTypes.Link4);
+                        Cv2.Line(dst, new OpenCvSharp.Point(bitmap.Width / 2, 0), new OpenCvSharp.Point(bitmap.Width / 2, bitmap.Height), Scalar.Red, 1, LineTypes.Link4);
 
-                        Bitmap bit = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(img);
+                        Bitmap bit = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(dst);
 
                         // Provide the display control with the new bitmap. This action automatically updates the display.
                         dispatcher.Invoke(() => (this.BitmapSource = BitmapToImageSource(bit)));

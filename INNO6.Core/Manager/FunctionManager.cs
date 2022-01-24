@@ -111,8 +111,8 @@ namespace INNO6.Core.Manager
             {
                 object instance = _functionList[T.Key];
                 Type type = instance.GetType();
-                PropertyInfo property = type.GetProperty("Abort");
-                property.SetValue(instance, true);
+                MethodInfo method = type.GetMethod("Abort");
+                method.Invoke(instance, null);
             }
         }
 
@@ -121,9 +121,9 @@ namespace INNO6.Core.Manager
             if (CHECK_EXECUTING_FUNCTION_EXSIST(executeName))
             {
                 object instance = _functionList[executeName];
-                Type type =instance.GetType();
-                PropertyInfo property = type.GetProperty("Abort");
-                property.SetValue(instance, true);
+                Type type = instance.GetType();
+                MethodInfo method = type.GetMethod("Abort");
+                method.Invoke(instance, null);
 
                 return true;
             }

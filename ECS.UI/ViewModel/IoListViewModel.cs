@@ -154,13 +154,17 @@ namespace ECS.UI.ViewModel
 
         private void Start()
         {
-            _timer = new Timer(CallbackIoValueRead, IoDataList, 0, 1000);
+            if (_timer is null)
+                _timer = new Timer(CallbackIoValueRead, IoDataList, 0, 1000);
         }
 
         private void Stop()
         {
-            if(_timer != null)
+            if (_timer != null)
+            {
                 _timer.Dispose();
+                _timer = null;
+            }
         }
     }
 }
