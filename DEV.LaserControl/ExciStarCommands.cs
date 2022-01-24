@@ -31,8 +31,9 @@ namespace DEV.LaserControl
             lock (key)
             {
                 LogHelper.Instance.DeviceLog.DebugFormat("Send Command : {0}", request);
-                xSerial.SendMessage(request);
+                
                 Stopwatch sw = new Stopwatch();
+                xSerial.SendMessage(request);             
                 sw.Start();
 
                 while (true)
@@ -60,7 +61,6 @@ namespace DEV.LaserControl
         {
             reply = "";
             StringBuilder sb = new StringBuilder();
-
             if(xSerial.ReadBuffer(out string data))
             {
                 LogHelper.Instance.DeviceLog.DebugFormat("Received Message : {0}\n", data);
@@ -78,6 +78,7 @@ namespace DEV.LaserControl
         {
             if (this.xSerial.IsOpen)
             {
+                xSerial.FlushBuffer();
                 xSerial.SendMessage(command);
             }
             else

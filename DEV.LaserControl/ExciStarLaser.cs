@@ -49,7 +49,7 @@ namespace DEV.LaserControl
         {
             _deviceName = "";
             _deviceMode = eDevMode.UNKNOWN;
-            _milisecondResponseTimeout = 10000;
+            _milisecondResponseTimeout = 100;
         }
 
         public bool DeviceAttach(string deviceName, string portName, string baudRate, string parity, string dataBits, string stopBits, string scanTime, string responsTimeout, string logging = "Y", string mode = "NORMAL")
@@ -69,7 +69,6 @@ namespace DEV.LaserControl
             int iBaudRate = 9600;
 
             if (int.TryParse(baudRate, out int parse)) iBaudRate = parse;
-           
 
             xSerial = new XSerialComm(portName, iBaudRate, (Parity)int.Parse(parity), int.Parse(dataBits), (StopBits)int.Parse(stopBits), '\r');
             _LaserDevice = new ExciStarCommands(xSerial, _milisecondResponseTimeout);
@@ -88,7 +87,6 @@ namespace DEV.LaserControl
                 }
                 else
                 {
-
                     Task.Run(() =>
                     {
                         while (!xSerial.IsOpen)
@@ -108,7 +106,6 @@ namespace DEV.LaserControl
                             LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] DeviceAttach() : DeviceName = {0}, DeviceMode = {1}, Cause = {2}", _deviceName, _deviceMode.ToString(), portName + " Can Not Open !");
                             _deviceMode = eDevMode.DISCONNECT;
                         }
-
                     });
 
                     return true;
