@@ -856,8 +856,7 @@ namespace ECS.UI.ViewModel
         }
 
         public void ResourceRelease()
-        {
-            
+        {           
             ViewModelLocator.Instance.VisionCameraViewModel.Stop();
             _engine.Stop();
 

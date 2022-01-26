@@ -44,6 +44,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="1*"/>
+                <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
 
             <StackPanel Grid.Row="0" Orientation="Horizontal">
@@ -65,8 +66,25 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </ComboBox>
+                <Button x:Name="Button_USBCamera"  Command="{Binding ButtonUSBCameraClicked}"  Width="100" Content= "{Binding ButtonUSBCameraContent}" IsEnabled="{Binding ButtonUSBCameraEnabled}" Margin="10, 0, 5, 0"/>
+                <Button x:Name="Button_Distance"  Command="{Binding ButtonDistanceClicked}"  Width="100" Content= "{Binding ButtonDistanceContent}" IsEnabled="{Binding ButtonUSBDistanceEnabled}" Margin="10, 0, 5, 0"/>
             </StackPanel>
-            <Image Grid.Row="1"  Source="{Binding Path=BitmapSource}" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
+            <Image Grid.Row="1"  Source="{Binding Path=BitmapSource}" Stretch="None" VerticalAlignment="Top" HorizontalAlignment="Left">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseMove">
+                        <mvvm:EventToCommand Command="{Binding MouseMoveCommand}" PassEventArgsToCommand="True"/>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeftButtonDown">
+                        <mvvm:EventToCommand Command="{Binding MouseLeftButtonDownCommand}" PassEventArgsToCommand="True"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Image>
+            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                <Label Content="X : " VerticalContentAlignment="Center" FontSize="10" Width="50"/>
+                <Label Content="{Binding MouseXPosition, StringFormat=N}" VerticalContentAlignment="Center" FontSize="10" Width="150"/>
+                <Label Content="Y : " VerticalContentAlignment="Center" FontSize="10" Width="50"/>
+                <Label Content="{Binding MouseYPosition, StringFormat=N}" VerticalContentAlignment="Center" FontSize="10" Width="150"/>
+            </StackPanel>
         </Grid>
     </GroupBox>
 

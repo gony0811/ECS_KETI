@@ -187,7 +187,6 @@ namespace DEV.LaserControl
                 if (response.Equals(ReplyCodes.UNKNOWN_COMMAND))
                 {
                     throw new ApplicationException(string.Format("GET MODE Exception Wrong Command : Command={0} ReplyCode={1}", data.ToString(), response));
-                    return false;
                 }
                 else if(!response.StartsWith("MODE"))
                 {

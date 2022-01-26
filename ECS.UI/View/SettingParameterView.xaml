@@ -55,7 +55,7 @@
                     <StackPanel Grid.Column="0" Orientation="Vertical">
                         <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center">
                             <Label Content="Vision Position X:" VerticalContentAlignment="Bottom"  FontSize="12" Width="120" IsEnabled="False"/>
-                            <TextBox Text="{Binding VisionPositionX, StringFormat=N2}" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" IsEnabled="False">
+                            <TextBox Text="{Binding VisionPositionX, StringFormat=3}" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" IsEnabled="False">
                                 <i:Interaction.Behaviors>
                                     <Behaviors:TextBoxInputBehavior InputMode="DecimalInput"/>
                                 </i:Interaction.Behaviors>
@@ -65,7 +65,7 @@
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center">
                             <Label Content="Vision Position Y:" VerticalContentAlignment="Bottom" FontSize="12" Width="120" IsEnabled="False"/>
-                            <TextBox Text="{Binding VisionPositionY, StringFormat=N2}" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" IsEnabled="False">
+                            <TextBox Text="{Binding VisionPositionY, StringFormat=N3}" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" IsEnabled="False">
                                 <i:Interaction.Behaviors>
                                     <Behaviors:TextBoxInputBehavior InputMode="DecimalInput"/>
                                 </i:Interaction.Behaviors>
@@ -76,7 +76,7 @@
             
                         <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center">
                             <Label Content="Process Position X:" VerticalContentAlignment="Bottom"  FontSize="12" Width="120" IsEnabled="False"/>
-                            <TextBox Text="{Binding ProcessPositionX, StringFormat=N2}" IsReadOnly="True" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" IsEnabled="False">
+                            <TextBox Text="{Binding ProcessPositionX, StringFormat=N3}" IsReadOnly="True" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" IsEnabled="False">
                                 <i:Interaction.Behaviors>
                                     <Behaviors:TextBoxInputBehavior InputMode="DecimalInput"/>
                                 </i:Interaction.Behaviors>
@@ -86,7 +86,7 @@
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center">
                             <Label Content="Process Position Y:" VerticalContentAlignment="Bottom" FontSize="12" Width="120" IsEnabled="False"/>
-                            <TextBox Text="{Binding ProcessPositionY, StringFormat=N2}" IsReadOnly="True" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" IsEnabled="False">
+                            <TextBox Text="{Binding ProcessPositionY, StringFormat=N3}" IsReadOnly="True" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" IsEnabled="False">
                                 <i:Interaction.Behaviors>
                                     <Behaviors:TextBoxInputBehavior InputMode="DecimalInput"/>
                                 </i:Interaction.Behaviors>
@@ -96,7 +96,7 @@
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center">
                             <Label Content="Position Offset X:" VerticalContentAlignment="Bottom" FontSize="12" Width="120"/>
-                            <TextBox Text="{Binding PositionOffsetX, StringFormat=N2}" IsReadOnly="False" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom">
+                            <TextBox Text="{Binding PositionOffsetX, StringFormat=N3}" IsReadOnly="False" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom">
                                 <i:Interaction.Behaviors>
                                     <Behaviors:TextBoxInputBehavior InputMode="DecimalInput"/>
                                 </i:Interaction.Behaviors>
@@ -106,7 +106,7 @@
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center">
                             <Label Content="Position Offset Y:" VerticalContentAlignment="Bottom" FontSize="12" Width="120"/>
-                            <TextBox Text="{Binding PositionOffsetY, StringFormat=N2}" IsReadOnly="False" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom">
+                            <TextBox Text="{Binding PositionOffsetY, StringFormat=N3}" IsReadOnly="False" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom">
                                 <i:Interaction.Behaviors>
                                     <Behaviors:TextBoxInputBehavior InputMode="DecimalInput"/>
                                 </i:Interaction.Behaviors>
@@ -129,7 +129,7 @@
                     <StackPanel Grid.Column="0" Orientation="Vertical">
                         <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center">
                             <Label Content="X Jog Velocity (High) :" VerticalContentAlignment="Bottom" FontSize="12" Width="150"/>
-                            <TextBox Text="{Binding XJogVelHigh, StringFormat=N2}" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom">
+                            <TextBox Text="{Binding XJogVelHigh, StringFormat=N3}" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom">
                                 <i:Interaction.Behaviors>
                                     <Behaviors:TextBoxInputBehavior InputMode="DecimalInput"/>
                                 </i:Interaction.Behaviors>
@@ -139,7 +139,7 @@
                         </StackPanel>
                          <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center">
                             <Label Content="X Jog Velocity (Mid) :" VerticalContentAlignment="Bottom" FontSize="12" Width="150"/>
-                            <TextBox Text="{Binding XJogVelMid, StringFormat=N2}" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom">
+                            <TextBox Text="{Binding XJogVelMid, StringFormat=N3}" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom">
                                 <i:Interaction.Behaviors>
                                     <Behaviors:TextBoxInputBehavior InputMode="DecimalInput"/>
                                 </i:Interaction.Behaviors>
@@ -149,7 +149,7 @@
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center">
                             <Label Content="X Jog Velocity (Low) :" VerticalContentAlignment="Bottom" FontSize="12" Width="150"/>
-                            <TextBox Text="{Binding XJogVelLow, StringFormat=N2}" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom">
+                            <TextBox Text="{Binding XJogVelLow, StringFormat=N3}" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom">
                                 <i:Interaction.Behaviors>
                                     <Behaviors:TextBoxInputBehavior InputMode="DecimalInput"/>
                                 </i:Interaction.Behaviors>
@@ -159,7 +159,7 @@
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center">
                             <Label Content="X Jog Velocity (Very Low) :" VerticalContentAlignment="Bottom" FontSize="12" Width="150"/>
-                            <TextBox Text="{Binding XJogVelVeryLow, StringFormat=N2}" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom">
+                            <TextBox Text="{Binding XJogVelVeryLow, StringFormat=N3}" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom">
                                 <i:Interaction.Behaviors>
                                     <Behaviors:TextBoxInputBehavior InputMode="DecimalInput"/>
                                 </i:Interaction.Behaviors>
@@ -169,7 +169,7 @@
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center">
                             <Label Content="Y Jog Velocity (High) :" VerticalContentAlignment="Bottom" FontSize="12" Width="150"/>
-                            <TextBox Text="{Binding YJogVelHigh, StringFormat=N2}" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom">
+                            <TextBox Text="{Binding YJogVelHigh, StringFormat=N3}" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom">
                                 <i:Interaction.Behaviors>
                                     <Behaviors:TextBoxInputBehavior InputMode="DecimalInput"/>
                                 </i:Interaction.Behaviors>
@@ -179,7 +179,7 @@
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center">
                             <Label Content="Y Jog Velocity (Mid) :" VerticalContentAlignment="Bottom" FontSize="12" Width="150"/>
-                            <TextBox Text="{Binding YJogVelMid, StringFormat=N2}" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom">
+                            <TextBox Text="{Binding YJogVelMid, StringFormat=N3}" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom">
                                 <i:Interaction.Behaviors>
                                     <Behaviors:TextBoxInputBehavior InputMode="DecimalInput"/>
                                 </i:Interaction.Behaviors>
@@ -189,7 +189,7 @@
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center">
                             <Label Content="Y Jog Velocity (Low) :" VerticalContentAlignment="Bottom" FontSize="12" Width="150"/>
-                            <TextBox Text="{Binding YJogVelLow, StringFormat=N2}" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom">
+                            <TextBox Text="{Binding YJogVelLow, StringFormat=N3}" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom">
                                 <i:Interaction.Behaviors>
                                     <Behaviors:TextBoxInputBehavior InputMode="DecimalInput"/>
                                 </i:Interaction.Behaviors>
@@ -199,7 +199,7 @@
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center">
                             <Label Content="Y Jog Velocity (Very Low) :" VerticalContentAlignment="Bottom" FontSize="12" Width="150"/>
-                            <TextBox Text="{Binding YJogVelVeryLow, StringFormat=N2}" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom">
+                            <TextBox Text="{Binding YJogVelVeryLow, StringFormat=N3}" FontSize="12" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom">
                                 <i:Interaction.Behaviors>
                                     <Behaviors:TextBoxInputBehavior InputMode="DecimalInput"/>
                                 </i:Interaction.Behaviors>

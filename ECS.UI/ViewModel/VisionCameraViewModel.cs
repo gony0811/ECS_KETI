@@ -19,10 +19,67 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
+
 namespace ECS.UI.ViewModel
 {
     public class VisionCameraViewModel : ViewModelBase
     {
+        internal class DistanceMeasure
+        {
+            public bool IsCalculate { get; set; }
+            public bool PointInput_1 { get; set; }
+            public bool PointInput_2 { get; set; }
+
+
+            public int Pixel_X1 { get; set; }
+            public int Pixel_Y1 { get; set; }
+            public int Pixel_X2 { get; set; }
+            public int Pixel_Y2 { get; set; }
+            public double PixelSize { get; set; }
+
+            public double Distance { get; private set; }
+
+            public void PointInput1(int x1, int y1)
+            {
+                Pixel_X1 = x1;
+                Pixel_Y1 = y1;
+                PointInput_1 = true;
+            }
+
+            public void PointInput2(int x2, int y2)
+            {
+                Pixel_X2 = x2;
+                Pixel_Y2 = y2;
+                PointInput_2 = true;
+            }
+
+            public DistanceMeasure(double pixelSize)
+            {
+                PointInput_1 = false;
+                PointInput_2 = false;
+                IsCalculate = false;
+                PixelSize = pixelSize;
+            }
+
+            public void Reset()
+            {
+                PointInput_1 = false;
+                PointInput_2 = false;
+                IsCalculate = false;
+            }
+
+            public void Calculate()
+            {
+                if (PointInput_1 && PointInput_2)
+                {
+                    double dist = Math.Sqrt((Math.Pow(Pixel_X1 - Pixel_X2, 2) + Math.Pow(Pixel_Y1 - Pixel_Y2, 2)));
+                    Distance = dist * PixelSize;
+                    IsCalculate = true;
+                }
+            }
+        }
+
+        private DistanceMeasure distanceMeasure;
         private Dispatcher dispatcher = null;
 
         private Camera camera = null;
@@ -32,6 +89,14 @@ namespace ECS.UI.ViewModel
         private ObservableCollection<VisionCamera> visionCameraList;
         private VisionCamera selectedVisionCamera;
         private Timer updateDeviceListTimer;
+        private System.Threading.Thread usbCamera;
+
+        private VideoCapture capture;
+        private Mat frame;
+        private Bitmap image;
+        private bool isUSBCameraRunning = false;
+
+        private bool isDistanceMeasureMode = false;
 
         private bool buttonOneShotEnabled;
         private string buttonOneShotContent;
@@ -41,6 +106,27 @@ namespace ECS.UI.ViewModel
 
         private bool buttonStopGrabEnabled;
         private string buttonStopGrabContent;
+
+        private bool buttonUSBCameraEnabled;
+        private string buttonUSBCameraContent;
+
+        private bool buttonDistanceEnabled;
+        private string buttonDistanceContent;
+
+        private int labelMouseXPosition;
+        private int labelMouseYPosition;
+
+        public int MouseXPosition { get { return labelMouseXPosition; } set { labelMouseXPosition = value; RaisePropertyChanged("MouseXPosition"); } }
+        public int MouseYPosition { get { return labelMouseYPosition; } set { labelMouseYPosition = value; RaisePropertyChanged("MouseYPosition"); } }
+
+
+        private ICommand _MouseMoveCommand;
+
+        public ICommand MouseMoveCommand { get { return this._MouseMoveCommand ?? (this._MouseMoveCommand = new RelayCommand<MouseEventArgs>(ExecuteMouseMoveCommand)); } }
+
+        private ICommand _MouseLeftButtonDownCommand;
+
+        public ICommand MouseLeftButtonDownCommand { get { return this._MouseLeftButtonDownCommand ?? (this._MouseLeftButtonDownCommand = new RelayCommand<MouseEventArgs>(ExecuteMouseLeftButtonDownCommand)); } }
 
         private ICommand _LoadedCommand;
         private ICommand _UnloadedCommand;
@@ -83,6 +169,35 @@ namespace ECS.UI.ViewModel
             {
                 GrabStop();
                 DestroyCamera();
+            }
+        }
+
+        private void ExecuteMouseMoveCommand(MouseEventArgs args)
+        {
+            if (isDistanceMeasureMode)
+            {
+                System.Windows.Point point = args.GetPosition((IInputElement)args.Source);
+
+                MouseXPosition = Convert.ToInt32(point.X);
+                MouseYPosition = Convert.ToInt32(point.Y);
+            }
+        }
+
+        private void ExecuteMouseLeftButtonDownCommand(MouseEventArgs args)
+        {
+            if (isDistanceMeasureMode)
+            {
+                System.Windows.Point point = args.GetPosition((IInputElement)args.Source);
+
+                if (distanceMeasure.PointInput_1 != true)
+                {
+                    distanceMeasure.PointInput1(Convert.ToInt32(point.X), Convert.ToInt32(point.Y));
+                }
+                else if (distanceMeasure.PointInput_2 != true)
+                {
+                    distanceMeasure.PointInput2(Convert.ToInt32(point.X), Convert.ToInt32(point.Y));
+                    distanceMeasure.Calculate();
+                }
             }
         }
 
@@ -242,6 +357,48 @@ namespace ECS.UI.ViewModel
             }
         }
 
+        public bool ButtonUSBCameraEnabled
+        {
+            get { return buttonUSBCameraEnabled; }
+            set
+            {
+                buttonUSBCameraEnabled = value;
+                RaisePropertyChanged("ButtonUSBCameraEnabled");
+            }
+        }
+
+        public string ButtonUSBCameraContent
+        {
+            get { return buttonUSBCameraContent; }
+            set
+            {
+                buttonUSBCameraContent = value;
+                // RaisePropertyChanged MUST fire the same case-sensitive name of property
+                RaisePropertyChanged("ButtonUSBCameraContent");
+            }
+        }
+
+        public bool ButtonDistanceEnabled
+        {
+            get { return buttonDistanceEnabled; }
+            set
+            {
+                buttonDistanceEnabled = value;
+                RaisePropertyChanged("ButtonDistanceEnabled");
+            }
+        }
+
+        public string ButtonDistanceContent
+        {
+            get { return buttonDistanceContent; }
+            set
+            {
+                buttonDistanceContent = value;
+                // RaisePropertyChanged MUST fire the same case-sensitive name of property
+                RaisePropertyChanged("ButtonDistanceContent");
+            }
+        }
+
         public ImageSource BitmapSource
         {
             get { return bitmapSource; }
@@ -254,13 +411,24 @@ namespace ECS.UI.ViewModel
 
         public VisionCameraViewModel()
         {
+            distanceMeasure = new DistanceMeasure(0.005);
+
             ButtonOneShotClicked = new RelayCommand(() => OnButtonOneShotClicked());
             ButtonContinuousClicked = new RelayCommand(() => OnButtonContinuousClicked());
             ButtonStopGrabClicked = new RelayCommand(() => OnButtonStopGrabClicked());
+            ButtonUSBCameraClicked = new RelayCommand(() => OnButtonUSBCameraClicked());
+            ButtonDistanceClicked = new RelayCommand(() => OnButtonDistanceClicked());
 
             ButtonContinuousContent = "Live View";
             ButtonOneShotContent = "Capture";
             ButtonStopGrabContent = "Stop";
+            ButtonDistanceContent = "Ruler Start";
+            ButtonDistanceEnabled = true;
+            isDistanceMeasureMode = false;
+            
+
+            ButtonUSBCameraContent = "Start";
+            ButtonUSBCameraEnabled = true;
 
             dispatcher = Dispatcher.CurrentDispatcher;
             updateDeviceListTimer = new Timer();
@@ -270,6 +438,87 @@ namespace ECS.UI.ViewModel
 
             UpdateDeviceList();
         }
+
+
+        private void CaptureUSBCamera()
+        {
+            usbCamera = new System.Threading.Thread(new System.Threading.ThreadStart(CaptureCameraCallback));
+            usbCamera.Start();
+        }
+
+        private void OnButtonDistanceClicked()
+        {
+            if (ButtonDistanceContent.Equals("Ruler Start"))
+            {
+                ButtonDistanceContent = "Ruler Clear";
+                distanceMeasure.Reset();
+                isDistanceMeasureMode = true;
+            }
+            else
+            {
+                ButtonDistanceContent = "Ruler Start";
+                distanceMeasure.Reset();
+                isDistanceMeasureMode = false;
+            }
+            
+        }
+
+        private void OnButtonUSBCameraClicked()
+        {
+            if (ButtonUSBCameraContent.Equals("Start"))
+            {
+                CaptureUSBCamera();
+                ButtonUSBCameraContent = "Stop";
+                isUSBCameraRunning = true;
+            }
+            else
+            {
+                distanceMeasure.Reset();
+                isDistanceMeasureMode = false;
+
+                isUSBCameraRunning = false;               
+                ButtonUSBCameraContent = "Start";
+                capture.Release();
+            }
+        }
+
+        private void CaptureCameraCallback()
+        {
+            frame = new Mat();
+            capture = new VideoCapture(0);
+            capture.Open(0);
+
+            while (isUSBCameraRunning)
+            {
+                capture.Read(frame);
+
+                if (!frame.Empty())
+                {
+                    if (distanceMeasure!=null && distanceMeasure.PointInput_1)
+                    {
+                        Cv2.Circle(frame, new OpenCvSharp.Point(distanceMeasure.Pixel_X1, distanceMeasure.Pixel_Y1), 3, Scalar.Red);
+                    }
+
+                    if (distanceMeasure != null && distanceMeasure.PointInput_2 && distanceMeasure.IsCalculate)
+                    {
+                        Cv2.Circle(frame, new OpenCvSharp.Point(distanceMeasure.Pixel_X2, distanceMeasure.Pixel_Y2), 3, Scalar.Red);
+                        Cv2.Line(frame, new OpenCvSharp.Point(distanceMeasure.Pixel_X1, distanceMeasure.Pixel_Y1),
+                             new OpenCvSharp.Point(distanceMeasure.Pixel_X2, distanceMeasure.Pixel_Y2), Scalar.Red, 1, LineTypes.AntiAlias);
+
+                        Cv2.PutText(frame, distanceMeasure.Distance.ToString("N3"), new OpenCvSharp.Point(distanceMeasure.Pixel_X2, distanceMeasure.Pixel_Y2), HersheyFonts.HersheySimplex, 1, Scalar.Blue);
+                    }
+
+
+
+                    image = BitmapConverter.ToBitmap(frame);
+                    // Provide the display control with the new bitmap. This action automatically updates the display.
+                    dispatcher.Invoke(() => (this.BitmapSource = BitmapToImageSource(image)));
+                }
+
+                image = null;
+            }
+        }
+
 
         private void OnButtonStopGrabClicked()
         {
@@ -295,8 +544,9 @@ namespace ECS.UI.ViewModel
         public RelayCommand ButtonOneShotClicked { get; private set; }
         public RelayCommand ButtonContinuousClicked { get; private set; }
         public RelayCommand ButtonStopGrabClicked { get; private set; }
+        public RelayCommand ButtonUSBCameraClicked { get; private set; }
+        public RelayCommand ButtonDistanceClicked { get; private set; }
 
- 
 
         // Updates the list of available camera devices.
         private void UpdateDeviceList()
@@ -661,5 +911,7 @@ namespace ECS.UI.ViewModel
         {
             //MessageBox.Show("Exception caught:\n" + exception.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
+
+
     }
 }

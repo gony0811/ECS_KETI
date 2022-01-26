@@ -436,8 +436,11 @@ namespace ECS.UI.ViewModel
 
         private void ExecuteKeyUpCommand(KeyEventArgs args)
         {
-            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.X_AXIS_JOG_STOP);
-            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.Y_AXIS_JOG_STOP);
+            if (args.Key == Key.Left || args.Key == Key.Right || args.Key == Key.Up || args.Key == Key.Down)
+            {
+                FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.X_AXIS_JOG_STOP);
+                FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.Y_AXIS_JOG_STOP);
+            }
             //if (args.Key == Key.Left)
             //{
             //    FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.X_AXIS_JOG_STOP);

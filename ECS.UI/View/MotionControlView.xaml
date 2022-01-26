@@ -75,18 +75,18 @@
                 <StackPanel Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Stretch">
                     <StackPanel Orientation="Horizontal">
                         <Label Content="X-Vel" HorizontalAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="2"/>
-                        <Label Content="{Binding XAxisVelocity, StringFormat=F2, Converter={StaticResource DoubleToStringConverter}}" BorderBrush="LightGray" BorderThickness="2" Background="Black" Foreground="LightGreen" HorizontalContentAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="2" Width="90"/>
+                        <TextBox Text="{Binding XAxisVelocity, StringFormat=F2, Converter={StaticResource DoubleToStringConverter}}" BorderBrush="LightGray" BorderThickness="2" Background="Black" Foreground="LightGreen" HorizontalContentAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="2" Width="90"/>
                         <Label Content="Y-Vel" HorizontalAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="2"/>
-                        <Label Content="{Binding YAxisVelocity, StringFormat=F2, Converter={StaticResource DoubleToStringConverter}}" BorderBrush="LightGray" BorderThickness="2" Background="Black" Foreground="LightGreen" HorizontalContentAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="2" Width="90"/>
+                        <TextBox Text="{Binding YAxisVelocity, StringFormat=F2, Converter={StaticResource DoubleToStringConverter}}" BorderBrush="LightGray" BorderThickness="2" Background="Black" Foreground="LightGreen" HorizontalContentAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="2" Width="90"/>
                     </StackPanel>
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Stretch">
                     <StackPanel Orientation="Horizontal" >
                         <Label Content="X-Pos" HorizontalAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="2"/>
-                        <Label Content="{Binding XAxisPosition, StringFormat=F3, Converter={StaticResource DoubleToStringConverter}}" BorderBrush="LightGray" BorderThickness="2" Background="Black" Foreground="LightGreen" HorizontalContentAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="2" Width="90"/>
+                        <TextBox Text="{Binding XAxisPosition, StringFormat=F3, Converter={StaticResource DoubleToStringConverter}}" BorderBrush="LightGray" BorderThickness="2" Background="Black" Foreground="LightGreen" HorizontalContentAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="2" Width="90"/>
                         <Label Content="Y-Pos" HorizontalAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="2"/>
-                        <Label Content="{Binding YAxisPosition, StringFormat=F3, Converter={StaticResource DoubleToStringConverter}}" BorderBrush="LightGray" BorderThickness="2" Background="Black" Foreground="LightGreen" HorizontalContentAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="2" Width="90"/>
+                        <TextBox Text="{Binding YAxisPosition, StringFormat=F3, Converter={StaticResource DoubleToStringConverter}}" BorderBrush="LightGray" BorderThickness="2" Background="Black" Foreground="LightGreen" HorizontalContentAlignment="Center" FontFamily="7SegFontFamily" FontSize="14" Margin="2" Width="90"/>
                     </StackPanel>
                 </StackPanel>
 
@@ -248,14 +248,14 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5" VerticalAlignment="Center">
                     <Label Content="Vision Pos. (X, Y) :" HorizontalAlignment="Center" VerticalAlignment="Center" Width="130"/>
-                    <Label Content="{Binding VisionPositionX}" BorderThickness="2" BorderBrush="DarkGray" Width="70" Height="30"/>
+                    <TextBox Text="{Binding VisionPositionX}" HorizontalAlignment="Center" BorderThickness="2" BorderBrush="DarkGray" Width="70" Height="30"/>
                     <Label Content="," HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto"/>
-                    <Label Content="{Binding VisionPositionY}" BorderThickness="2" BorderBrush="DarkGray" Width="70" Height="30"/>
+                    <TextBox Text="{Binding VisionPositionY}" HorizontalAlignment="Center" BorderThickness="2" BorderBrush="DarkGray" Width="70" Height="30"/>
 
                     <Label Content="Process Pos. (X, Y) :" HorizontalAlignment="Center" VerticalAlignment="Center" Width="130"/>
-                    <Label Content="{Binding ProcessPositionX}" BorderThickness="2" BorderBrush="DarkGray" Width="70" Height="30"/>
+                    <TextBox Text="{Binding ProcessPositionX}" BorderThickness="2" BorderBrush="DarkGray" Width="70" Height="30"/>
                     <Label Content="," HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto"/>
-                    <Label Content="{Binding ProcessPositionY}" BorderThickness="2" BorderBrush="DarkGray" Width="70" Height="30"/>
+                    <TextBox Text="{Binding ProcessPositionY}" BorderThickness="2" BorderBrush="DarkGray" Width="70" Height="30"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5" VerticalAlignment="Center">
 

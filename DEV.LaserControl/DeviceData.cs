@@ -13,6 +13,7 @@ namespace DEV.LaserControl
         public string STATUS_INTERLOCK { get; set; }
         public string STATUS_MAINTREQUIRED { get; set; }
         public string TRIGGER_MODE { get; set; }
+        public string ENERGY_MODE { get; set; }
         public int STATUS_TUBEPRESSURE { get; set; }
         public int STATUS_MANPRESSURE { get; set; }
         public int STATUS_COUNTER { get; set; }
