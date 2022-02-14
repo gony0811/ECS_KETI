@@ -204,14 +204,14 @@ namespace ECS.Common.Helper
         public const string IN_INT_LASER_PULSE_SEQPAUSE = "iLaser.iPulse.SeqPause";
         public const string IN_INT_LASER_PULSE_SEQBST = "iLaser.iPulse.SeqBst";
         public const string IN_INT_LASER_PULSE_REPRATE = "iLaser.iPulse.RepRate";
-        public const string IN_INT_LASER_PULSE_COUNTS = "iLaser.iPulse.Counts";
+        public const string IN_INT_LASER_PULSE_COUNTS = "iLaser.iPulse.SeqCounts";
         public const string IN_INT_LASER_PULSE_BSTPULSES = "iLaser.iPulse.BstPulses";
         public const string IN_INT_LASER_PULSE_BSTPAUSE = "iLaser.iPulse.BstPause";
 
         public const string OUT_INT_LASER_PULSE_SEQPAUSE = "oLaser.iPulse.SeqPause";
         public const string OUT_INT_LASER_PULSE_SEQBST = "oLaser.iPulse.SeqBst";
         public const string OUT_INT_LASER_PULSE_REPRATE = "oLaser.iPulse.RepRate";
-        public const string OUT_INT_LASER_PULSE_COUNTS = "oLaser.iPulse.Counts";
+        public const string OUT_INT_LASER_PULSE_COUNTS = "oLaser.iPulse.SeqCounts";
         public const string OUT_INT_LASER_PULSE_BSTPULSES = "oLaser.iPulse.BstPulses";
         public const string OUT_INT_LASER_PULSE_BSTPAUSE = "oLaser.iPulse.BstPause";
 
