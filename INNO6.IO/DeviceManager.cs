@@ -217,9 +217,9 @@ namespace INNO6.IO
                         {
                             int value = handler.GET_INT_IN(data.Config1, data.Config2, data.Config3, data.Config4, ref result);
                             if (result) {
-                                if (value.Equals(data.Value)) break;
-
                                 CheckInterlockEx(data.Name, value);
+
+                                if (value.Equals(data.Value)) break;                            
                                 DataManager.Instance.DataAccess.SET_INT_DATA(data.Name, value); 
                             }
                         }
@@ -229,8 +229,10 @@ namespace INNO6.IO
                             double value = handler.GET_DOUBLE_IN(data.Config1, data.Config2, data.Config3, data.Config4, ref result);
                             if (result)
                             {
-                                if (value.Equals(data.Value)) break;
                                 CheckInterlockEx(data.Name, value);
+
+                                if (value.Equals(data.Value)) break;
+                                
                                 double format = data.Format;
                                 if (format <= 0) format = 1.0;
                                 value /= format;
@@ -243,8 +245,10 @@ namespace INNO6.IO
                             string value = handler.GET_STRING_IN(data.Config1, data.Config2, data.Config3, data.Config4, ref result);
                             if (result)
                             {
-                                if (value.Equals(data.Value)) break;
                                 CheckInterlockEx(data.Name, value);
+
+                                if (value.Equals(data.Value)) break;
+                                
                                 DataManager.Instance.DataAccess.SET_STRING_DATA(data.Name, value);
                             }
                         }

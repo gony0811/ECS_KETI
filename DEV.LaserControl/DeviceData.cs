@@ -34,7 +34,12 @@ namespace DEV.LaserControl
 
         public InputDeviceData()
         {
-            
+            OPMODE_STATUS = "0";
+            OPMODE_ERRORCODE = "0";
+            STATUS_INTERLOCK = "NONE";
+            STATUS_MAINTREQUIRED = "NONE";
+            TRIGGER_MODE = "INT";
+            ENERGY_MODE = "EGY NGR";
         }
     }
 }

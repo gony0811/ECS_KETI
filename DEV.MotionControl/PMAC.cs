@@ -92,6 +92,8 @@ namespace DEV.MotionControl
         private const string DOOR_OPEN_FRONT = "M7111";
         private const string DOOR_OPEN_LEFT = "M7112";
         private const string DOOR_OPEN_RIGHT = "M7113";
+        private const string GAS_CABINET_LEAK_ALARM = "M7114";
+        private const string GAS_LINE_PRESSURE_LEAK_ALARM = "M7115";
 
         private const string SET_TOWERLAMP_RED = "M7200";
         private const string SET_TOWERLAMP_YELLOW = "M7201";
@@ -367,6 +369,17 @@ namespace DEV.MotionControl
                     {
                         result = QueryRightDoorOpenStatus(ref retValue);
                     }
+                    else if (id_4.Equals("16"))
+                    {
+                        // GAS LINE PRESSURE LEAK I/O (DATA = 1, NORMAL)
+                        result = QueryGasLineLeakStatus(ref retValue);
+                    }
+                    else if (id_4.Equals("17"))
+                    {
+                        // GAS CABINET LEAK SENSOR (DATA = 0, NORMAL)
+                        result = QueryGasCabinetLeakStatus(ref retValue);
+                    }
+
                 }
             }
             
@@ -1768,6 +1781,50 @@ namespace DEV.MotionControl
             else
             {
                 LogHelper.Instance.DeviceLog.DebugFormat("[ERROR] QueryLeftDoorOpenStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                return false;
+            }
+        }
+
+        private bool QueryGasCabinetLeakStatus(ref int status)
+        {
+            StringBuilder strRequest = new StringBuilder();
+            string strResponse = "";
+            int result = 0;
+
+            strRequest.AppendFormat("{0}", GAS_CABINET_LEAK_ALARM);
+
+            CommandOrQuery(strRequest.ToString(), out strResponse);
+
+            if (int.TryParse(strResponse, out status))
+            {
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryGasCabinetLeakStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                return true;
+            }
+            else
+            {
+                LogHelper.Instance.DeviceLog.DebugFormat("[ERROR] QueryGasCabinetLeakStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                return false;
+            }
+        }
+
+        private bool QueryGasLineLeakStatus(ref int status)
+        {
+            StringBuilder strRequest = new StringBuilder();
+            string strResponse = "";
+            int result = 0;
+
+            strRequest.AppendFormat("{0}", GAS_LINE_PRESSURE_LEAK_ALARM);
+
+            CommandOrQuery(strRequest.ToString(), out strResponse);
+
+            if (int.TryParse(strResponse, out status))
+            {
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] QueryGasLineLeakStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                return true;
+            }
+            else
+            {
+                LogHelper.Instance.DeviceLog.DebugFormat("[ERROR] QueryGasLineLeakStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return false;
             }
         }

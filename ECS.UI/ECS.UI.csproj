@@ -81,8 +81,7 @@
       <HintPath>..\packages\OpenCvSharp4.4.5.5.20211231\lib\netstandard2.0\OpenCvSharp.dll</HintPath>
     </Reference>
     <Reference Include="OpenCvSharp.Extensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Library\OpenCvSharp.Extensions.dll</HintPath>
+      <HintPath>..\packages\OpenCvSharp4.Extensions.4.5.5.20211231\lib\netstandard2.0\OpenCvSharp.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="OpenCvSharp.WpfExtensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

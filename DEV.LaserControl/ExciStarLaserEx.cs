@@ -89,22 +89,24 @@ namespace DEV.LaserControl
                 {
                     Task.Run(() =>
                     {
-                        while (!xSerial.IsOpen)
+                        while (true)
                         {
-                            xSerial.Open();
-                            Thread.Sleep(500);
-                        }
+                            if (!xSerial.IsOpen)
+                            {
+                                xSerial.Open();
+                                Thread.Sleep(100);
+                            }
+                            else if (xSerial.IsOpen)
+                            {
+                                DeviceDataPolling(10);
+                                _deviceMode = eDevMode.CONNECT;
 
-                        if (xSerial.IsOpen)
-                        {                 
-                            DeviceDataPolling(10);
-                            _deviceMode = eDevMode.CONNECT;
-
-                        }
-                        else
-                        {
-                            LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] DeviceAttach() : DeviceName = {0}, DeviceMode = {1}, Cause = {2}", _deviceName, _deviceMode.ToString(), portName + " Can Not Open !");
-                            _deviceMode = eDevMode.DISCONNECT;
+                            }
+                            else
+                            {
+                                LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] DeviceAttach() : DeviceName = {0}, DeviceMode = {1}, Cause = {2}", _deviceName, _deviceMode.ToString(), portName + " Can Not Open !");
+                                _deviceMode = eDevMode.DISCONNECT;
+                            }
                         }
                     });
 
@@ -156,7 +158,7 @@ namespace DEV.LaserControl
                 inputDeviceData.PULSE_BSTPULSE = bstPulses;
             }
 
-            if (_LaserDevice.GET_COUNTER(out int shots))
+            if (_LaserDevice.GET_COUNTS(out int shots))
             {
                 inputDeviceData.PULSE_COUNTS = shots;
             }
@@ -207,7 +209,7 @@ namespace DEV.LaserControl
 
         public bool DeviceDettach()
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public bool DeviceInit()

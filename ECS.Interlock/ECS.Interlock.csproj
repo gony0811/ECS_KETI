@@ -48,8 +48,10 @@
     <Compile Include="SetPoint\I_EMO_SWITCH_BACK.cs" />
     <Compile Include="SetPoint\I_EMO_SWITCH_FRONT.cs" />
     <Compile Include="SetPoint\I_EMERGENCY_STOP.cs" />
+    <Compile Include="SetPoint\I_GAS_CABINET_LEAK.cs" />
     <Compile Include="SetPoint\I_GAS_DETECT_ALERT.cs" />
     <Compile Include="INTLK_Z_POSITION_ALERT.cs" />
+    <Compile Include="SetPoint\I_GAS_LINE_PRESSURE_DOWN.cs" />
     <Compile Include="SetPoint\I_LASER_INTERLOCK.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Value\I_AXIS_X_LIMIT.cs" />

@@ -259,6 +259,8 @@ namespace ECS.Application
                 DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.Red", 0);
                 DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.Yellow", 1);
                 DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.Greed", 0);
+
+                InterlockManager.Instance.INTERLOCK_RESET();
             }
             else
             {
@@ -271,6 +273,8 @@ namespace ECS.Application
                 DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.Yellow", 0);
                 DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.Greed", 1);
                 DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.White", 0);
+
+                InterlockManager.Instance.INTERLOCK_RESET();
             }        
         }
 

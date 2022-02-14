@@ -91,6 +91,7 @@ namespace ECS.UI.ViewModel
         private void ResetAllAlarm()
         {
             AlarmManager.Instance.ResetAlarmAll();
+            InterlockManager.Instance.INTERLOCK_RESET();
             UpdateCurrentAlarmDisplay();
         }
 

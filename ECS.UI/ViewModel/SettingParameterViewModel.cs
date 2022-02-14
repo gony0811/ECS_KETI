@@ -226,9 +226,14 @@ namespace ECS.UI.ViewModel
             XJogVelHigh = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_X_JOGVEL_HIGH, out bool _);
             YJogVelHigh = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Y_JOGVEL_HIGH, out bool _);
 
+            XJogVelMid = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_X_JOGVEL_MID, out bool _);
+            YJogVelMid = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Y_JOGVEL_MID, out bool _);
 
             XJogVelLow = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_X_JOGVEL_LOW, out bool _);
             YJogVelLow = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Y_JOGVEL_LOW, out bool _);
+
+            XJogVelVeryLow = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_X_JOGVEL_VERYLOW, out bool _);
+            YJogVelVeryLow = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Y_JOGVEL_VERYLOW, out bool _);
 
             SelectedEnergyMode = DataManager.Instance.GET_STRING_DATA(IoNameHelper.IN_STR_LASER_EGYMODE_STATUS, out bool _);
             SelectedTriggerMode = DataManager.Instance.GET_STRING_DATA(IoNameHelper.IN_STR_LASER_TRIGGER_MODE, out bool _);

@@ -66,10 +66,12 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </ComboBox>
+                <!--
                 <Button x:Name="Button_USBCamera"  Command="{Binding ButtonUSBCameraClicked}"  Width="100" Content= "{Binding ButtonUSBCameraContent}" IsEnabled="{Binding ButtonUSBCameraEnabled}" Margin="10, 0, 5, 0"/>
                 <Button x:Name="Button_Distance"  Command="{Binding ButtonDistanceClicked}"  Width="100" Content= "{Binding ButtonDistanceContent}" IsEnabled="{Binding ButtonUSBDistanceEnabled}" Margin="10, 0, 5, 0"/>
+                 -->
             </StackPanel>
-            <Image Grid.Row="1"  Source="{Binding Path=BitmapSource}" Stretch="None" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <Image Grid.Row="1"  Source="{Binding Path=BitmapSource}" Stretch="None" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseMove">
                         <mvvm:EventToCommand Command="{Binding MouseMoveCommand}" PassEventArgsToCommand="True"/>

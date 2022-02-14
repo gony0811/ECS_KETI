@@ -19,12 +19,10 @@ namespace DEV.LaserControl
         public const string COMM_ERROR = "ERROR";
         public const string COMM_UNKNOWN = "UNKNOWN";
         public const char CR = '\r';
-        private static object key = new object();
+        public static object key = new object();
         private XSerialComm xSerial;
         private long _milisecondResponseTimeout;
         private string _StatusCode;
-        private string _buffer;
-
 
         private string SendMessageAndWaitForReply(string request, out string returnValue)
         {
@@ -38,6 +36,7 @@ namespace DEV.LaserControl
 
                 while (true)
                 {
+                    Thread.SpinWait(10);
                     if (sw.ElapsedMilliseconds >= _milisecondResponseTimeout)
                     {
                         returnValue = null;
@@ -50,7 +49,6 @@ namespace DEV.LaserControl
                     }
                     else
                     {
-                        Thread.Sleep(10);
                         continue;
                     }
                 }
@@ -59,19 +57,23 @@ namespace DEV.LaserControl
 
         private bool ReplyMessage(out string reply)
         {
-            reply = "";
-            StringBuilder sb = new StringBuilder();
-            if(xSerial.ReadBuffer(out string data))
+            lock (key)
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("Received Message : {0}\n", data);
-                if (!string.IsNullOrEmpty(data) && data.Contains<char>('\r'))
+                reply = "";
+                StringBuilder sb = new StringBuilder();
+                if (xSerial.ReadBuffer(out string data))
                 {
-                    reply = data;
-                    return true;
+                    LogHelper.Instance.DeviceLog.DebugFormat("Received Message : {0}\n", data);
+                    if (!string.IsNullOrEmpty(data) && data.Contains<char>('\r'))
+                    {
+                        reply = data;
+                        return true;
+                    }
                 }
-            }
 
-            return false;
+
+                return false;
+            }
         }
 
         private void SendMessage(byte[] command)
@@ -394,7 +396,7 @@ namespace DEV.LaserControl
                 
                 string[] reply = response.Split(sep);
 
-                if (reply != null && reply.Length > 0 && int.TryParse(reply[1], out frequency))
+                if (reply != null && reply.Length > 1 && int.TryParse(reply[1], out frequency))
                 {
                     return true;
                 }
@@ -445,7 +447,7 @@ namespace DEV.LaserControl
 
                 string[] reply = response.Split(sep);
 
-                if (reply != null && reply.Length > 0 && int.TryParse(reply[1], out shots)) return true;
+                if (reply != null && reply.Length > 1 && int.TryParse(reply[1], out shots)) return true;
                 else return false;
             }
             else
@@ -491,7 +493,7 @@ namespace DEV.LaserControl
 
                 string[] reply = response.Split(sep);
 
-                if (reply != null && reply.Length > 0 && int.TryParse(reply[1], out shots)) return true;
+                if (reply != null && reply.Length > 1 && int.TryParse(reply[1], out shots)) return true;
                 else return false;
             }
             else
@@ -518,7 +520,7 @@ namespace DEV.LaserControl
 
                 string[] reply = response.Split(sep);
 
-                if ( reply != null && reply.Length > 0 && int.TryParse(reply[1], out shots)) return true;
+                if ( reply != null && reply.Length > 1 && int.TryParse(reply[1], out shots)) return true;
                 else return false;
             }
             else
@@ -557,7 +559,7 @@ namespace DEV.LaserControl
                     
                 string[] reply = response.Split(sep);
 
-                if (reply != null && reply.Length > 0 && int.TryParse(reply[1], out shots)) return true;
+                if (reply != null && reply.Length > 1 && int.TryParse(reply[1], out shots)) return true;
                 else return false;
             }
             else
@@ -658,7 +660,7 @@ namespace DEV.LaserControl
                   
                 string[] reply = response.Split(sep);
 
-                if ( reply != null && reply.Length > 0 && int.TryParse(reply[1], out pulses)) return true;
+                if ( reply != null && reply.Length > 1 && int.TryParse(reply[1], out pulses)) return true;
                 else return false;
             }
             else
@@ -704,7 +706,7 @@ namespace DEV.LaserControl
                     
                 string[] reply = response.Split(sep);
 
-                if ( reply != null && reply.Length > 0 && int.TryParse(reply[1], out milliseconds)) return true;
+                if ( reply != null && reply.Length > 1 && int.TryParse(reply[1], out milliseconds)) return true;
                 else return false;
             }
             else
@@ -750,7 +752,7 @@ namespace DEV.LaserControl
 
                 string[] reply = response.Split(sep);
 
-                if ( reply != null && reply.Length > 0 && int.TryParse(reply[1], out bursts)) return true;
+                if ( reply != null && reply.Length > 1 && int.TryParse(reply[1], out bursts)) return true;
                 else return false;
             }
             else
@@ -796,7 +798,7 @@ namespace DEV.LaserControl
 
                 string[] reply = response.Split(sep);
 
-                if (reply != null && reply.Length > 0 && int.TryParse(reply[1], out milliseconds)) return true;
+                if (reply != null && reply.Length > 1 && int.TryParse(reply[1], out milliseconds)) return true;
                 else return false;
             }
             else
@@ -846,7 +848,7 @@ namespace DEV.LaserControl
 
                 string[] reply = response.Split(sep);
 
-                if (reply != null && reply.Length > 0 && int.TryParse(reply[1], out pulses)) return true;
+                if (reply != null && reply.Length > 1 && int.TryParse(reply[1], out pulses)) return true;
                 else return false;
             }
             else
@@ -897,7 +899,7 @@ namespace DEV.LaserControl
 
                 string[] reply = response.Split(sep);
 
-                if ( reply != null && reply.Length > 0 && int.TryParse(reply[1], out second_1of10)) return true;
+                if ( reply != null && reply.Length > 1 && int.TryParse(reply[1], out second_1of10)) return true;
                 else return false;
             }
             else
@@ -941,7 +943,7 @@ namespace DEV.LaserControl
 
                 string[] reply = response.Split(sep);
 
-                if (reply != null && reply.Length > 0 && int.TryParse(reply[1], out percent)) return true;
+                if (reply != null && reply.Length > 1 && int.TryParse(reply[1], out percent)) return true;
                 else return false;
             }
             else
@@ -1081,7 +1083,7 @@ namespace DEV.LaserControl
 
                 string[] reply = response.Split(sep);
 
-                if (reply != null && reply.Length > 0 && int.TryParse(reply[1], out mbar))
+                if (reply != null && reply.Length > 1 && int.TryParse(reply[1], out mbar))
                     return true;
                 else
                     return false;
@@ -1114,7 +1116,7 @@ namespace DEV.LaserControl
 
                 string[] reply = response.Split(sep);
 
-                if ( reply != null && reply.Length > 0 && int.TryParse(reply[1], out mbar))
+                if ( reply != null && reply.Length > 1 && int.TryParse(reply[1], out mbar))
                     return true;
                 else
                     return false;

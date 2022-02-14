@@ -31,7 +31,6 @@ namespace INNO6.Core.Communication
 
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-
             if (_serialPort.IsOpen && _serialPort.BytesToRead > 0)
             {
                 string readData = _serialPort.ReadExisting();
@@ -48,7 +47,7 @@ namespace INNO6.Core.Communication
             _Buffer += read;
 
             if (seperator == char.MinValue || _Buffer.Contains<char>(seperator))
-            {              
+            {
                 receivedQueue.Enqueue(_Buffer);
                 _Buffer = string.Empty;
                 return true;
@@ -83,25 +82,31 @@ namespace INNO6.Core.Communication
         }
 
         public virtual void FlushBuffer()
-        { 
-            while(!receivedQueue.IsEmpty)
+        {
+            while (!receivedQueue.IsEmpty)
             {
                 receivedQueue.TryDequeue(out string _);
             }
         }
 
         public void SendMessage(string message)
-        {           
-            if (_serialPort.IsOpen)
+        {
+            lock (critical_section)
             {
-                _serialPort.Write(message);
-            }               
+                if (_serialPort.IsOpen)
+                {
+                    _serialPort.Write(message);
+                }
+            }
         } 
 
         public void SendMessage(byte[] message)
         {
-            if(_serialPort.IsOpen) 
-                _serialPort.Write(message, 0, message.Length);
+            lock (critical_section)
+            {
+                if (_serialPort.IsOpen)
+                    _serialPort.Write(message, 0, message.Length);
+            }
         }
 
 

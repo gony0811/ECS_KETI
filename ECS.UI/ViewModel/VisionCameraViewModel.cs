@@ -840,6 +840,8 @@ namespace ECS.UI.ViewModel
                         //Bitmap bitmapOld = (Bitmap)this.BitmapSource;
                         Mat img = OpenCvSharp.Extensions.BitmapConverter.ToMat(bitmap);
                         Mat dst = new Mat();
+
+                        // 비전화면 X, Y Flip
                         Cv2.Flip(img, dst, FlipMode.XY);
 
                         Cv2.Line(dst, new OpenCvSharp.Point(0, bitmap.Height / 2), new OpenCvSharp.Point(bitmap.Width, bitmap.Height / 2), Scalar.Red, 1, LineTypes.Link4);
