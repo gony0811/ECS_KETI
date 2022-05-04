@@ -203,6 +203,11 @@ namespace DEV.LaserControl
                 inputDeviceData.STATUS_TUBEPRESSURE = tubePressure;
             }
 
+            if (_LaserDevice.GET_TRIGGER(out string trigger))
+            {
+                inputDeviceData.TRIGGER_MODE = trigger;
+            }
+
             Thread.Sleep(sleepMilliseconds);
         }
 

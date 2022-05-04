@@ -708,10 +708,14 @@ namespace ECS.UI.ViewModel
 
             if(DataManager.Instance.GET_STRING_DATA(IoNameHelper.IN_STR_LASER_OPMODE_STATUS, out _) == "ON")
             {
+                DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.Green", 1);
+                DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.Yellow", 0);
                 IsEnableCautionButton = true;
             }
             else
             {
+                DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.Green", 0);
+                DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.Yellow", 1);
                 IsEnableCautionButton = false;
             }
         }

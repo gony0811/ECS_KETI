@@ -87,8 +87,8 @@
                             <mah:NumericUpDown Value="{Binding Value, ElementName=sliderCh1Output, Mode=TwoWay}" MinWidth="100" Margin="5" HorizontalContentAlignment="Center"/>
                             <!--Num Margin="5,0,0,0" VerticalAlignment="Center" Text="{Binding Value, ElementName=sliderCh1Output, Mode=TwoWay}" TextAlignment="Center" MinWidth="50"/-->
                             <!--TextBlock x:Name="tbCh1Output" Margin="5,0,0,0" VerticalAlignment="Center" Text="{Binding Path=Value, ElementName=sliderCh1Output}" TextAlignment="Center" MinWidth="50"/>-->
-                            <Button x:Name="Button_Ch1_LedOn" Command="{Binding Ch1_LedOn_Command}" Content="ON" VerticalAlignment="Center" Margin="10,0,5,0" MinWidth="60"  MaxWidth="60"/>
-                            <Button x:Name="Button_Ch1_LedOff" Command="{Binding Ch1_LedOff_Command}" Content="OFF" VerticalAlignment="Center" Margin="5,0,5,0" MinWidth="60" MaxWidth="60"/>
+                            <Button x:Name="Button_Ch1_LedOn" Command="{Binding Ch1_LedOn_Command}" Content="ON" IsEnabled="{Binding Ch1_LedOn_Enable}" VerticalAlignment="Center" Margin="10,0,5,0" MinWidth="60"  MaxWidth="60"/>
+                            <Button x:Name="Button_Ch1_LedOff" Command="{Binding Ch1_LedOff_Command}" Content="OFF" IsEnabled="{Binding Ch1_LedOff_Enable}" VerticalAlignment="Center" Margin="5,0,5,0" MinWidth="60" MaxWidth="60"/>
                         </StackPanel>
                     </Grid>
                 </GroupBox>

@@ -928,8 +928,9 @@ namespace ECS.UI.ViewModel
 
         private void ExecuteJogLeftUpMouseLeftButtonDownCommand()
         {
-            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.X_AXIS_JOG_MINUS);
-            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.Y_AXIS_JOG_PLUS);
+            // 20220223 KSG : JOG LEFT/UP is X axis plus and y axis minus move
+            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.X_AXIS_JOG_PLUS);
+            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.Y_AXIS_JOG_MINUS);
         }
 
         private void ExecuteJogLeftUpMouseLeftButtonUpCommand()
@@ -940,8 +941,9 @@ namespace ECS.UI.ViewModel
 
         private void ExecuteJogLeftDownMouseLeftButtonDownCommand()
         {
-            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.X_AXIS_JOG_MINUS);
-            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.Y_AXIS_JOG_MINUS);
+            // 20220223 KSG : JOG LEFT/DOWN is X axis plus and y axis plus move
+            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.X_AXIS_JOG_PLUS);
+            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.Y_AXIS_JOG_PLUS);
         }
         private void ExecuteJogLeftDownMouseLeftButtonUpCommand()
         {
@@ -951,8 +953,9 @@ namespace ECS.UI.ViewModel
 
         private void ExecuteJogRightUpMouseLeftButtonDownCommand()
         {
-            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.X_AXIS_JOG_PLUS);
-            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.Y_AXIS_JOG_PLUS);
+            // 20220223 KSG : JOG RIGHT/UP is X axis minus and y axis minus move
+            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.X_AXIS_JOG_MINUS);
+            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.Y_AXIS_JOG_MINUS);
         }
 
         private void ExecuteJogRightUpMouseLeftButtonUpCommand()
@@ -963,8 +966,9 @@ namespace ECS.UI.ViewModel
 
         private void ExecuteJogRightDownMouseLeftButtonDownCommand()
         {
-            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.X_AXIS_JOG_PLUS);
-            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.Y_AXIS_JOG_MINUS);
+            // 20220223 KSG : JOG RIGHT/DOWN is X axis minus and y axis plus move
+            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.X_AXIS_JOG_MINUS);
+            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.Y_AXIS_JOG_PLUS);
         }
         private void ExecuteJogRightDownMouseLeftButtonUpCommand()
         {
@@ -1047,7 +1051,8 @@ namespace ECS.UI.ViewModel
 
         private void ExecuteJogUpMouseLeftButtonDownCommand()
         {
-            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(F_Y_AXIS_JOG_PLUS);
+            // 20220223 KSG : JOG UP IS Y AXIS MINUS MOVE
+            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(F_Y_AXIS_JOG_MINUS);
         }
 
         private void ExecuteJogDownMouseLeftButtonUpCommand()
@@ -1057,7 +1062,8 @@ namespace ECS.UI.ViewModel
 
         private void ExecuteJogDownMouseLeftButtonDownCommand()
         {
-            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(F_Y_AXIS_JOG_MINUS);
+            // 20220223 KSG : JOG DOWN IS Y AXIS PLUS MOVE
+            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(F_Y_AXIS_JOG_PLUS);
         }
 
         private void ExecuteJogLeftMouseLeftButtonUpCommand()
@@ -1067,7 +1073,8 @@ namespace ECS.UI.ViewModel
 
         private void ExecuteJogLeftMouseLeftButtonDownCommand()
         {
-            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(F_X_AXIS_JOG_MINUS);
+            // 20220223 KSG : JOG LEFT IS X AXIS PLUS MOVE
+            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(F_X_AXIS_JOG_PLUS);
         }
 
         private void ExecuteJogRightMouseLeftButtonUpCommand()
@@ -1077,7 +1084,8 @@ namespace ECS.UI.ViewModel
 
         private void ExecuteJogRightMouseLeftButtonDownCommand()
         {
-            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(F_X_AXIS_JOG_PLUS);
+            // 20220223 KSG : JOG RIGHT IS X AXIS MINUS MOVE
+            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(F_X_AXIS_JOG_MINUS);
         }
 
 

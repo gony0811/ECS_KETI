@@ -258,7 +258,10 @@ namespace ECS.Application
 
                 DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.Red", 0);
                 DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.Yellow", 1);
-                DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.Greed", 0);
+                DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.Green", 0);
+                //DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.Red", 0);
+                //DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.Yellow", 1);
+                //DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.Green", 0);
 
                 InterlockManager.Instance.INTERLOCK_RESET();
             }
@@ -270,9 +273,12 @@ namespace ECS.Application
                 DataManager.Instance.SET_INT_DATA("vSys.iEqp.Interlock", 2);
 
                 DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.Red", 0);
-                DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.Yellow", 0);
-                DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.Greed", 1);
-                DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.White", 0);
+                DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.Yellow", 1);
+                DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.Green", 0);
+                //DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.Red", 0);
+                //DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.Yellow", 0);
+                //DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.Green", 1);
+                //DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.White", 0);
 
                 InterlockManager.Instance.INTERLOCK_RESET();
             }        
@@ -292,12 +298,17 @@ namespace ECS.Application
 
                     DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.Red", 1);
                     DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.Yellow", 1);
-                    DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.Greed", 0);
+                    DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.Green", 0);
+                    //DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.Yellow", 0);
+                    //DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.Green", 0);
                 }
                 else if (args.Alarm.ENABLE == eALED.Enable && args.Alarm.LEVEL == eALCD.Light)
                 {
+                    DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.Red", 1);
                     DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.Yellow", 1);
                     DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.Green", 0);
+                    //DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.Yellow", 1);
+                    //DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.Green", 0);
                 }
             }
             

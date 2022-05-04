@@ -15,6 +15,47 @@ namespace ECS.Application
         {
             switch(args.Data.Name)
             {
+                //case IoNameHelper.IN_DBL_PMAC_X_VELOCITY:
+                //case IoNameHelper.IN_DBL_PMAC_Y_VELOCITY:
+                //    {
+                //        if ((double)args.Data.Value > 0)
+                //        {
+                //            DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_PMAC_TOWERLAMP_GREEN, 1);
+                //            DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_PMAC_TOWERLAMP_YELLOW, 0);
+                //        }
+                //        else
+                //        {
+                //            DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_PMAC_TOWERLAMP_GREEN, 0);
+                //            DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_PMAC_TOWERLAMP_YELLOW, 1);
+                //        }
+                //    }
+                //    break;
+                case IoNameHelper.V_INT_SYS_SIGNAL_TOWER_GREEN:
+                    {
+                        if ((int)args.Data.Value > 0)
+                        {
+                            DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_PMAC_TOWERLAMP_GREEN, 1);
+                        }
+                        else
+                        {
+                            DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_PMAC_TOWERLAMP_GREEN, 0);
+                        }
+                          
+                    }
+                    break;
+                case IoNameHelper.V_INT_SYS_SIGNAL_TOWER_YELLOW:
+                    {
+                        if ((int)args.Data.Value > 0)
+                        {
+                            DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_PMAC_TOWERLAMP_YELLOW, 1);
+                        }
+                        else
+                        {
+                            DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_PMAC_TOWERLAMP_YELLOW, 0);
+                        }
+
+                    }
+                    break;
                 case IoNameHelper.IN_STR_LASER_STATUS_INTERLOCK:
                     {
                         if ((string)args.Data.Value == "NONE") return;

@@ -51,6 +51,8 @@ namespace ECS.UI.ViewModel
         private ICommand ch1_LedOn_Command;
         private ICommand ch1_LedOff_Command;
 
+        private bool ch1_LedOn_Enable;
+        private bool ch1_LedOff_Enable;
 
         private double ch1LedOutputValue;
 
@@ -58,12 +60,59 @@ namespace ECS.UI.ViewModel
         public MainSystemViewModel()
         {
             Ch1LedOutputValue = DataManager.Instance.GET_INT_DATA(IO_NAME_CH1_LED_OUTPUT_STATUS, out bool _);
+            Ch1_LedOff_Enable = true;
+            Ch1_LedOn_Enable = true;
+ 
 
             ButtonTableVacuumContent = "VACUUM ON";
             ButtonLightContent = "LAMP ON";
             ButtonPowerMeterContent = "P/M CLOSE";
+
+            DataManager.Instance.DataAccess.DataChangedEvent += DataAccess_SystemDataChanged;
         }
 
+        private void DataAccess_SystemDataChanged(object sender, DataChangedEventHandlerArgs args)
+        {
+            Data data = args.Data;
+
+            if (data.Name.Equals(IoNameHelper.IN_INT_LED_DATA_CH1))
+            {
+                Ch1LedOutputValue = (int)data.Value;
+            }
+            else if (data.Name.Equals(IoNameHelper.IN_INT_LED_ONOFF_CH1))
+            {
+                if ((int)data.Value > 0)
+                {
+                    Ch1_LedOn_Enable = false;
+                    Ch1_LedOff_Enable = true;
+                }
+                else
+                {
+                    Ch1_LedOn_Enable = true;
+                    Ch1_LedOff_Enable = false;
+                }
+            }
+        }
+
+        public bool Ch1_LedOn_Enable
+        {
+            get { return ch1_LedOn_Enable; }
+            set
+            {
+                ch1_LedOn_Enable = value;
+                RaisePropertyChanged("Ch1_LedOn_Enable");
+            }
+        }
+
+        public bool Ch1_LedOff_Enable
+        {
+            get { return ch1_LedOff_Enable; }
+            set
+            {
+                ch1_LedOff_Enable = value;
+                RaisePropertyChanged("Ch1_LedOff_Enable");
+            }
+        }
 
 
         private string _ButtonTableVacuumContent;

@@ -52,6 +52,7 @@ namespace ECS.UI
         private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             ViewModelLocator.Instance.VisionCameraViewModel.Stop();
+            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.LED_CH1_OFF);
 
             //if (MessageBoxManager.ShowYesNoBox("Do you want to execute laser shutdown process ?", "ECS SHUTDOWN") == MSGBOX_RESULT.OK)
             //{
