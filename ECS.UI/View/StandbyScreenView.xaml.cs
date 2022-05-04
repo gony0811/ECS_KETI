@@ -12,18 +12,24 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Media.Animation;
 
 namespace ECS.UI.View
 {
     /// <summary>
-    /// SettingParameterView.xaml에 대한 상호 작용 논리
+    /// StandbyScreenView.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class SettingParameterView : UserControl
+    public partial class StandbyScreenView : UserControl
     {
-        public SettingParameterView()
+
+        public StandbyScreenView()
         {
             InitializeComponent();
-            ViewModel.ViewModelLocator.Instance.SettingParameterViewModel.InitInterlockSetting();
+        }
+
+        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }

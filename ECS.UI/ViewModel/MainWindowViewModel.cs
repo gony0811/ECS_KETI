@@ -266,11 +266,27 @@ namespace ECS.UI.ViewModel
 
         
 
-        public enum Views { MAIN_SYSTEM, IO_LIST, CURRENT_ALARM, ALARM_HISTORY, SETTINGS, RECIPE, AUTO };
+        public enum Views { MAIN_SYSTEM, IO_LIST, CURRENT_ALARM, ALARM_HISTORY, SETTINGS, RECIPE, AUTO, STANDBY };
 
         public Views SelectedView { get; set; }
 
-        private bool _IsSelectMainSystemView = true;
+        private bool _IsSelectStandbyView = true;
+
+        public bool IsSelectStandbyView
+        {
+            get { return _IsSelectStandbyView; }
+            set
+            {
+                if (_IsSelectStandbyView != value)
+                {
+                    _IsSelectStandbyView = value;
+                    if (_IsSelectStandbyView) SelectMenuChanged(Views.STANDBY);
+                    RaisePropertyChanged("IsSelectStandbyView");
+                }
+            }
+        }
+
+        private bool _IsSelectMainSystemView = false;
 
         public bool IsSelectMainSystemView
         {
@@ -302,6 +318,24 @@ namespace ECS.UI.ViewModel
             }
         }
 
+        private bool _IsEnableStandbyView;
+
+
+        public bool IsEnableStandbyView
+        {
+            get { return _IsEnableStandbyView; }
+            set
+            {
+                if (_IsEnableStandbyView != value)
+                {
+                    _IsEnableStandbyView = value;
+                    RaisePropertyChanged("IsEnableStandbyView");
+                }
+            }
+        }
+
+
+
         private bool _IsEnableAutoView;
 
         public bool IsEnableAutoView
@@ -313,6 +347,22 @@ namespace ECS.UI.ViewModel
                 {
                     _IsEnableAutoView = value;
                     RaisePropertyChanged("IsEnableAutoView");
+                }
+            }
+        }
+
+
+        private bool _IsEnableManualView;
+
+        public bool IsEnableManualView
+        {
+            get { return _IsEnableManualView; }
+            set
+            {
+                if (_IsEnableManualView != value)
+                {
+                    _IsEnableManualView = value;
+                    RaisePropertyChanged("IsEnableManualView");
                 }
             }
         }
@@ -583,17 +633,17 @@ namespace ECS.UI.ViewModel
         /// 
         public MainWindowViewModel()
         {
-            LoginCommand = new RelayCommand(() => OnLoginEvent());
-            LoginCaption = "LOGIN";
-            UserInfoUpdate("", "", "", "");
             SystemVersion = string.Format("{0} {1}", "ECS Ver", Assembly.GetEntryAssembly().GetName().Version.ToString());
-
 
             _engine.ConfigFilePath = @"./config/Server.Config.ini";
             _engine.DbFilePath = @"./config/db_io.mdb";
             _engine.RecipeFolderPath = @"./config/recipe";
             _engine.Inialize();
             _engine.Start();
+
+            LoginCommand = new RelayCommand(() => OnLoginEvent());
+            LoginCaption = "LOGIN";
+            UserInfoUpdate("", "", "", "");
 
             IsEnableEMOButton = true;
 
@@ -964,9 +1014,11 @@ namespace ECS.UI.ViewModel
                         baseinfo.LoginState = false;
                         LoginCaption = "LOGIN";
                         UserInfoUpdate("", "", "", "");
+                        IsSelectStandbyView = true;
                         LogHelper.Instance.UILog.DebugFormat("[{0}] Logout Done.", this.GetType().Name);
                     }
                     baseinfo.LoginStateFlag = true;
+
                 }
             }
             catch (Exception ex)
@@ -992,6 +1044,10 @@ namespace ECS.UI.ViewModel
                         IsEnableRecipeManagerView = true;
                         IsEnableAlarmHistory = true;
                         IsEnableAutoView = true;
+                        IsEnableManualView = true;
+                        InterlockManager.Instance.SET_SETPOINT_INTERLOCK_USE(InterlockNameHelper.I_SP_DOOR_OPEN_FRONT, false);
+                        InterlockManager.Instance.SET_SETPOINT_INTERLOCK_USE(InterlockNameHelper.I_SP_DOOR_OPEN_LEFT, false);
+                        InterlockManager.Instance.SET_SETPOINT_INTERLOCK_USE(InterlockNameHelper.I_SP_DOOR_OPEN_RIGHT, false);
                         break;
                     case "ENGINEER":
                         if (SelectedView != Views.MAIN_SYSTEM) IsSelectMainSystemView = true;
@@ -1000,6 +1056,10 @@ namespace ECS.UI.ViewModel
                         IsEnableRecipeManagerView = true;
                         IsEnableAlarmHistory = true;
                         IsEnableAutoView = true;
+                        IsEnableManualView = true;
+                        InterlockManager.Instance.SET_SETPOINT_INTERLOCK_USE(InterlockNameHelper.I_SP_DOOR_OPEN_FRONT, true);
+                        InterlockManager.Instance.SET_SETPOINT_INTERLOCK_USE(InterlockNameHelper.I_SP_DOOR_OPEN_LEFT, true);
+                        InterlockManager.Instance.SET_SETPOINT_INTERLOCK_USE(InterlockNameHelper.I_SP_DOOR_OPEN_RIGHT, true);
                         break;
                     case "OPERATOR":
                         if (SelectedView != Views.MAIN_SYSTEM) IsSelectMainSystemView = true;
@@ -1007,27 +1067,41 @@ namespace ECS.UI.ViewModel
                         IsEnableSettingsView = false;
                         IsEnableRecipeManagerView = false;
                         IsEnableAutoView = true;
+                        IsEnableManualView = true;
                         IsEnableAlarmHistory = true;
+                        InterlockManager.Instance.SET_SETPOINT_INTERLOCK_USE(InterlockNameHelper.I_SP_DOOR_OPEN_FRONT, true);
+                        InterlockManager.Instance.SET_SETPOINT_INTERLOCK_USE(InterlockNameHelper.I_SP_DOOR_OPEN_LEFT, true);
+                        InterlockManager.Instance.SET_SETPOINT_INTERLOCK_USE(InterlockNameHelper.I_SP_DOOR_OPEN_RIGHT, true);
                         break;
                     case "":
-                        if (SelectedView != Views.MAIN_SYSTEM) IsSelectMainSystemView = true;
+                        if (SelectedView != Views.STANDBY) IsSelectStandbyView = true;
+                        IsEnableStandbyView = true;
+                        IsEnableManualView = false;
                         IsEnableIoList = false;
                         IsEnableSettingsView = false;
                         IsEnableRecipeManagerView = false;
                         IsEnableAlarmHistory = false;
                         IsEnableAutoView = false;
+                        InterlockManager.Instance.SET_SETPOINT_INTERLOCK_USE(InterlockNameHelper.I_SP_DOOR_OPEN_FRONT, true);
+                        InterlockManager.Instance.SET_SETPOINT_INTERLOCK_USE(InterlockNameHelper.I_SP_DOOR_OPEN_LEFT, true);
+                        InterlockManager.Instance.SET_SETPOINT_INTERLOCK_USE(InterlockNameHelper.I_SP_DOOR_OPEN_RIGHT, true);
                         break;
                     default:
-                        if (SelectedView != Views.MAIN_SYSTEM) IsSelectMainSystemView = true;
+                        if (SelectedView != Views.STANDBY) IsSelectStandbyView = true;
+                        IsEnableStandbyView = true;
                         IsEnableIoList = false;
                         IsEnableSettingsView = false;
                         IsEnableRecipeManagerView = false;
                         IsEnableAlarmHistory = false;
                         IsEnableAutoView = false;
+                        IsEnableManualView = false;
+                        InterlockManager.Instance.SET_SETPOINT_INTERLOCK_USE(InterlockNameHelper.I_SP_DOOR_OPEN_FRONT, true);
+                        InterlockManager.Instance.SET_SETPOINT_INTERLOCK_USE(InterlockNameHelper.I_SP_DOOR_OPEN_LEFT, true);
+                        InterlockManager.Instance.SET_SETPOINT_INTERLOCK_USE(InterlockNameHelper.I_SP_DOOR_OPEN_RIGHT, true);
                         break;
                 }
 
-                if (SelectedView != Views.MAIN_SYSTEM) IsSelectMainSystemView = true;
+                if (SelectedView != Views.STANDBY) IsSelectStandbyView = true;
 
             }
             catch (Exception ex)
@@ -1038,14 +1112,30 @@ namespace ECS.UI.ViewModel
 
         private void SelectMenuChanged(Views view)
         {
+            Views beforeSelectedView = SelectedView;
             SelectedView = view;
             LogHelper.Instance.UILog.DebugFormat("[{0}] SelectMenuChanged ({1})", this.GetType().Name, view.ToString());
             switch (view)
             {
+                case Views.STANDBY:
+                    DataManager.Instance.SET_STRING_DATA(IoNameHelper.V_STR_SYS_OPERATION_MODE, "MANUAL");
+
+                    ViewModelLocator.Instance.MainWindowViewModel.IsSelectMainSystemView = false;
+                    ViewModelLocator.Instance.MainWindowViewModel.IsSelectAlarmHistoryView = false;
+                    ViewModelLocator.Instance.MainWindowViewModel.IsSelectSettingsView = false;
+                    ViewModelLocator.Instance.MainWindowViewModel.IsSelectIoListView = false;
+                    ViewModelLocator.Instance.MainWindowViewModel.IsSelectRecipeManagerView = false;
+                    ViewModelLocator.Instance.MainWindowViewModel.IsSelectAutoView = false;
+                    break;
                 case Views.MAIN_SYSTEM:
-                    if (DataManager.Instance.GET_STRING_DATA(IoNameHelper.V_STR_SYS_OPERATION_MODE, out _) == "AUTO")
+                    if (DataManager.Instance.GET_STRING_DATA(IoNameHelper.V_STR_SYS_OPERATION_MODE, out _) == "AUTO" || beforeSelectedView == Views.STANDBY)
                     {
-                        if (!OperationModeChange())
+                        if (beforeSelectedView == Views.STANDBY)
+                        {
+                            IsSelectMainSystemView = true;
+                            IsSelectAutoView = false;
+                        }
+                        else if (!OperationModeChange())
                         {
                             IsSelectMainSystemView = false;
                             IsSelectAutoView = true;
@@ -1062,6 +1152,7 @@ namespace ECS.UI.ViewModel
                     ViewModelLocator.Instance.MainWindowViewModel.IsSelectIoListView = false;
                     ViewModelLocator.Instance.MainWindowViewModel.IsSelectRecipeManagerView = false;
                     ViewModelLocator.Instance.MainWindowViewModel.IsSelectAutoView = false;
+                    ViewModelLocator.Instance.MainWindowViewModel.IsSelectStandbyView = false;
                     break;
                 case Views.IO_LIST:
                     if (DataManager.Instance.GET_STRING_DATA(IoNameHelper.V_STR_SYS_OPERATION_MODE, out _) == "AUTO")
@@ -1078,6 +1169,7 @@ namespace ECS.UI.ViewModel
                     ViewModelLocator.Instance.MainWindowViewModel.IsSelectSettingsView = false;
                     ViewModelLocator.Instance.MainWindowViewModel.IsSelectRecipeManagerView = false;
                     ViewModelLocator.Instance.MainWindowViewModel.IsSelectAutoView = false;
+                    ViewModelLocator.Instance.MainWindowViewModel.IsSelectStandbyView = false;
                     break;
                 case Views.ALARM_HISTORY:
                     if (DataManager.Instance.GET_STRING_DATA(IoNameHelper.V_STR_SYS_OPERATION_MODE, out _) == "AUTO")
@@ -1094,6 +1186,7 @@ namespace ECS.UI.ViewModel
                     ViewModelLocator.Instance.MainWindowViewModel.IsSelectRecipeManagerView = false;
                     ViewModelLocator.Instance.MainWindowViewModel.IsSelectSettingsView = false;
                     ViewModelLocator.Instance.MainWindowViewModel.IsSelectAutoView = false;
+                    ViewModelLocator.Instance.MainWindowViewModel.IsSelectStandbyView = false;
                     break;
                 case Views.SETTINGS:
                     if (DataManager.Instance.GET_STRING_DATA(IoNameHelper.V_STR_SYS_OPERATION_MODE, out _) == "AUTO")
@@ -1110,6 +1203,7 @@ namespace ECS.UI.ViewModel
                     ViewModelLocator.Instance.MainWindowViewModel.IsSelectAlarmHistoryView = false;
                     ViewModelLocator.Instance.MainWindowViewModel.IsSelectRecipeManagerView = false;
                     ViewModelLocator.Instance.MainWindowViewModel.IsSelectAutoView = false;
+                    ViewModelLocator.Instance.MainWindowViewModel.IsSelectStandbyView = false;
                     break;
                 case Views.RECIPE:
                     if (DataManager.Instance.GET_STRING_DATA(IoNameHelper.V_STR_SYS_OPERATION_MODE, out _) == "AUTO")
@@ -1126,6 +1220,7 @@ namespace ECS.UI.ViewModel
                     ViewModelLocator.Instance.MainWindowViewModel.IsSelectAlarmHistoryView = false;
                     ViewModelLocator.Instance.MainWindowViewModel.IsSelectSettingsView = false;
                     ViewModelLocator.Instance.MainWindowViewModel.IsSelectAutoView = false;
+                    ViewModelLocator.Instance.MainWindowViewModel.IsSelectStandbyView = false;
                     break;
                 case Views.AUTO:
                     if (DataManager.Instance.GET_STRING_DATA(IoNameHelper.V_STR_SYS_OPERATION_MODE, out _) == "MANUAL")
@@ -1143,6 +1238,7 @@ namespace ECS.UI.ViewModel
                             IsEnableRecipeManagerView = false;
                             IsEnableSettingsView = false;
                             IsEnableAlarmHistory = false;
+                            ViewModelLocator.Instance.MainWindowViewModel.IsSelectStandbyView = false;
 
                             ViewModelLocator.Instance.OperationAutoViewModel.IsEnableInitButton = true;
                             ViewModelLocator.Instance.OperationAutoViewModel.IsEnableProcessButton = false;
@@ -1156,6 +1252,7 @@ namespace ECS.UI.ViewModel
                     ViewModelLocator.Instance.MainWindowViewModel.IsSelectIoListView = false;
                     ViewModelLocator.Instance.MainWindowViewModel.IsSelectRecipeManagerView = false;
                     ViewModelLocator.Instance.MainWindowViewModel.IsSelectMainSystemView = false;
+                    ViewModelLocator.Instance.MainWindowViewModel.IsSelectStandbyView = false;
                     break;
                 default:
                     break;

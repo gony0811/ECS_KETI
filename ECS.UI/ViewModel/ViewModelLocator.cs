@@ -45,6 +45,7 @@ namespace ECS.UI.ViewModel
             SimpleIoc.Default.Register<RecipeManagerViewModel>();
             SimpleIoc.Default.Register<AlarmHistoryViewModel>();
             SimpleIoc.Default.Register<OperationAutoViewModel>();
+            SimpleIoc.Default.Register<StandbyScreenViewModel>();
             //SimpleIoc.Default.Register<PLCMapViewModel>();
             //SimpleIoc.Default.Register<MaterialViewModel>();
             //SimpleIoc.Default.Register<TrackingLogViewModel>();
@@ -98,6 +99,11 @@ namespace ECS.UI.ViewModel
         public OperationAutoViewModel OperationAutoViewModel
         {
             get { return ServiceLocator.Current.GetInstance<OperationAutoViewModel>(); }
+        }
+
+        public StandbyScreenViewModel StandbyScreenViewModel
+        {
+            get { return ServiceLocator.Current.GetInstance<StandbyScreenViewModel>(); }
         }
 
         //public CommonViewModel CommonViewModel

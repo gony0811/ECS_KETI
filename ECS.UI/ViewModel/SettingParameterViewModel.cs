@@ -150,7 +150,7 @@ namespace ECS.UI.ViewModel
 
         public ICommand VisionPosXSetButtonCommand { get { if (_VisionPosXSetButtonCommand == null) { _VisionPosXSetButtonCommand = new DelegateCommand(ExecuteVisionPosXSetButtonCommand); } return _VisionPosXSetButtonCommand; } }
         public ICommand VisionPosYSetButtonCommand { get { if (_VisionPosYSetButtonCommand == null) { _VisionPosYSetButtonCommand = new DelegateCommand(ExecuteVisionPosYSetButtonCommand); } return _VisionPosYSetButtonCommand; } }
-      
+
         public ICommand ProcPosXSetButtonCommand { get { if (_ProcPosXSetButtonCommand == null) { _ProcPosXSetButtonCommand = new DelegateCommand(ExecuteProcPosXSetButtonCommand); } return _ProcPosXSetButtonCommand; } }
         public ICommand ProcPosYSetButtonCommand { get { if (_ProcPosYSetButtonCommand == null) { _ProcPosYSetButtonCommand = new DelegateCommand(ExecuteProcPosYSetButtonCommand); } return _ProcPosYSetButtonCommand; } }
 
@@ -176,7 +176,7 @@ namespace ECS.UI.ViewModel
         public ICommand EnergyModeSelectionChanged { get { if (_EnergyModeSelectionChanged == null) { _EnergyModeSelectionChanged = new DelegateCommand(ExecuteEnergyModeSelectionChanged); } return _EnergyModeSelectionChanged; } }
         public ICommand TriggerModeSelectionChanged { get { if (_TriggerModeSelectionChanged == null) { _TriggerModeSelectionChanged = new DelegateCommand(ExecuteTriggerModeSelectionChanged); } return _TriggerModeSelectionChanged; } }
 
-        
+
         public ICommand LaserEnergySetButtonCommand { get { if (_LaserEnergySetButtonCommand == null) { _LaserEnergySetButtonCommand = new DelegateCommand(ExecuteLaserEnergySetButtonCommand); } return _LaserEnergySetButtonCommand; } }
         public ICommand EnergyModeSetButtonCommand { get { if (_EnergyModeSetButtonCommand == null) { _EnergyModeSetButtonCommand = new DelegateCommand(ExecuteEnergyModeSetButtonCommand); } return _EnergyModeSetButtonCommand; } }
         public ICommand TriggerModeSetButtonCommand { get { if (_TriggerModeSetButtonCommand == null) { _TriggerModeSetButtonCommand = new DelegateCommand(ExecuteTriggerModeSetButtonCommand); } return _TriggerModeSetButtonCommand; } }
@@ -198,18 +198,46 @@ namespace ECS.UI.ViewModel
         public ICommand RightDoorInterlockDeactivate { get { if (_RightDoorInterlockDeactivate == null) { _RightDoorInterlockDeactivate = new DelegateCommand(ExecuteRightDoorInterlockDeactivate); } return _RightDoorInterlockDeactivate; } }
         public ICommand SettingsLoadedCommand { get { if (_SettingsLoadedCommand == null) { _SettingsLoadedCommand = new DelegateCommand(ExecuteSettingsLoadedCommand); } return _SettingsLoadedCommand; } }
 
-
         public SettingParameterViewModel()
         {
             InitSettingValues();
+            InitInterlockSetting();
+        }
 
-            this.FrontDoorInterlockState = "작동중";
-            this.LeftDoorInterlockState = "작동중";
-            this.RightDoorInterlockState = "작동중";
+        public void InitInterlockSetting()
+        {
+            if (InterlockManager.Instance.GET_SETPOINT_INTERLOCK_USE(InterlockNameHelper.I_SP_DOOR_OPEN_FRONT))
+            {
+                this.FrontDoorInterlockState = "작동중";
+                this.FrontDoorInterlockChecked = true;
+            }
+            else
+            {
+                this.FrontDoorInterlockState = "해제중";
+                this.FrontDoorInterlockChecked = false;
+            }
 
-            this.FrontDoorInterlockChecked = true;
-            this.LeftDoorInterlockChecked = true;
-            this.RightDoorInterlockChecked = true;
+            if (InterlockManager.Instance.GET_SETPOINT_INTERLOCK_USE(InterlockNameHelper.I_SP_DOOR_OPEN_LEFT))
+            {
+                this.LeftDoorInterlockState = "작동중";
+                this.LeftDoorInterlockChecked = true;
+            }
+            else
+            {
+                this.LeftDoorInterlockState = "해제중";
+                this.LeftDoorInterlockChecked = false;
+            }
+
+            if (InterlockManager.Instance.GET_SETPOINT_INTERLOCK_USE(InterlockNameHelper.I_SP_DOOR_OPEN_RIGHT))
+            {
+                this.RightDoorInterlockState = "작동중";
+                this.RightDoorInterlockChecked = true;
+            }
+            else
+            {
+                this.RightDoorInterlockState = "해제중";
+                this.RightDoorInterlockChecked = false;
+            }
         }
 
         private void InitSettingValues()

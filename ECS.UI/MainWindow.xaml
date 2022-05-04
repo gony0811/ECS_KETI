@@ -35,6 +35,9 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <ViewModel:Clock x:Key="Clock"/>
 
+        <DataTemplate x:Key="StandbyScreenView" DataType="{x:Type ViewModel:StandbyScreenViewModel}">
+            <View:StandbyScreenView/>
+        </DataTemplate>
         <DataTemplate x:Key="IoListView" DataType="{x:Type ViewModel:IoListViewModel}">
             <View:IoListView/>
         </DataTemplate>
@@ -105,7 +108,7 @@
                             </StackPanel>
                         </Expander.Header>
                         <TreeView  FlowDirection="LeftToRight" BorderThickness="0" >
-                            <TreeViewItem x:Name="tvMainSystemView" IsSelected="{Binding IsSelectMainSystemView}">
+                            <TreeViewItem x:Name="tvMainSystemView" IsSelected="{Binding IsSelectMainSystemView}" IsEnabled="{Binding IsEnableManualView}">
                                 <TreeViewItem.Header>
                                     <StackPanel Orientation="Horizontal">
                                         <materialDesign:PackIcon Kind="HumanChild" Width="20" Height="20" Margin="5"/>
@@ -238,7 +241,7 @@
             <ContentControl Content="{Binding}" Margin="-10,0,10,0">
                 <ContentControl.Style>
                     <Style TargetType="{x:Type ContentControl}">
-                        <Setter Property="ContentTemplate" Value="{StaticResource MainSystemView}" />
+                        <Setter Property="ContentTemplate" Value="{StaticResource StandbyScreenView}" />
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged, ElementName=tvMainSystemView}" Value="True">
                                 <Setter Property="ContentTemplate" Value="{StaticResource MainSystemView}" />

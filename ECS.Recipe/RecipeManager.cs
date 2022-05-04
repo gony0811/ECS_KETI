@@ -151,7 +151,7 @@ namespace ECS.Recipe
 
                 RecipeManager.Instance.SAVE_RECIPE_FILE(newRecipeName, "ecs");
 
-                fileStreamObject = new FileStream(filename, FileMode.Open);
+                fileStreamObject = new FileStream(newRecipeName, FileMode.Open);
 
                 BinaryFormatter binaryFormatter = new BinaryFormatter();
                 return binaryFormatter.Deserialize(fileStreamObject);
