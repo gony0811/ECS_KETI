@@ -33,13 +33,16 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\Bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>unnamed.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Basler.Pylon, Version=1.2.0.0, Culture=neutral, PublicKeyToken=e389355f398382ab, processorArchitecture=x86">
@@ -570,10 +573,13 @@
     <Resource Include="Resources\Images\buzzer.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Images\standby2.JPG" />
+    <Resource Include="Resources\Images\standby.JPG" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Images\standby.JPG" />
+    <Resource Include="ecs-2.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="unnamed.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
